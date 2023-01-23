@@ -23,8 +23,7 @@ def set_status():
         return "Invalid Status", 400
     
     status = req_status
-    expiration_time = datetime.datetime.now() + 
-        datetime.timedelta(minutes=duration)
+    expiration_time = datetime.datetime.now() + datetime.timedelta(minutes=duration)
     return "Status Updated", 200
 
 @app.route('/get_status', methods=['GET'])
@@ -33,8 +32,7 @@ def get_status():
     #status validation
     if datetime.datetime.now() > expiration_time:
         status = "available"
-    return jsonify({"status": status, "expiration_time":
-        str(expiration_time)})
+    return jsonify({"status": status, "expiration_time": str(expiration_time)})
 
 @app.route('/get_config', methods=['GET'])
 def get_config():
