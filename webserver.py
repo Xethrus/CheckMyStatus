@@ -58,7 +58,7 @@ def get_config():
     
     user_name = config.get('user', 'name')
     
-   calendar_links = config.get('calendar', 'links').split(',')
+    calendar_links = config.get('calendar', 'links').split(',')
 #fill placeholder for sql insertion
 #cursor.execute(sql, (expiration_time, db_user, calendar_links))
 #connection.commit()

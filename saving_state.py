@@ -9,7 +9,7 @@ status_response = requests.get('http://REDACTED:8000/get_status')
 if status_response.status_code == 200:
   status_data = status_response.json()
   current_status = status_data["status"]
-  current_status_duration = status_data["expiration"]
+  current_status_duration = status_data["expiration_time"]
 else:
   print(f"Request failed with status code {status_response.status_code}")
 
@@ -37,7 +37,7 @@ cursor.execute("""
     current_status,
     current_status_duration
     current_calendar_link
-  """)
+  """))
 
 connection.commit()
 connection.close()
