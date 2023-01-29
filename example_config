@@ -1,8 +1,6 @@
 [database]
 host = localhost
 port = 3306
-username = user
-password = pass
 
 [user]
 name = John Doe

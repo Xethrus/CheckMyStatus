@@ -3,11 +3,21 @@ import configparser
 import datetime
 import http.server
 import socketserver
+import sqlite3
+import atexit
+import subprocess
 
 app = Flask(__name__)
 
 status = "available"
 expiration_time = datetime.datetime.now()
+
+#connection = sqlite3.connect("state.db")
+#cursor = connection.cursor()
+
+#current invalidated input
+#sql = "INSERT INTO instance (instance_time, user_name, calendar_link) VALUES (?, ?, ?)"
+
 
 @app.route('/set_status', methods=['POST'])
 def set_status():
@@ -36,32 +46,43 @@ def get_status():
 
 @app.route('/get_config', methods=['GET'])
 def get_config():
+    if request.headers.get('token') != "jay_is_the_big_dawg":
+        return "Unauthorized Token", 401
+
     config = configparser.ConfigParser()
     config.read('config.ini')
 
     db_host = config.get('database', 'host')
     db_port = config.getint('database', 'port')
-    db_user = config.get('database', 'user')
-    db_password = config.get('database', 'password')
+    db_title = config.get('database', 'title')
     
     user_name = config.get('user', 'name')
     
-    calendar_links = config.get('calendar', 'links').split(',')
-    
+   calendar_links = config.get('calendar', 'links').split(',')
+#fill placeholder for sql insertion
+#cursor.execute(sql, (expiration_time, db_user, calendar_links))
+#connection.commit()
+#connection.close()
+
     return jsonify({
         'database': {
             'host' : db_host,
             'port' : db_port,
-            'user' : db_user,
-            'password' : db_password,
+#            'user' : db_user,
+#            'password' : db_password,
         },
         'user': {
             'name' : user_name
-        },
-        'calendar': {
-            'links': calendar_links
         }
+#        'calendar': {
+#            'links': calendar_links
+#        }
     })
 
+def save_state():
+    subprocess.run(["python","saving_state.py"])
+
 if __name__ == '__main__':
-    app.run(debug=True)
+    app.run(host='0.0.0.0',debug=True, port = 8000)
+
+atexit.register(save_state)
