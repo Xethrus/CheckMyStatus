@@ -18,6 +18,8 @@ if config_response.status_code == 200:
   config_data = config_response.json()
   print("current_user is being set")
   print(config_data["user"]["name"])
+  print("current_calendar is being set")
+  print(config_data["calendar"]["links"])
   try:
     current_user = config_data["user"]["name"]
     current_calendar_link = config_data["calendar"]["links"]
@@ -28,7 +30,7 @@ else:
   print(f"Request failed with status code {config_response.status_code}")
 
 
-connection = sqlite3.connect('state.db')
+connection = sqlite3.connect('stored_state.db')
 cursor = connection.cursor()
 if status_response.status_code == 200 and config_response.status_code == 200:
     cursor.execute('''
