@@ -72,6 +72,8 @@ def get_config():
 if __name__ == '__main__':
     with open('config.ini', 'r') as config_unparsed:
         config = json.load(config_unparsed)
+    get_status() #does this mean that global status and expiration now exist?
+
     host = config.get('database','host')
     port = config.get('database','port')
     debug = config.get('server', 'debug')
