@@ -1,4 +1,6 @@
 from flask import Flask, request, jsonify
+from threading import Thread
+import schedule
 import configparser
 import datetime
 import http.server
@@ -9,6 +11,7 @@ import subprocess
 import os
 import json
 import requests
+
 app = Flask(__name__)
 
 status = "available"
@@ -39,7 +42,19 @@ def status_validation(key, recieved_key):
     else: 
         pass
 
-@app.route('/set_status', methods=['POST'])
+##background status process
+def status_expiration():
+    while True:
+        if status = "busy":
+            if expiration_time > datetime.datetime.now():
+                pass
+            else:
+                status = "available"
+        else:
+            pass
+        time.sleep(60)
+
+app.route('/set_status', methods=['POST'])
 def set_status():
 
     global status, expiration_time
@@ -76,7 +91,8 @@ def get_config():
     return
     
 if __name__ == '__main__':
-
+    status_checker_thread = Thread(target=status_expiration)
+    status_checker_thread.start()
     server_host = current_config.get('server','host')
     server_debug = current_config.get('server','debug')
     server_port = current_config.get('server','port')
