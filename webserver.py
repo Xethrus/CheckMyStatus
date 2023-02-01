@@ -25,8 +25,29 @@ config = configparser.ConfigParser()
 config.read('config.ini')
 current_config = config
 ##need to check that these things exist i think lol TODO
-##write config to a json for use
-config_dict = {section: {option: config.get(section, option) for option in config.option(section)} for section in config.sections()}
+##write config to a dict to a json for use
+def build_fresh_config_dict():
+    config_dict = {
+        'database': {
+            'db_host': current_config.get('database', 'db_host'),
+            'db_file_title': current_config.get('database', 'db_file_title')
+        },
+        'server': {
+            'server_host': current_config.get('server', 'server_host'),
+            'server_port': current_config.get('server', 'server_port'),
+            'server_debug': current_config.get('server', 'server_debug')
+        },
+        'user': {
+            'user_name': current_config.get('user', 'user_name'),
+            'user_key': current_config.get('user', 'user_key')
+        },
+        'calendar': {
+            'calendar_links': current_config.get('calendar', 'calendar_links')
+        }
+    }
+    return config_dict
+
+config_dict = build_fresh_config_dict()
 config_json_file_name = 'config.json'
 with open(config_json_file_name, 'w') as json_file:
     json.dump(config_dict, json_file)
@@ -45,7 +66,7 @@ def status_validation(key, recieved_key):
 ##background status process
 def status_expiration():
     while True:
-        if status = "busy":
+        if status == "busy":
             if expiration_time > datetime.datetime.now():
                 pass
             else:
@@ -93,7 +114,7 @@ def get_config():
 if __name__ == '__main__':
     status_checker_thread = Thread(target=status_expiration)
     status_checker_thread.start()
-    server_host = current_config.get('server','host')
-    server_debug = current_config.get('server','debug')
-    server_port = current_config.get('server','port')
+    server_host = current_config.get('server','server_host')
+    server_debug = current_config.get('server','server_debug')
+    server_port = current_config.get('server','server_port')
     app.run(host=server_host, debug=server_debug, port = server_port)
