@@ -8,7 +8,7 @@ import atexit
 import subprocess
 import os
 import json
-
+import requests
 app = Flask(__name__)
 
 status = "available"
@@ -80,17 +80,21 @@ def get_config():
     })
 
 if __name__ == '__main__':
+    global key
+    global database
+    # I have to find a better way to do this? some sort of json grabbing way of doing it? so it isnt parsed.
+    config = configparser.ConfigParser()
+    config.read('config.ini')
+    host = config.get('database','host')
+    port = config.get('database','port')
+    debug = config.get('server', 'debug')
+    database = config.get('database', 'title')
+    key = config.get('user', 'key')
     url = "http://REDACTED:8000/get_config"
 
     grabbed_config = requests.get(url, headers = key)
     with open("config_grabbed.json", "w") as file:
         file.write(grabbed_config.content.decode())
     get_status() #does this mean that global status and expiration now exist?
-    host = config.get('database','host')
-    port = config.get('database','port')
-    debug = config.get('server', 'debug')
-    database = config.get('database', 'title')
-    key = config.get('user', 'key')
-    global key
-    global database
+
     app.run(host=host, debug=debug, port = port)
