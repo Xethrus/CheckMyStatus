@@ -6,6 +6,7 @@ import socketserver
 import sqlite3
 import atexit
 import subprocess
+import os
 import json
 
 app = Flask(__name__)
@@ -45,6 +46,14 @@ def get_config():
     if request.headers.get('token') != "jay_is_the_big_dawg":
         return "Unauthorized Token", 401
 
+    file_path = "grabbed_config.json"
+    if os.path.exists(file_path):
+        with open(file_path, "r") as file:
+            json_data = file.read()
+            return json_data
+    else:
+        pass
+
     config = configparser.ConfigParser()
     config.read('config.ini')
 
@@ -71,16 +80,17 @@ def get_config():
     })
 
 if __name__ == '__main__':
+    url = "http://REDACTED:8000/get_config"
 
-    config_unparsed = open("config.ini", "r")
-    print("this is what i got: ", config_unparsed)
-#    config = json.load(config_unparsed)
+    grabbed_config = requests.get(url, headers = key)
+    with open("config_grabbed.json", "w") as file:
+        file.write(grabbed_config.content.decode())
     get_status() #does this mean that global status and expiration now exist?
-    global database_title
-    global key
     host = config.get('database','host')
     port = config.get('database','port')
     debug = config.get('server', 'debug')
     database = config.get('database', 'title')
     key = config.get('user', 'key')
+    global key
+    global database
     app.run(host=host, debug=debug, port = port)
