@@ -14,23 +14,52 @@ app = Flask(__name__)
 status = "available"
 expiration_time = datetime.datetime.now()
 
+##load in config from ini
+global config_json_file_name
+global current_config
+global current_json_config
+config = configparser.ConfigParser()
+config.read('config.ini')
+current_config = config
+##need to check that these things exist i think lol TODO
+##write config to a json for use
+config_dict = {section: {option: config.get(section, option) for option in config.option(section)} for section in config.sections()}
+config_json_file_name = 'config.json'
+with open(config_json_file_name, 'w') as json_file:
+    json.dump(config_dict, json_file)
+##read for use
+with open(config_json_file_name, 'r') as json_file:
+    config_json = json.load(json_file)
+    current_json_config = config_json
 
+##key checker
+def status_validation(key, recieved_key):
+    if key != recieved_key:
+        return "Unauthorized Token", 401
+    else: 
+        pass
 
 @app.route('/set_status', methods=['POST'])
 def set_status():
+
     global status, expiration_time
+
     #checking if correct token is recieved in req
-    if request.headers.get('token') != "jay_is_the_big_dawg":
-        return "Unauthorized Token", 401
-    #get status & duration from req
+    status_validation(current_config.get('key'), request.headers.get('token'))
+
     req_status = request.json.get('status')
+
+    ##make this make sure that the time is atleast 5 minutes or so
     duration = request.json.get('duration', 30)
+
     #validate status
+
     if req_status not in ["busy", "available"]:
         return "Invalid Status", 400
     
     status = req_status
     expiration_time = datetime.datetime.now() + datetime.timedelta(minutes=duration)
+
     return "Status Updated", 200
 
 @app.route('/get_status', methods=['GET'])
@@ -43,58 +72,12 @@ def get_status():
 
 @app.route('/get_config', methods=['GET'])
 def get_config():
-    if request.headers.get('token') != "jay_is_the_big_dawg":
-        return "Unauthorized Token", 401
-
-    file_path = "grabbed_config.json"
-    if os.path.exists(file_path):
-        with open(file_path, "r") as file:
-            json_data = file.read()
-            return json_data
-    else:
-        pass
-
-    config = configparser.ConfigParser()
-    config.read('config.ini')
-
-    db_host = config.get('database', 'host')
-    db_port = config.getint('database', 'port')
-    db_title = config.get('database', 'title')
+    print(current_json_config)
+    return
     
-    user_name = config.get('user', 'name')
-    
-    calendar_links = config.get('calendar', 'links')#.split(',')
-
-    return jsonify({
-        'database': {
-            'host' : db_host,
-            'port' : db_port,
-            'user' : db_title,
-        },
-        'user': {
-            'name' : user_name
-        },
-        'calendar': {
-            'links': calendar_links
-        }
-    })
-
 if __name__ == '__main__':
-    global key
-    global database
-    # I have to find a better way to do this? some sort of json grabbing way of doing it? so it isnt parsed.
-    config = configparser.ConfigParser()
-    config.read('config.ini')
-    host = config.get('database','host')
-    port = config.get('database','port')
-    debug = config.get('server', 'debug')
-    database = config.get('database', 'title')
-    key = config.get('user', 'key')
-    url = "http://REDACTED:8000/get_config"
 
-    grabbed_config = requests.get(url, headers = key)
-    with open("config_grabbed.json", "w") as file:
-        file.write(grabbed_config.content.decode())
-    get_status() #does this mean that global status and expiration now exist?
-
-    app.run(host=host, debug=debug, port = port)
+    server_host = current_config.get('server','host')
+    server_debug = current_config.get('server','debug')
+    server_port = current_config.get('server','port')
+    app.run(host=server_host, debug=server_debug, port = server_port)
