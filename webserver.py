@@ -6,6 +6,7 @@ import socketserver
 import sqlite3
 import atexit
 import subprocess
+import json
 
 app = Flask(__name__)
 
@@ -70,16 +71,16 @@ def get_config():
     })
 
 if __name__ == '__main__':
-    with open('config.ini', 'r') as config_unparsed:
-        config = json.load(config_unparsed)
-    get_status() #does this mean that global status and expiration now exist?
 
+    config_unparsed = open("config.ini", "r")
+    print("this is what i got: ", config_unparsed)
+#    config = json.load(config_unparsed)
+    get_status() #does this mean that global status and expiration now exist?
+    global database_title
+    global key
     host = config.get('database','host')
     port = config.get('database','port')
     debug = config.get('server', 'debug')
-    global database = config.get('database', 'title')
-    global key = config.get('user', 'key')
+    database = config.get('database', 'title')
+    key = config.get('user', 'key')
     app.run(host=host, debug=debug, port = port)
-    
-    
-
