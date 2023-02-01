@@ -12,11 +12,6 @@ app = Flask(__name__)
 status = "available"
 expiration_time = datetime.datetime.now()
 
-#connection = sqlite3.connect("state.db")
-#cursor = connection.cursor()
-
-#current invalidated input
-#sql = "INSERT INTO instance (instance_time, user_name, calendar_link) VALUES (?, ?, ?)"
 
 
 @app.route('/set_status', methods=['POST'])
@@ -60,11 +55,6 @@ def get_config():
     
     calendar_links = config.get('calendar', 'links')#.split(',')
 
-#fill placeholder for sql insertion
-#cursor.execute(sql, (expiration_time, db_user, calendar_links))
-#connection.commit()
-#connection.close()
-
     return jsonify({
         'database': {
             'host' : db_host,
@@ -79,10 +69,15 @@ def get_config():
         }
     })
 
-def save_state():
-    subprocess.run(["python","saving_state.py"])
-
 if __name__ == '__main__':
-    app.run(host='0.0.0.0',debug=True, port = 8000)
+    with open('config.ini', 'r') as config_unparsed:
+        config = json.load(config_unparsed)
+    host = config.get('database','host')
+    port = config.get('database','port')
+    debug = config.get('server', 'debug')
+    global database = config.get('database', 'title')
+    global key = config.get('user', 'key')
+    app.run(host=host, debug=debug, port = port)
+    
+    
 
-atexit.register(save_state)
