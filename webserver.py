@@ -82,6 +82,7 @@ def set_status():
 
     #validate status
 
+    #currently rejecting what is being sent from test
     if req_status.strip() not in ["busy", "available"]:
         return "Invalid Status", 400
     
