@@ -12,4 +12,5 @@ user_name = John Doe
 user_key = something_clever
 
 [calendar]
+#currently innaccurate
 calendar_at = JohnDoe@gmail.com.ics 

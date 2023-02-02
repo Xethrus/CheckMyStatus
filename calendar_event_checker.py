@@ -7,12 +7,14 @@ import requests
 from webserver import current_json_config, status, expiration_time
 
 try:
-    url = current_json_config.get('calendar','calendar_links')
+    ics_file_name = current_json_config.get('calendar','calendar_at')
 except:
-    print("failed to retrieve url at location:")
-    print("'calendar','calendar_links'")
+    print("failed to retrieve file at location:")
+    print("'calendar','calendar_at'")
 try:
-    response = requests.get(url)
+    #should this be ical or ics
+    response = requests.get(ics_file_name)
+
     print(response)
 except requests.exceptions.RequestException as err:
     print("Error fetching calendar:", err)
