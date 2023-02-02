@@ -97,6 +97,7 @@ def get_status():
     #status validation
     if datetime.datetime.now() > expiration_time:
         status = "available"
+    print(status)
     return jsonify({"status": status, "expiration_time": str(expiration_time)})
 
 @app.route('/get_config', methods=['GET'])
