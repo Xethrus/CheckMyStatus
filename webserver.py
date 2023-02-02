@@ -44,7 +44,7 @@ def build_fresh_config_dict():
             'user_key': current_config.get('user', 'user_key')
         },
         'calendar': {
-            'calendar_links': current_config.get('calendar', 'calendar_links')
+            'calendar_at': current_config.get('calendar', 'calendar_at')
         }
     }
     return config_dict

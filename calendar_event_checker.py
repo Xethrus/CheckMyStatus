@@ -4,17 +4,16 @@ import schedule
 import datetime
 import requests
 
-from webserver.py import current_json_config
-from webserver.py import status
-from webserver.py import expiration_time
+from webserver import current_json_config, status, expiration_time
 
 try:
-    url = current_json_config['calendar','calendar_links']
+    url = current_json_config.get('calendar','calendar_links')
 except:
     print("failed to retrieve url at location:")
     print("'calendar','calendar_links'")
 try:
     response = requests.get(url)
+    print(response)
 except requests.exceptions.RequestException as err:
     print("Error fetching calendar:", err)
  

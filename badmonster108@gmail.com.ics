@@ -1,0 +1,551 @@
+BEGIN:VCALENDAR
+PRODID:-//Google Inc//Google Calendar 70.9054//EN
+VERSION:2.0
+CALSCALE:GREGORIAN
+METHOD:PUBLISH
+X-WR-CALNAME:badmonster108@gmail.com
+X-WR-TIMEZONE:America/Los_Angeles
+BEGIN:VTIMEZONE
+TZID:America/Los_Angeles
+X-LIC-LOCATION:America/Los_Angeles
+BEGIN:DAYLIGHT
+TZOFFSETFROM:-0800
+TZOFFSETTO:-0700
+TZNAME:PDT
+DTSTART:19700308T020000
+RRULE:FREQ=YEARLY;BYMONTH=3;BYDAY=2SU
+END:DAYLIGHT
+BEGIN:STANDARD
+TZOFFSETFROM:-0700
+TZOFFSETTO:-0800
+TZNAME:PST
+DTSTART:19701101T020000
+RRULE:FREQ=YEARLY;BYMONTH=11;BYDAY=1SU
+END:STANDARD
+END:VTIMEZONE
+BEGIN:VEVENT
+DTSTART:20171231T180000Z
+DTEND:20171231T190000Z
+DTSTAMP:20230202T195024Z
+UID:70A62338-612C-4E3D-BA6E-9514A71821D8
+CREATED:20171230T014101Z
+DESCRIPTION:
+LAST-MODIFIED:20171230T014101Z
+LOCATION:City sport fitness
+SEQUENCE:0
+STATUS:CONFIRMED
+SUMMARY:Trainer
+TRANSP:OPAQUE
+BEGIN:VALARM
+ACTION:NONE
+TRIGGER;VALUE=DATE-TIME:19760401T005545Z
+END:VALARM
+END:VEVENT
+BEGIN:VEVENT
+DTSTART:20190323T150000Z
+DTEND:20190324T040000Z
+DTSTAMP:20230202T195024Z
+UID:28B4FC7D-9776-4CF1-8B46-2021CCED676B
+CREATED:20181207T183136Z
+DESCRIPTION:
+LAST-MODIFIED:20181207T183136Z
+LOCATION:
+SEQUENCE:0
+STATUS:CONFIRMED
+SUMMARY:My birthday
+TRANSP:OPAQUE
+BEGIN:VALARM
+ACTION:NONE
+TRIGGER;VALUE=DATE-TIME:19760401T005545Z
+END:VALARM
+END:VEVENT
+BEGIN:VEVENT
+DTSTART:20190625T021500Z
+DTEND:20190625T031500Z
+DTSTAMP:20230202T195024Z
+ORGANIZER;CN="Carmichael, Jamie":mailto:jamie.carmichael@cbnorcal.com
+UID:040000008200E00074C5B7101A82E00800000000DA872ABC9B2AD501000000000000000
+ 0100000009583EDD32473614C98F5A103AC33EB2C
+ATTENDEE;CUTYPE=INDIVIDUAL;ROLE=REQ-PARTICIPANT;PARTSTAT=NEEDS-ACTION;CN=Ha
+ nnah Carmichael;X-NUM-GUESTS=0:mailto:hannahecarmich@gmail.com
+ATTENDEE;CUTYPE=INDIVIDUAL;ROLE=REQ-PARTICIPANT;PARTSTAT=NEEDS-ACTION;CN=ba
+ dmonster108@gmail.com;X-NUM-GUESTS=0:mailto:badmonster108@gmail.com
+ATTENDEE;CUTYPE=INDIVIDUAL;ROLE=REQ-PARTICIPANT;PARTSTAT=NEEDS-ACTION;CN=ce
+ celia pellazzari;X-NUM-GUESTS=0:mailto:cecepell@comcast.net
+CREATED:20190624T144724Z
+DESCRIPTION:*Wire Fraud is Real*.  Before wiring any money\, call the inten
+ ded recipient at a number you know is valid to confirm the instructions. Ad
+ ditionally\, please note that the sender does not have authority to bind a 
+ party to a real estate contract via written or verbal communication.\n
+LAST-MODIFIED:20190624T144733Z
+LOCATION:
+SEQUENCE:0
+STATUS:CONFIRMED
+SUMMARY:Here is your ticket order summary confirmation (GNTV - 20245797 - 3
+ 6921726)
+TRANSP:OPAQUE
+X-MICROSOFT-CDO-ALLDAYEVENT:FALSE
+X-MICROSOFT-CDO-APPT-SEQUENCE:0
+X-MICROSOFT-CDO-BUSYSTATUS:TENTATIVE
+X-MICROSOFT-CDO-IMPORTANCE:1
+X-MICROSOFT-CDO-INSTTYPE:0
+X-MICROSOFT-CDO-INTENDEDSTATUS:BUSY
+X-MICROSOFT-CDO-OWNERAPPTID:2117518554
+X-MICROSOFT-DISALLOW-COUNTER:FALSE
+X-MICROSOFT-DONOTFORWARDMEETING:FALSE
+END:VEVENT
+BEGIN:VEVENT
+DTSTART:20190627T024000Z
+DTEND:20190627T034000Z
+DTSTAMP:20230202T195024Z
+ORGANIZER;CN=Unknown Organizer:mailto:unknownorganizer@calendar.google.com
+UID:7kukuqrfedlm2f9tjda2h6altorgrg33rhqle3b62vhi0pvh35n9qc82iss1uvvl3kog
+ATTENDEE;CUTYPE=INDIVIDUAL;ROLE=REQ-PARTICIPANT;PARTSTAT=ACCEPTED;CN=badmon
+ ster108@gmail.com;X-NUM-GUESTS=0:mailto:badmonster108@gmail.com
+CLASS:PRIVATE
+CREATED:20190626T224202Z
+DESCRIPTION:Annabelle Comes Home Annabelle Comes Home\nCentury Cinemas 16\,
+  Mountain View\, California\, United States\, 94043\n\nConfirmation number:
+  3993195092526
+LAST-MODIFIED:20190902T150817Z
+LOCATION:Century Cinemas 16\, Mountain View\, California\, United States\, 
+ 94043
+SEQUENCE:0
+STATUS:CONFIRMED
+SUMMARY:Annabelle Comes Home Annabelle Comes Home
+TRANSP:TRANSPARENT
+END:VEVENT
+BEGIN:VEVENT
+DTSTART:20200316T163000Z
+DTEND:20200316T173000Z
+DTSTAMP:20230202T195024Z
+ORGANIZER;CN="Carmichael, Jamie":mailto:jamie.carmichael@cbnorcal.com
+UID:040000008200E00074C5B7101A82E008000000006E91277EDBFAD501000000000000000
+ 0100000000ED9103365994F478D34C47C23BBB301
+ATTENDEE;CUTYPE=INDIVIDUAL;ROLE=REQ-PARTICIPANT;PARTSTAT=NEEDS-ACTION;CN=ba
+ dmonster108@gmail.com;X-NUM-GUESTS=0:mailto:badmonster108@gmail.com
+CREATED:20200315T150750Z
+DESCRIPTION:*Wire Fraud is Real*.  Before wiring any money\, call the inten
+ ded recipient at a number you know is valid to confirm the instructions. Ad
+ ditionally\, please note that the sender does not have authority to bind a 
+ party to a real estate contract via written or verbal communication.\n
+LAST-MODIFIED:20200315T150808Z
+LOCATION:
+SEQUENCE:0
+STATUS:CONFIRMED
+SUMMARY:Kaiser Permanente Appointment Confirmation
+TRANSP:OPAQUE
+X-MICROSOFT-CDO-ALLDAYEVENT:FALSE
+X-MICROSOFT-CDO-APPT-SEQUENCE:0
+X-MICROSOFT-CDO-BUSYSTATUS:TENTATIVE
+X-MICROSOFT-CDO-IMPORTANCE:1
+X-MICROSOFT-CDO-INSTTYPE:0
+X-MICROSOFT-CDO-INTENDEDSTATUS:BUSY
+X-MICROSOFT-CDO-OWNERAPPTID:2118352494
+X-MICROSOFT-DISALLOW-COUNTER:FALSE
+X-MICROSOFT-DONOTFORWARDMEETING:FALSE
+X-MICROSOFT-LOCATIONS:[]
+END:VEVENT
+BEGIN:VEVENT
+DTSTART:20180513T053000Z
+DTEND:20180513T063000Z
+DTSTAMP:20230202T195024Z
+ORGANIZER;CN=Unknown Organizer:mailto:unknownorganizer@calendar.google.com
+UID:7kukuqrfedlm2f9tbpnon3jhcari4jnmsbq2iloco74bd15qc726moqp93nvv7t0dnk0
+ATTENDEE;CUTYPE=INDIVIDUAL;ROLE=REQ-PARTICIPANT;PARTSTAT=ACCEPTED;CN=badmon
+ ster108@gmail.com;X-NUM-GUESTS=0:mailto:badmonster108@gmail.com
+CLASS:PRIVATE
+CREATED:20180513T004635Z
+DESCRIPTION:Avengers: Infinity War\nCentury Cinemas 16\, Mountain View\, Ca
+ lifornia\, United States\, 94043\n\nConfirmation number: 3999080558065
+LAST-MODIFIED:20200403T010944Z
+LOCATION:Century Cinemas 16\, Mountain View\, California\, United States\, 
+ 94043
+SEQUENCE:0
+STATUS:CONFIRMED
+SUMMARY:Avengers: Infinity War
+TRANSP:TRANSPARENT
+END:VEVENT
+BEGIN:VEVENT
+DTSTART:20180916T045500Z
+DTEND:20180916T055500Z
+DTSTAMP:20230202T195024Z
+ORGANIZER;CN=Unknown Organizer:mailto:unknownorganizer@calendar.google.com
+UID:7kukuqrfedlm2f9tvuor9al927fmrurugealtedcm6cngdd2aernkfhi7rvad1q81ij0
+ATTENDEE;CUTYPE=INDIVIDUAL;ROLE=REQ-PARTICIPANT;PARTSTAT=ACCEPTED;CN=badmon
+ ster108@gmail.com;X-NUM-GUESTS=0:mailto:badmonster108@gmail.com
+CLASS:PRIVATE
+CREATED:20180916T015715Z
+DESCRIPTION:The Meg\nCentury Cinemas 16\, Mountain View\, California\, Unit
+ ed States\, 94043\n\nConfirmation number: 3994265956382
+LAST-MODIFIED:20200403T011029Z
+LOCATION:Century Cinemas 16\, Mountain View\, California\, United States\, 
+ 94043
+SEQUENCE:0
+STATUS:CONFIRMED
+SUMMARY:The Meg
+TRANSP:TRANSPARENT
+END:VEVENT
+BEGIN:VEVENT
+DTSTART:20200215T020500Z
+DTEND:20200215T030500Z
+DTSTAMP:20230202T195024Z
+ORGANIZER;CN=Unknown Organizer:mailto:unknownorganizer@calendar.google.com
+UID:7kukuqrfedlm2f9tvmm5aojg24elf6c3ebk3pfjgg1j8ltcn2q3qdkddthd7frb0p3sg
+ATTENDEE;CUTYPE=INDIVIDUAL;ROLE=REQ-PARTICIPANT;PARTSTAT=ACCEPTED;CN=badmon
+ ster108@gmail.com;X-NUM-GUESTS=0:mailto:badmonster108@gmail.com
+CLASS:PRIVATE
+CREATED:20200214T031326Z
+DESCRIPTION:Sonic the Hedgehog\nCentury Cinema 16\, Mountain View\, Califor
+ nia\, United States\, 94043\n\nConfirmation number: 3999737280965
+LAST-MODIFIED:20200403T011339Z
+LOCATION:Century Cinema 16\, Mountain View\, California\, United States\, 9
+ 4043
+SEQUENCE:0
+STATUS:CONFIRMED
+SUMMARY:Sonic the Hedgehog
+TRANSP:TRANSPARENT
+END:VEVENT
+BEGIN:VEVENT
+DTSTART:20200215T020500Z
+DTEND:20200215T030500Z
+DTSTAMP:20230202T195024Z
+ORGANIZER;CN=Unknown Organizer:mailto:unknownorganizer@calendar.google.com
+UID:7kukuqrfedlm2f9trrveen5rsf8s3l6ddhr2nr7sg95652389cdsde22erl7f5i6vddg
+ATTENDEE;CUTYPE=INDIVIDUAL;ROLE=REQ-PARTICIPANT;PARTSTAT=ACCEPTED;CN=badmon
+ ster108@gmail.com;X-NUM-GUESTS=0:mailto:badmonster108@gmail.com
+CLASS:PRIVATE
+CREATED:20200214T031327Z
+DESCRIPTION:Sonic the Hedgehog\nCentury Cinema 16\, Mountain View\, Califor
+ nia\, United States\, 94043\n\nConfirmation number: 3999737280965
+LAST-MODIFIED:20200403T011340Z
+LOCATION:Century Cinema 16\, Mountain View\, California\, United States\, 9
+ 4043
+SEQUENCE:0
+STATUS:CONFIRMED
+SUMMARY:Sonic the Hedgehog
+TRANSP:TRANSPARENT
+END:VEVENT
+BEGIN:VEVENT
+DTSTART:20200509T010000Z
+DTEND:20200509T020000Z
+DTSTAMP:20230202T195024Z
+ORGANIZER;CN="Carmichael, Jamie":mailto:jamie.carmichael@cbnorcal.com
+UID:040000008200E00074C5B7101A82E0080000000069572F2C8322D601000000000000000
+ 010000000EDB241FC1CC8A14CAFE2CF4490C1F30E
+ATTENDEE;CUTYPE=INDIVIDUAL;ROLE=REQ-PARTICIPANT;PARTSTAT=NEEDS-ACTION;CN=ba
+ dmonster108@gmail.com;X-NUM-GUESTS=0:mailto:badmonster108@gmail.com
+ATTENDEE;CUTYPE=INDIVIDUAL;ROLE=REQ-PARTICIPANT;PARTSTAT=NEEDS-ACTION;CN=Ha
+ nnah leopard4evr;X-NUM-GUESTS=0:mailto:hannahecarmich@gmail.com
+ATTENDEE;CUTYPE=INDIVIDUAL;ROLE=REQ-PARTICIPANT;PARTSTAT=NEEDS-ACTION;CN=Je
+ ssica's New Cell;X-NUM-GUESTS=0:mailto:jessica.elrite@yahoo.com
+ATTENDEE;CUTYPE=INDIVIDUAL;ROLE=REQ-PARTICIPANT;PARTSTAT=NEEDS-ACTION;CN=Ji
+ m Elrite;X-NUM-GUESTS=0:mailto:lugwrench81@gmail.com
+ATTENDEE;CUTYPE=INDIVIDUAL;ROLE=REQ-PARTICIPANT;PARTSTAT=NEEDS-ACTION;CN=mo
+ llyeelrite@gmail.com;X-NUM-GUESTS=0:mailto:mollyeelrite@gmail.com
+ATTENDEE;CUTYPE=INDIVIDUAL;ROLE=REQ-PARTICIPANT;PARTSTAT=NEEDS-ACTION;CN=Se
+ bastion Elrite;X-NUM-GUESTS=0:mailto:sebastianelrite@gmail.com
+ATTENDEE;CUTYPE=INDIVIDUAL;ROLE=REQ-PARTICIPANT;PARTSTAT=NEEDS-ACTION;CN=Sa
+ mantha Elrite;X-NUM-GUESTS=0:mailto:vibes.images@gmail.com
+ATTENDEE;CUTYPE=INDIVIDUAL;ROLE=REQ-PARTICIPANT;PARTSTAT=NEEDS-ACTION;CN=Ka
+ yla;X-NUM-GUESTS=0:mailto:kdavilaelrite@yahoo.com
+ATTENDEE;CUTYPE=INDIVIDUAL;ROLE=REQ-PARTICIPANT;PARTSTAT=NEEDS-ACTION;CN=Ke
+ lly Elrite (kellyelrite@yahoo.com);X-NUM-GUESTS=0:mailto:kellyelrite@yahoo.
+ com
+CREATED:20200505T154725Z
+DESCRIPTION:He will say happy birthday to Kayla(A day early assuming she mu
+ st have other plans on her birthday) via zoom -you should’ve all received m
+ y invitation.\n............................................................
+ ...........................................................................
+ ..\nJoin online meeting<https://meet.lync.com/realogy-cbnorcal/jamie.carmic
+ hael/FNR5PQYO>\n\nFind a local number\n\nForgot your dial-in PIN?\n\nIMPORT
+ ANT NOTICE: This Skype service includes a feature that allows audio\, video
+ \, documents\, and other materials exchanged or viewed during the session t
+ o be recorded. By joining this session\, you automatically consent to such 
+ recordings. If you do not consent to the recording\, discuss your concerns 
+ with the meeting host prior to the start of the recording or do not join th
+ e session. Please note that any such recordings may be subject to discovery
+  in the event of litigation.\n\n...........................................
+ ...........................................................................
+ ...................\n\n*Wire Fraud is Real*.  Before wiring any money\, cal
+ l the intended recipient at a number you know is valid to confirm the instr
+ uctions. Additionally\, please note that the sender does not have authority
+  to bind a party to a real estate contract via written or verbal communicat
+ ion.\n
+LAST-MODIFIED:20200505T154729Z
+LOCATION:On your computer Dude :-) virtually
+SEQUENCE:1
+STATUS:CONFIRMED
+SUMMARY:Kayla’s birthday zoom
+TRANSP:OPAQUE
+X-MICROSOFT-CDO-ALLDAYEVENT:FALSE
+X-MICROSOFT-CDO-APPT-SEQUENCE:1
+X-MICROSOFT-CDO-BUSYSTATUS:TENTATIVE
+X-MICROSOFT-CDO-IMPORTANCE:1
+X-MICROSOFT-CDO-INSTTYPE:0
+X-MICROSOFT-CDO-INTENDEDSTATUS:BUSY
+X-MICROSOFT-CDO-OWNERAPPTID:2118460521
+X-MICROSOFT-DISALLOW-COUNTER:FALSE
+X-MICROSOFT-DONOTFORWARDMEETING:FALSE
+X-MICROSOFT-LOCATIONDISPLAYNAME:On your computer Dude :-) virtually
+X-MICROSOFT-LOCATIONS:[{"DisplayName":"On your computer Dude :-) virtually"
+ \,"LocationAnnotation":""\,"LocationUri":""\,"LocationStreet":""\,"Location
+ City":""\,"LocationState":""\,"LocationCountry":""\,"LocationPostalCode":""
+ \,"LocationFullAddress":""}]
+X-MICROSOFT-LOCATIONSOURCE:None
+X-MICROSOFT-ONLINEMEETINGCONFLINK:sip:jamie.carmichael@cbnorcal.com\;gruu\;
+ opaque=app:conf:focus:id:FNR5PQYO
+X-MICROSOFT-ONLINEMEETINGDIALINNUMBERS:[]
+X-MICROSOFT-ONLINEMEETINGEXTERNALLINK:https://meet.lync.com/realogy-cbnorca
+ l/jamie.carmichael/FNR5PQYO
+X-MICROSOFT-ONLINEMEETINGINFORMATION:{"OnlineMeetingProvider":1}
+END:VEVENT
+BEGIN:VEVENT
+DTSTART;TZID=America/Los_Angeles:20200421T190000
+DTEND;TZID=America/Los_Angeles:20200421T193000
+RRULE:FREQ=WEEKLY;WKST=SU;UNTIL=20201007T020000Z;INTERVAL=1;BYDAY=TU
+EXDATE;TZID=America/Los_Angeles:20200421T190000
+DTSTAMP:20230202T195024Z
+ORGANIZER;CN="Carmichael, Jamie":mailto:jamie.carmichael@cbnorcal.com
+UID:040000008200E00074C5B7101A82E00800000000F0520580CF17D601000000000000000
+ 010000000624D85E1F288DD4C86B3F9105CDAAFA4
+ATTENDEE;CUTYPE=INDIVIDUAL;ROLE=REQ-PARTICIPANT;PARTSTAT=NEEDS-ACTION;CN=10
+ 0023619@mvla.net;X-NUM-GUESTS=0:mailto:100023619@mvla.net
+ATTENDEE;CUTYPE=INDIVIDUAL;ROLE=REQ-PARTICIPANT;PARTSTAT=DECLINED;CN=badmon
+ ster108@gmail.com;X-NUM-GUESTS=0:mailto:badmonster108@gmail.com
+CREATED:20200421T182502Z
+DESCRIPTION:\n\n*Wire Fraud is Real*.  Before wiring any money\, call the i
+ ntended recipient at a number you know is valid to confirm the instructions
+ . Additionally\, please note that the sender does not have authority to bin
+ d a party to a real estate contract via written or verbal communication.\n
+LAST-MODIFIED:20200718T193654Z
+LOCATION:virtual
+SEQUENCE:0
+STATUS:CONFIRMED
+SUMMARY:kathleen
+TRANSP:OPAQUE
+X-MICROSOFT-CDO-ALLDAYEVENT:FALSE
+X-MICROSOFT-CDO-APPT-SEQUENCE:0
+X-MICROSOFT-CDO-BUSYSTATUS:TENTATIVE
+X-MICROSOFT-CDO-IMPORTANCE:1
+X-MICROSOFT-CDO-INSTTYPE:1
+X-MICROSOFT-CDO-INTENDEDSTATUS:BUSY
+X-MICROSOFT-CDO-OWNERAPPTID:-776648732
+X-MICROSOFT-DISALLOW-COUNTER:FALSE
+X-MICROSOFT-DONOTFORWARDMEETING:FALSE
+X-MICROSOFT-LOCATIONS:[ { "DisplayName" : "virtual"\, "LocationAnnotation" 
+ : ""\, "LocationSource" : 0\, "Unresolved" : false\, "LocationUri" : "" } ]
+END:VEVENT
+BEGIN:VEVENT
+DTSTART:20200814T223000Z
+DTEND:20200814T230000Z
+DTSTAMP:20230202T195024Z
+ORGANIZER;CN=jamiemariecarmichael@gmail.com:mailto:jamiemariecarmichael@gma
+ il.com
+UID:040000008200E00074C5B7101A82E00800000000D0B066E9682D3A44927F010E039B63B
+ C10000000637EB3C061531341BCDBE35AB974E903
+ATTENDEE;CUTYPE=INDIVIDUAL;ROLE=REQ-PARTICIPANT;PARTSTAT=ACCEPTED;CN=jamiem
+ ariecarmichael@gmail.com;X-NUM-GUESTS=0:mailto:jamiemariecarmichael@gmail.c
+ om
+ATTENDEE;CUTYPE=INDIVIDUAL;ROLE=REQ-PARTICIPANT;PARTSTAT=NEEDS-ACTION;CN=ba
+ dmonster108@gmail.com;X-NUM-GUESTS=0:mailto:badmonster108@gmail.com
+ATTENDEE;CUTYPE=INDIVIDUAL;ROLE=REQ-PARTICIPANT;PARTSTAT=ACCEPTED;CN=Jamie 
+ Carmichael;X-NUM-GUESTS=0:mailto:jamie.carmichael@cbnorcal.com
+CLASS:PUBLIC
+CREATED:20200801T063823Z
+DESCRIPTION:
+LAST-MODIFIED:20200802T011130Z
+LOCATION:PHONE VIRTUAL
+SEQUENCE:1
+STATUS:CONFIRMED
+SUMMARY:STEVIE NURPOLOGY  
+TRANSP:OPAQUE
+END:VEVENT
+BEGIN:VEVENT
+DTSTART:20200828T204000Z
+DTEND:20200828T214000Z
+DTSTAMP:20230202T195024Z
+ORGANIZER;CN=thecarmichaelteam@gmail.com:mailto:thecarmichaelteam@gmail.com
+UID:4ttqpf8vniojlq3ojk60o5vtap@google.com
+ATTENDEE;CUTYPE=INDIVIDUAL;ROLE=REQ-PARTICIPANT;PARTSTAT=NEEDS-ACTION;CN=ba
+ dmonster108@gmail.com;X-NUM-GUESTS=0:mailto:badmonster108@gmail.com
+ATTENDEE;CUTYPE=INDIVIDUAL;ROLE=REQ-PARTICIPANT;PARTSTAT=ACCEPTED;CN=thecar
+ michaelteam@gmail.com;X-NUM-GUESTS=0:mailto:thecarmichaelteam@gmail.com
+X-GOOGLE-CONFERENCE:https://meet.google.com/ues-fhif-qnd
+CREATED:20200824T193231Z
+DESCRIPTION:-::~:~::~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~
+ :~:~:~:~:~:~:~:~::~:~::-\nJoin with Google Meet: https://meet.google.com/ue
+ s-fhif-qnd\n\nLearn more about Meet at: https://support.google.com/a/users/
+ answer/9282720\n\nPlease do not edit this section.\n-::~:~::~:~:~:~:~:~:~:~
+ :~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~::~:~::-
+LAST-MODIFIED:20200824T212440Z
+LOCATION:
+SEQUENCE:0
+STATUS:CONFIRMED
+SUMMARY:Appointment with LABORATORY APPTS
+TRANSP:OPAQUE
+END:VEVENT
+BEGIN:VEVENT
+DTSTART:20220324T201000Z
+DTEND:20220324T220100Z
+DTSTAMP:20230202T195024Z
+ORGANIZER;CN=unknownorganizer@calendar.google.com:mailto:unknownorganizer@c
+ alendar.google.com
+UID:7kukuqrfedlm2f9tct5sc2qetlmo34eblc65deielbsg750jth4inkh3m1bcpvisetq0
+ATTENDEE;CUTYPE=INDIVIDUAL;ROLE=REQ-PARTICIPANT;PARTSTAT=ACCEPTED;CN=badmon
+ ster108@gmail.com;X-NUM-GUESTS=0:mailto:badmonster108@gmail.com
+CLASS:PRIVATE
+CREATED:20220302T041417Z
+DESCRIPTION:Delta flight 3635\nSan Jose SJC 1:10pm (local time) - Salt Lake
+  City SLC 4:01pm (local time)\n\nConfirmation number: GMU5JQ
+LAST-MODIFIED:20220302T041418Z
+LOCATION:San Jose SJC
+SEQUENCE:0
+STATUS:CONFIRMED
+SUMMARY:Flight to Salt Lake City (DL 3635)
+TRANSP:TRANSPARENT
+END:VEVENT
+BEGIN:VEVENT
+DTSTART:20220328T141000Z
+DTEND:20220328T161800Z
+DTSTAMP:20230202T195024Z
+ORGANIZER;CN=unknownorganizer@calendar.google.com:mailto:unknownorganizer@c
+ alendar.google.com
+UID:7kukuqrfedlm2f9tij46vukcc6a5qvj02tbho1r6qi2k41mu2grjl2hfo2lqhfu64i30
+ATTENDEE;CUTYPE=INDIVIDUAL;ROLE=REQ-PARTICIPANT;PARTSTAT=ACCEPTED;CN=badmon
+ ster108@gmail.com;X-NUM-GUESTS=0:mailto:badmonster108@gmail.com
+CLASS:PRIVATE
+CREATED:20220302T041417Z
+DESCRIPTION:Delta flight 2858\nSalt Lake City SLC 8:10am (local time) - San
+  Jose SJC 9:18am (local time)\n\nConfirmation number: GMU5JQ
+LAST-MODIFIED:20220302T041418Z
+LOCATION:Salt Lake City SLC
+SEQUENCE:0
+STATUS:CONFIRMED
+SUMMARY:Flight to San Jose (DL 2858)
+TRANSP:TRANSPARENT
+END:VEVENT
+BEGIN:VEVENT
+DTSTART:20220404T163000Z
+DTEND:20220404T173000Z
+DTSTAMP:20230202T195024Z
+ORGANIZER;CN=jamiemariecarmichael@gmail.com:mailto:jamiemariecarmichael@gma
+ il.com
+UID:qoc9oog83fid81o9ggmjuods4o@google.com
+ATTENDEE;CUTYPE=INDIVIDUAL;ROLE=REQ-PARTICIPANT;PARTSTAT=NEEDS-ACTION;CN=ba
+ dmonster108@gmail.com;X-NUM-GUESTS=0:mailto:badmonster108@gmail.com
+ATTENDEE;CUTYPE=INDIVIDUAL;ROLE=REQ-PARTICIPANT;PARTSTAT=ACCEPTED;CN=jamiem
+ ariecarmichael@gmail.com;X-NUM-GUESTS=0:mailto:jamiemariecarmichael@gmail.c
+ om
+X-GOOGLE-CONFERENCE:https://meet.google.com/wgo-coiq-ynw
+CREATED:20220328T215601Z
+DESCRIPTION:-::~:~::~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~
+ :~:~:~:~:~:~:~:~::~:~::-\nJoin with Google Meet: https://meet.google.com/wg
+ o-coiq-ynw\n\nLearn more about Meet at: https://support.google.com/a/users/
+ answer/9282720\n\nPlease do not edit this section.\n-::~:~::~:~:~:~:~:~:~:~
+ :~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~:~::~:~::-
+LAST-MODIFIED:20220328T215602Z
+LOCATION:Western Dental Kids\, 897 W El Camino Real\, Sunnyvale\, CA 94087\
+ , USA
+SEQUENCE:0
+STATUS:CONFIRMED
+SUMMARY:Stevies dentist
+TRANSP:OPAQUE
+END:VEVENT
+BEGIN:VEVENT
+DTSTART:20220809T164000Z
+DTEND:20220809T171500Z
+DTSTAMP:20230202T195024Z
+ORGANIZER;CN=unknownorganizer@calendar.google.com:mailto:unknownorganizer@c
+ alendar.google.com
+UID:7kukuqrfedlm2f9t40m4v9rq1nus2pg02k4lfvruqf1be9r1mr17o52cl1o1ffn7mc70
+ATTENDEE;CUTYPE=INDIVIDUAL;ROLE=REQ-PARTICIPANT;PARTSTAT=ACCEPTED;CN=badmon
+ ster108@gmail.com;X-NUM-GUESTS=0:mailto:badmonster108@gmail.com
+CLASS:PRIVATE
+CREATED:20220620T154006Z
+DESCRIPTION:Grant Aviation flight 6080\nKenai ENA 8:40am (local time) - Anc
+ horage ANC 9:15am (local time)\n\nConfirmation number: 10048211
+LAST-MODIFIED:20220620T154006Z
+LOCATION:Kenai ENA
+SEQUENCE:0
+STATUS:CONFIRMED
+SUMMARY:Flight to Anchorage (GV 6080)
+TRANSP:TRANSPARENT
+END:VEVENT
+BEGIN:VEVENT
+DTSTART:20220725T023000Z
+DTEND:20220725T030500Z
+DTSTAMP:20230202T195024Z
+ORGANIZER;CN=unknownorganizer@calendar.google.com:mailto:unknownorganizer@c
+ alendar.google.com
+UID:7kukuqrfedlm2f9tgii4242qh8poukhh1njgqnog8eiootb911v5dfvgilhbsc1946ng
+ATTENDEE;CUTYPE=INDIVIDUAL;ROLE=REQ-PARTICIPANT;PARTSTAT=ACCEPTED;CN=badmon
+ ster108@gmail.com;X-NUM-GUESTS=0:mailto:badmonster108@gmail.com
+CLASS:PRIVATE
+CREATED:20220620T154006Z
+DESCRIPTION:Grant Aviation flight 5180\nAnchorage ANC 6:30pm (local time) -
+  Kenai ENA 7:05pm (local time)\n\nConfirmation number: 10048211
+LAST-MODIFIED:20220620T154006Z
+LOCATION:Anchorage ANC
+SEQUENCE:0
+STATUS:CONFIRMED
+SUMMARY:Flight to Kenai (GV 5180)
+TRANSP:TRANSPARENT
+END:VEVENT
+BEGIN:VEVENT
+DTSTART:20230202T220000Z
+DTEND:20230202T230000Z
+DTSTAMP:20230202T195024Z
+UID:3omnmib1gaif1ghnaepl7l79g5@google.com
+CREATED:20230202T194759Z
+DESCRIPTION:
+LAST-MODIFIED:20230202T194759Z
+LOCATION:
+SEQUENCE:0
+STATUS:CONFIRMED
+SUMMARY:something
+TRANSP:OPAQUE
+END:VEVENT
+BEGIN:VEVENT
+DTSTART:20230202T210000Z
+DTEND:20230202T220000Z
+DTSTAMP:20230202T195024Z
+UID:1cjohqlu8hko8l8am1g5u96usd@google.com
+CREATED:20230202T194804Z
+DESCRIPTION:
+LAST-MODIFIED:20230202T194804Z
+LOCATION:
+SEQUENCE:0
+STATUS:CONFIRMED
+SUMMARY:something else
+TRANSP:OPAQUE
+END:VEVENT
+BEGIN:VEVENT
+DTSTART:20230202T200000Z
+DTEND:20230202T210000Z
+DTSTAMP:20230202T195024Z
+UID:40q12t2rkl3mum7fpq1b585r98@google.com
+CREATED:20230202T194809Z
+DESCRIPTION:
+LAST-MODIFIED:20230202T194809Z
+LOCATION:
+SEQUENCE:0
+STATUS:CONFIRMED
+SUMMARY:something
+TRANSP:OPAQUE
+END:VEVENT
+BEGIN:VEVENT
+DTSTART:20230202T193000Z
+DTEND:20230202T203000Z
+DTSTAMP:20230202T195024Z
+UID:28c92u0sp58uh0s9lvd9j9ladc@google.com
+CREATED:20230202T194813Z
+DESCRIPTION:
+LAST-MODIFIED:20230202T194813Z
+LOCATION:
+SEQUENCE:0
+STATUS:CONFIRMED
+SUMMARY:something
+TRANSP:OPAQUE
+END:VEVENT
+END:VCALENDAR

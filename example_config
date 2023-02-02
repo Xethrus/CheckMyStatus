@@ -12,4 +12,4 @@ user_name = John Doe
 user_key = something_clever
 
 [calendar]
-calendar_links = https://calendar.google.com/calendar/u/0/r?pli=1
+calendar_at = JohnDoe@gmail.com.ics 
