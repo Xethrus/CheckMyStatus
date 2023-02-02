@@ -1,5 +1,6 @@
 import requests
 import json
+import time
 
 key = {'token' : 'password'}
 headers = {'Content-Type': 'application/json'}
@@ -20,3 +21,10 @@ print("supplying:", data['status'].strip())
 
 request_response = requests.get("http://REDACTED:8000/get_status")
 print(request_response)
+
+time.sleep(120)
+
+request_response = requests.get("http://REDACTED:8000/get_status")
+print(request_response)
+
+
