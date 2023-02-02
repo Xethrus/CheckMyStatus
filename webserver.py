@@ -6,6 +6,7 @@ import datetime
 import http.server
 import socketserver
 import sqlite3
+import time
 import atexit
 import subprocess
 import os
@@ -59,29 +60,20 @@ with open(config_json_file_name, 'r') as json_file:
 ##key checker
 def status_validation(key, recieved_key):
     if key != recieved_key:
+        print("failed key")
         return "Unauthorized Token", 401
     else: 
         pass
+        print("key accepted")
 
-##background status process
-def status_expiration():
-    while True:
-        if status == "busy":
-            if expiration_time > datetime.datetime.now():
-                pass
-            else:
-                status = "available"
-        else:
-            pass
-        time.sleep(60)
 
-app.route('/set_status', methods=['POST'])
+@app.route('/set_status', methods=['POST'])
 def set_status():
 
     global status, expiration_time
 
     #checking if correct token is recieved in req
-    status_validation(current_config.get('key'), request.headers.get('token'))
+    status_validation(current_config.get('user','user_key'), request.headers.get('token'))
 
     req_status = request.json.get('status')
 
@@ -110,6 +102,19 @@ def get_status():
 def get_config():
     print(current_json_config)
     return
+
+##background status process
+def status_expiration():
+    while "status" in locals():
+        if status == "busy":
+            if expiration_time > datetime.datetime.now():
+                pass
+            else:
+                status = "available"
+        else:
+            pass
+        time.sleep(60)
+
     
 if __name__ == '__main__':
     status_checker_thread = Thread(target=status_expiration)
