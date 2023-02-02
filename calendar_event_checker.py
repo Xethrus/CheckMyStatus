@@ -5,25 +5,46 @@ import datetime
 import requests
 
 from webserver.py import current_json_config
+from webserver.py import status
+from webserver.py import expiration_time
 
-url = current_json_config['calendar','calendar_links']
-
-response = requests.get(url)
+try:
+    url = current_json_config['calendar','calendar_links']
+except:
+    print("failed to retrieve url at location:")
+    print("'calendar','calendar_links'")
+try:
+    response = requests.get(url)
+except requests.exceptions.RequestException as err:
+    print("Error fetching calendar:", err)
+ 
 
 calendar = Calendar.from_ical(response.content)
+def check_events():
+    now = datetime.now()
+    for component in calendar.walk():
+        if component.name == "VEVENT":
+            start = component.get("dtstart").dt
+            end = component.get("dtend").dt
+            if start <= now <= end:
+                duration = end - start
+                print("Duration:", duration)
+                #need to think of smartest way to set busy status, I think i have access to global status and expiration so maybe just a direct mod
+                while True:
+                    if status == "avaliable":
+                        status = "busy"
+                        expiration_time = now + duration
+                    else:
+                        pass
+                    time.sleep(60)
+                break
+    else:
+        #do nothing because no status updates needed
+        print("No event at current time")
 
-now = datetime.now()
+schedule.every(1).minutes.do(check_events)
 
-for component in calendar.walk():
-    if component.name == "VEVENT":
-        start = component.get("dtstart").dt
-        end = component.get("dtend").dt
-        if start <= now <= end:
-            duration = end - start
-            print("Duration:", duration)
-            #need to think of smartest way to set busy status, I think i have access to global status and expiration so maybe just a direct mod
-            break
-else:
-    #do nothing because no status updates needed
-    print("No event at current time")
 
+while True:
+    schedule.run_pending()
+    time.sleep(1)
