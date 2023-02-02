@@ -82,7 +82,7 @@ def set_status():
 
     #validate status
 
-    if req_status not in ["busy", "available"]:
+    if req_status.strip() not in ["busy", "available"]:
         return "Invalid Status", 400
     
     status = req_status

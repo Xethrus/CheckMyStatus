@@ -10,3 +10,4 @@ data = {
 print("making req")
 request_response = requests.post(url, headers = key, data=json.dumps(data))
 print(request_response.status_code)
+print("attempting to supply:", data['status'].strip())
