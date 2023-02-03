@@ -1,6 +1,7 @@
 from flask import Flask, request, jsonify
 from threading import Thread
 from icalendar import Calendar, Event
+from dataclasses import dataclass
 import schedule
 import configparser
 import datetime
@@ -13,6 +14,12 @@ import subprocess
 import os
 import json
 import requests
+
+@dataclass
+class Metadata:
+    status: str
+    expiration: str
+
 
 app = Flask(__name__)
 
@@ -70,9 +77,9 @@ def status_validation(key, recieved_key):
 
 @app.route('/set_status', methods=['POST'])
 def set_status():
-
+    #phase this out soon
     global status, expiration_time
-
+    
     #checking if correct token is recieved in req
     status_validation(current_config.get('user','user_key'), request.headers.get('token'))
 
@@ -94,30 +101,31 @@ def set_status():
 
 @app.route('/get_status', methods=['GET'])
 def get_status():
-    global status, expiration_time
+    retrieved_metadata = get_metadata_from_db()
     #status validation
-    if datetime.datetime.now() > expiration_time:
-        status = "available"
-    print(status)
-    return jsonify({"status": status, "expiration_time": str(expiration_time)})
-
-@app.route('/get_config', methods=['GET'])
-def get_config():
-    print(current_json_config)
-    return
+    print(retrieved_metadata.status)
+    return jsonify({"status": retrieved_metadata.status, "expiration_time": retrieved_metadata.expiration})
 
 ##background status process
 def status_expiration():
     while "status" in locals():
         if status == "busy":
-            if expiration_time > datetime.datetime.now():
-                pass
-            else:
+            if expiration_time <= datetime.datetime.now():
                 status = "available"
-        else:
-            pass
         time.sleep(60)
 
+def get_metadata_from_db():
+    connection = sqlite3.connect('stored_state.db')
+    cursor = connection.cursor()
+    result = cursor.execute('''
+        SELECT status, expiration FROM savedState
+        WHERE user = 'REDACTED'
+    ''')
+    fetched_data = result.fetchone()
+    metadata_return = Metadata(status = fetched_data[0], expiration = fetched_data[1])
+    return metadata_return
+
+    
     
 if __name__ == '__main__':
     status_checker_thread = Thread(target=status_expiration)
