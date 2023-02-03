@@ -96,7 +96,22 @@ def set_status():
     
     status = req_status
     expiration_time = datetime.datetime.now() + datetime.timedelta(minutes=duration)
+    user_from_config = current_json_config.get('user','user_name')
+    user_from_config = user_from_config['user_name']
+try:
+    connection = sqlite3.connect('stored_state.db')
+    cursor = connection.cursor()
+    result = cursor.execute('''
+        UPDATE savedState SET status = (?), expiration = (?)
+        WHERE user = (?)
+    ''', status, expiration_time, user_from_config)
+    connection.commit()
+except sqlite3.Error as error:
+    print("failed to update savedState table", error)
 
+finally:
+    if(connection):
+    connection.close()
     return "Status Updated", 200
 
 @app.route('/get_status', methods=['GET'])
@@ -115,15 +130,27 @@ def status_expiration():
         time.sleep(60)
 
 def get_metadata_from_db():
-    connection = sqlite3.connect('stored_state.db')
-    cursor = connection.cursor()
-    result = cursor.execute('''
-        SELECT status, expiration FROM savedState
-        WHERE user = 'REDACTED'
-    ''')
-    fetched_data = result.fetchone()
-    metadata_return = Metadata(status = fetched_data[0], expiration = fetched_data[1])
-    return metadata_return
+    try:
+        user_from_config = current_json_config.get('user','user_name')
+        user_from_config = user_from_config['user_name']
+    except: 
+        print("user was unable to retrieved from current_json_config")
+    try:
+        connection = sqlite3.connect('stored_state.db')
+        cursor = connection.cursor()
+        result = cursor.execute('''
+            SELECT status, expiration FROM savedState
+            WHERE user = (?)
+        ''', user_from_config)
+        fetched_data = result.fetchone()
+        metadata_return = Metadata(status = fetched_data[0], expiration = fetched_data[1])
+        connection.commit()
+    except sqlite3.Error as error:
+        print("failed to retrieve status", error)
+    finally:
+        if(connection):
+            connection.close()
+            return metadata_return
 
     
     
