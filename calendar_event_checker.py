@@ -1,5 +1,5 @@
 from threading import Thread
-from icalendar import Calendar, Event
+from icalendar import Calendar, Event, vDDDTypes
 import schedule
 import datetime
 import requests
@@ -23,13 +23,18 @@ try:
 except requests.exceptions.RequestException as err:
     print("Error fetching calendar:", err)
  
+def convert_icalender_date_to_datetime(dtstart):
+    ical_even_start_time = dtstart
+    start_datetime = vDDDTypes.from_ical(ical_even_start_time)
+    return start_datetime
 
 def check_events():
     now = datetime.datetime.now()
     for component in calendar.walk():
         if component.name == "VEVENT":
-            start = component.get("dtstart").datetime
-            end = component.get("dtend").datetime
+            start = convert_icalender_date_to_datetime(component.get("dtstart").dt)
+            end = convert_icalender_date_to_datetime(component.get("dtend").dt)
+            print("end:", end)
             if start <= now <= end:
                 duration = end - start
                 print("Duration:", duration)

@@ -98,20 +98,20 @@ def set_status():
     expiration_time = datetime.datetime.now() + datetime.timedelta(minutes=duration)
     user_from_config = current_json_config.get('user','user_name')
     user_from_config = user_from_config['user_name']
-try:
-    connection = sqlite3.connect('stored_state.db')
-    cursor = connection.cursor()
-    result = cursor.execute('''
-        UPDATE savedState SET status = (?), expiration = (?)
-        WHERE user = (?)
-    ''', status, expiration_time, user_from_config)
-    connection.commit()
-except sqlite3.Error as error:
-    print("failed to update savedState table", error)
+    try:
+        connection = sqlite3.connect('stored_state.db')
+        cursor = connection.cursor()
+        result = cursor.execute('''
+            UPDATE savedState SET status = (?), expiration = (?)
+            WHERE user = (?)
+        ''', status, expiration_time, user_from_config)
+        connection.commit()
+    except sqlite3.Error as error:
+        print("failed to update savedState table", error)
 
-finally:
-    if(connection):
-    connection.close()
+    finally:
+        if(connection):
+            connection.close()
     return "Status Updated", 200
 
 @app.route('/get_status', methods=['GET'])
