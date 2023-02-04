@@ -10,7 +10,7 @@ url = "http://REDACTED:8000/set_status"
 
 data = {
   "status" : "busy",
-  "duration" : 2
+  "duration" : 1
 }
 json_data = json.dumps(data)
 print("making req")
@@ -22,7 +22,7 @@ print("supplying:", data['status'].strip())
 request_response = requests.get("http://REDACTED:8000/get_status")
 print(request_response)
 
-time.sleep(120)
+time.sleep(60)
 
 request_response = requests.get("http://REDACTED:8000/get_status")
 print(request_response)

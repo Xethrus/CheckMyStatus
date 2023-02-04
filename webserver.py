@@ -78,7 +78,7 @@ def status_validation(key, recieved_key):
 @app.route('/set_status', methods=['POST'])
 def set_status():
     #phase this out soon
-    global status, expiration_time
+    #global status, expiration_time
     
     #checking if correct token is recieved in req
     status_validation(current_config.get('user','user_key'), request.headers.get('token'))
