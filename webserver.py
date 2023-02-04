@@ -19,52 +19,56 @@ import requests
 class Metadata:
     status: str
     expiration: str
-
-
+@dataclass
+class Configuration:
+    def __init__(self, db_host, db_file_title, server_host, server_port, server_debug, user_name, user_key, calendar_at):
+        self.database = {
+            "db_host": db_host,
+            "db_file_title": db_file_title
+        }
+        self.server = {
+            "server_host": server_host,
+            "server_port": server_port,
+            "server_debug": server_debug
+        }
+        self.user = {
+            "user_name": user_name,
+            "user_key": user_key
+        }
+        self.calendar = {
+            "calendar_at": calendar_at
+        }
 app = Flask(__name__)
 
 status = "available"
 expiration_time = datetime.datetime.now()
 
 ##load in config from ini
-global config_json_file_name
-global current_config
-global current_json_config
-config = configparser.ConfigParser()
-config.read('config.ini')
-current_config = config
-##need to check that these things exist i think lol TODO
-##write config to a dict to a json for use
-def build_fresh_config_dict():
-    config_dict = {
-        'database': {
-            'db_host': current_config.get('database', 'db_host'),
-            'db_file_title': current_config.get('database', 'db_file_title')
-        },
-        'server': {
-            'server_host': current_config.get('server', 'server_host'),
-            'server_port': current_config.get('server', 'server_port'),
-            'server_debug': current_config.get('server', 'server_debug')
-        },
-        'user': {
-            'user_name': current_config.get('user', 'user_name'),
-            'user_key': current_config.get('user', 'user_key')
-        },
-        'calendar': {
-            'calendar_at': current_config.get('calendar', 'calendar_at')
-        }
-    }
-    return config_dict
-
-config_dict = build_fresh_config_dict()
-config_json_file_name = 'config.json'
-with open(config_json_file_name, 'w') as json_file:
-    json.dump(config_dict, json_file)
-##read for use
-with open(config_json_file_name, 'r') as json_file:
-    config_json = json.load(json_file)
-    current_json_config = config_json
-
+config = Configuration(
+    db_host = current_config.get('database', 'db_host'),
+    db_file_title = current_config.get('database', 'db_file_title'),
+    server_host = current_config.get('server', 'server_host'),
+    server_port = current_config.get('server', 'db_host'),
+    server_debug = current_config.get('server', 'db_host'),
+    user_name = current_config.get('user', 'user_name'),
+    user_key = current_config.get('user', 'user_key'),
+    calendar_at = current_config.get('calendar', 'calendar_at'),
+)
+#global config_json_file_name
+#global current_config
+#global current_json_config
+#config = configparser.ConfigParser()
+#config.read('config.ini')
+#current_config = config
+###need to check that these things exist i think lol TODO
+#config_json_file_name = 'config.json'
+#with open(config_json_file_name, 'w') as json_file:
+#    json.dump(config_dict, json_file)
+###read for use
+#with open(config_json_file_name, 'r') as json_file:
+#    config_json = json.load(json_file)
+#    current_json_config = config_json
+#
 ##key checker
 def status_validation(key, recieved_key):
     if key != recieved_key:
