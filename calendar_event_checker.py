@@ -33,8 +33,8 @@ except requests.exceptions.RequestException as err:
 
 def configure_timezone_to_UTC_if_naive(unknown_datetime): 
     if unknown_datetime.tzinfo is None:
-        pytz.UTC.localize(naive_datetime)
-    return naive_datetime
+        return pytz.UTC.localize(unknown_datetime)
+    return unknown_datetime
 
 def convert_icalender_date_to_datetime(dt_time):
     print("dt_time:", dt_time)
