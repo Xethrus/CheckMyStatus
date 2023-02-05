@@ -44,16 +44,27 @@ status = "available"
 expiration_time = datetime.datetime.now()
 
 ##load in config from ini
+current_config = configparser.ConfigParser()
+current_config.read('config.ini')
 config = Configuration(
     db_host = current_config.get('database', 'db_host'),
     db_file_title = current_config.get('database', 'db_file_title'),
     server_host = current_config.get('server', 'server_host'),
-    server_port = current_config.get('server', 'db_host'),
-    server_debug = current_config.get('server', 'db_host'),
+    server_port = current_config.get('server', 'server_port'),
+    server_debug = current_config.get('server', 'server_debug'),
     user_name = current_config.get('user', 'user_name'),
     user_key = current_config.get('user', 'user_key'),
     calendar_at = current_config.get('calendar', 'calendar_at'),
 )
+print(config.calendar['calendar_at'])
+print(config.database['db_host'])
+print(config.database['db_file_title'])
+print(config.server['server_host'])
+print(config.server['server_port'])
+print(config.server['server_debug'])
+print(config.user['user_name'])
+print(config.user['user_key'])
+
 #global config_json_file_name
 #global current_config
 #global current_json_config
@@ -85,7 +96,8 @@ def set_status():
     #global status, expiration_time
     
     #checking if correct token is recieved in req
-    status_validation(current_config.get('user','user_key'), request.headers.get('token'))
+    current_user_key = config.user['user_key']
+    status_validation(current_user_key, request.headers.get('token'))
 
     req_status = request.json.get('status')
 
@@ -100,15 +112,16 @@ def set_status():
     
     status = req_status
     expiration_time = datetime.datetime.now() + datetime.timedelta(minutes=duration)
-    user_from_config = current_json_config.get('user','user_name')
-    user_from_config = user_from_config['user_name']
+    user_from_config = config.user['user_name']
     try:
-        connection = sqlite3.connect('stored_state.db')
+        retrieved_metadata = get_metadata_from_db()
+        current_db_file_title = config.database['db_file_title']
+        connection = sqlite3.connect(current_db_file_title)
         cursor = connection.cursor()
         result = cursor.execute('''
             UPDATE savedState SET status = (?), expiration = (?)
             WHERE user = (?)
-        ''', status, expiration_time, user_from_config)
+        ''', retrieved_metadata.status, retrieved_metadata.expiration_time, user_from_config)
         connection.commit()
     except sqlite3.Error as error:
         print("failed to update savedState table", error)
@@ -127,6 +140,8 @@ def get_status():
 
 ##background status process
 def status_expiration():
+    #metadata = get_metadata_from_db()
+    #status = metadata[0]
     while "status" in locals():
         if status == "busy":
             if expiration_time <= datetime.datetime.now():
@@ -134,18 +149,19 @@ def status_expiration():
         time.sleep(60)
 
 def get_metadata_from_db():
+    #connection works
     try:
-        user_from_config = current_json_config.get('user','user_name')
-        user_from_config = user_from_config['user_name']
+        current_db_file_title = config.database['db_file_title']
+        connection = sqlite3.connect(current_db_file_title)
+        current_user_from_config = config.user['user_name']
     except: 
-        print("user was unable to retrieved from current_json_config")
+        print("user was unable to retrieved from config object")
     try:
-        connection = sqlite3.connect('stored_state.db')
         cursor = connection.cursor()
         result = cursor.execute('''
             SELECT status, expiration FROM savedState
             WHERE user = (?)
-        ''', user_from_config)
+                                ''', current_user_from_config)
         fetched_data = result.fetchone()
         metadata_return = Metadata(status = fetched_data[0], expiration = fetched_data[1])
         connection.commit()
@@ -161,7 +177,7 @@ def get_metadata_from_db():
 if __name__ == '__main__':
     status_checker_thread = Thread(target=status_expiration)
     status_checker_thread.start()
-    server_host = current_config.get('server','server_host')
-    server_debug = current_config.get('server','server_debug')
-    server_port = current_config.get('server','server_port')
+    server_host = config.server['server_host']
+    server_debug = config.server['server_debug']
+    server_port = config.server['server_port']
     app.run(host=server_host, debug=server_debug, port = server_port)
