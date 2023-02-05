@@ -8,18 +8,14 @@ import requests
 import time
 import json
 
-from webserver import current_json_config, status, expiration_time
+from webserver import config
+from webserver import set_status()
 try:
-    ics_file_name = current_json_config.get('calendar','calendar_at')
+    ics_download_link = config.calendar['calendar_at']
 except:
-    print("failed to retrieve file at location:")
+    print("failed to retrieve from config object a:")
     print("'calendar','calendar_at'")
 try:
-    #should this be ical or ics
-#    url = "REDACTED"
-
-    ics_link_from_json_config = current_json_config.get('calendar','calendar_at')
-    ics_download_link = ics_link_from_json_config["calendar_at"]
     response_from_ical_request = requests.get(ics_download_link)
     calendar = Calendar.from_ical(response_from_ical_request.text)
 except requests.exceptions.RequestException as err:
@@ -67,6 +63,8 @@ def check_events():
                     print("Duration:", duration)
                     #need to think of smartest way to set busy status, I think i have access to global status and expiration so maybe just a direct mod
                     while True:
+                        try:
+                            connection =
                         if status == "avaliable":
                             status = "busy"
                             expiration_time = now + duration
