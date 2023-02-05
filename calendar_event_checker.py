@@ -9,7 +9,8 @@ import time
 import json
 
 from webserver import config
-from webserver import set_status()
+from webserver import modulate_status
+from webserver import get_metadata_from_db
 try:
     ics_download_link = config.calendar['calendar_at']
 except:
@@ -63,11 +64,10 @@ def check_events():
                     print("Duration:", duration)
                     #need to think of smartest way to set busy status, I think i have access to global status and expiration so maybe just a direct mod
                     while True:
-                        try:
-                            connection =
-                        if status == "avaliable":
+                        retrieved_metadata = get_metadata_from_db()
+                        if retrieved_metadata.status == "avaliable":
                             status = "busy"
-                            expiration_time = now + duration
+                            modulate_status(status, duration)
                         else:
                             pass
                         time.sleep(60)
