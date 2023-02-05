@@ -8,7 +8,8 @@ cursor.execute('''
         user TEXT PRIMARY KEY,
         status TEXT NOT NULL,
         expiration TEXT NULL,
-        calendar TEXT NOT NULL
+        caleini:invndar TEXT NOT NULL
+
     )
 ''')
 """

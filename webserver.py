@@ -19,6 +19,7 @@ import requests
 class Metadata:
     status: str
     expiration: str
+
 @dataclass
 class Configuration:
     def __init__(self, db_host, db_file_title, server_host, server_port, server_debug, user_name, user_key, calendar_at):
