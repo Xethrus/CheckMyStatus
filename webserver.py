@@ -184,16 +184,6 @@ def get_status():
     print(retrieved_metadata.status)
     return jsonify({"status": retrieved_metadata.status, "expiration_time": retrieved_metadata.expiration})
 
-##background status process
-def status_expiration():
-    #metadata = get_metadata_from_db()
-    #status = metadata[0]
-    while "status" in locals():
-        if status == "busy":
-            if expiration_time <= datetime.datetime.now():
-                status = "available"
-        time.sleep(60)
-
 def get_metadata_from_db():
     #connection works
     try:
@@ -220,11 +210,7 @@ def get_metadata_from_db():
             connection.close()
             return metadata_return
 
-    
-    
 if __name__ == '__main__':
-    status_checker_thread = Thread(target=status_expiration)
-    status_checker_thread.start()
     server_host = config.server['server_host']
     server_debug = config.server['server_debug']
     server_port = config.server['server_port']
