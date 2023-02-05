@@ -215,3 +215,5 @@ if __name__ == '__main__':
     server_debug = config.server['server_debug']
     server_port = config.server['server_port']
     app.run(host=server_host, debug=server_debug, port = server_port)
+    exec(open("status_expiration_task.py").read())
+    exec(open("calendar_event_checker.py").read())

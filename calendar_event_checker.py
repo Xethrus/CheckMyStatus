@@ -7,10 +7,18 @@ import datetime
 import requests
 import time
 import json
+import sys
+
 
 from webserver import config
 from webserver import modulate_status
 from webserver import get_metadata_from_db
+
+sys.stdout = open('background_threads_output_log.txt', 'w')
+sys.stderr = open('background_threads_error_log.txt', 'w')
+
+
+
 try:
     ics_download_link = config.calendar['calendar_at']
 except:

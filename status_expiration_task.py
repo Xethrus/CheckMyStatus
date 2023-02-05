@@ -3,6 +3,10 @@ from webserver import modulate_status
 
 import schedule
 import time
+import sys
+
+sys.stdout = open('background_threads_output_log.txt', 'w')
+sys.stderr = open('background_threads_error_log.txt', 'w')
 
 def status_expiration():
     retrieved_metadata = get_metadata_from_db()
