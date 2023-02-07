@@ -18,7 +18,6 @@ sys.stdout = open('background_threads_output_log.txt', 'w')
 sys.stderr = open('background_threads_error_log.txt', 'w')
 
 
-
 try:
     ics_download_link = config.calendar['calendar_at']
 except:
