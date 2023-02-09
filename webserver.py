@@ -20,6 +20,7 @@ class Metadata:
     status: str
     expiration: str
 
+@dataclass
 class Configuration:
     def __init__(self, db_host, db_file_title, server_host, server_port, server_debug, user_name, user_key, calendar_at):
         self.database = {
@@ -86,8 +87,8 @@ def key_validation(key, recieved_key):
         print("failed key")
         return "Unauthorized Token", 401
     else: 
-        pass
         print("key accepted")
+        pass
 
 def validate_status(status):
     if status.strip() not in ["busy", "available"]:
@@ -209,11 +210,19 @@ def get_metadata_from_db():
         if(connection):
             connection.close()
             return metadata_return
+def log_and_thread_binder(log_file_name, thread_file_name):
+    try:
+        with open(log_file_name, "w") as logfile:
+            process = subprocess.Popen(["python", thread_file_name], stdout=logfile, stderr=logfile)
+            process.wait()
+    except Exception as error:
+        print("unable to run, error:", str(error))
+
 
 if __name__ == '__main__':
+    log_and_thread_binder("logfile_calendar.txt", "calendar_event_checker.py")
+    log_and_thread_binder("logfile_status.txt", "status_expiration_task.py")
     server_host = config.server['server_host']
     server_debug = config.server['server_debug']
     server_port = config.server['server_port']
     app.run(host=server_host, debug=server_debug, port = server_port)
-    exec(open("status_expiration_task.py").read())
-    exec(open("calendar_event_checker.py").read())
