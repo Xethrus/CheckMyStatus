@@ -8,6 +8,7 @@ import datetime
 
 
 def status_expiration():
+    print("running mf")
     retrieved_metadata = get_metadata_from_db()
     status = retrieved_metadata.status
     if status == "busy":

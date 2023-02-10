@@ -90,17 +90,19 @@ def get_status():
     return jsonify({"status": retrieved_metadata.status, "expiration_time": retrieved_metadata.expiration})
 
 
-def thread_runner(thread_function):
-    thread = threading.Thread(target=thread_function)
-    thread.daemon = True
-    thread.start()
+#def thread_runner(thread_function):
+#    thread = threading.Thread(target=thread_function)
+#    thread.daemon = True
+#    thread.start()
 
 if __name__ == '__main__':
-    
-    thread_runner(status_expiration)
-    thread_runner(event_checker_thread)
-
     server_host = config.server['server_host']
     server_debug = config.server['server_debug']
     server_port = config.server['server_port']
     app.run(host=server_host, debug=server_debug, port = server_port)
+    thread1 = threading.Thread(status_expiration)
+    thread2 = threading.Thread(event_checker_thread)
+    thread1.daemon = True
+    thread2.daemon = True
+    thread1.start()
+    thread2.start()

@@ -16,6 +16,7 @@ from database_interaction_functions import get_metadata_from_db
 
 
 def event_checker_thread():
+    print("running mf")
     try:
         #issue making multi configs
         config = config.create_config_object()
