@@ -50,7 +50,9 @@ def modulate_status(wanted_status, wanted_duration):
         current_status = retrieved_metadata.status
         current_expiration = retrieved_metadata.expiration
         current_db_file_title = config.database['db_file_title']
-        status_difference, expiration_difference = False
+        status_difference = False
+        expiration_difference = False
+
         if wanted_status != current_status:
             status_difference = True
         
