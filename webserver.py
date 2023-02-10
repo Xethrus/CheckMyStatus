@@ -97,8 +97,8 @@ def thread_runner(thread_function):
 
 if __name__ == '__main__':
     
-    thread_runner("status_expiration")
-    thread_runner("event_checker_thread")
+    thread_runner(status_expiration)
+    thread_runner(event_checker_thread)
 
     server_host = config.server['server_host']
     server_debug = config.server['server_debug']
