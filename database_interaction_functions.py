@@ -41,6 +41,12 @@ def validate_status(status):
     else: 
         return status
 
+def validate_duration(duration):
+    if duration <= 0:
+        return "Invalid duration", 400
+    else: 
+        return duration
+
 def modulate_status(wanted_status, wanted_duration):
     try:
         wanted_status = validate_status(wanted_status)
