@@ -35,6 +35,12 @@ def get_metadata_from_db():
             connection.close()
             return metadata_return
 
+def validate_status(status):
+    if status.strip() not in ["busy", "available"]:
+        return "Invalid Status", 400
+    else: 
+        return status
+
 def modulate_status(wanted_status, wanted_duration):
     try:
         wanted_status = validate_status(wanted_status)
