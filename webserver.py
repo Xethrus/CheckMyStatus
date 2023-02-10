@@ -92,6 +92,7 @@ def get_status():
 
 def thread_runner(thread_function):
     thread = threading.Thread(target=thread_function)
+    thread.daemon = True
     thread.start()
 
 if __name__ == '__main__':
