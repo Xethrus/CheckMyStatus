@@ -1,17 +1,17 @@
-from webserver import get_metadata_from_db
-from webserver import modulate_status
+from database_interaction_functions import get_metadata_from_db
+from database_interaction_functions import modulate_status
+
 
 import schedule
 import time
-import sys
+import datetime
 
-sys.stdout = open('background_threads_output_log.txt', 'w')
-sys.stderr = open('background_threads_error_log.txt', 'w')
 
 def status_expiration():
     retrieved_metadata = get_metadata_from_db()
     status = retrieved_metadata.status
     if status == "busy":
+        expiration_time = retrieved_metadata.expiration
         if expiration_time <= datetime.datetime.now():
             modulate_status(status, 1)
 
