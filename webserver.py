@@ -2,15 +2,16 @@ from flask import Flask, request, jsonify
 from threading import Thread
 from icalendar import Calendar, Event
 
-from calendar_event_checker import event_checker_thread
-from calendar_event_checker import stop_event_checker_thread
-from status_expiration_task import status_expiration
+#from calendar_event_checker import event_checker_thread
+#from calendar_event_checker import stop_event_checker_thread
+#from status_expiration_task import status_expiration
 from database_interaction_functions import Metadata
 from database_interaction_functions import modulate_status
 from database_interaction_functions import get_metadata_from_db
 from config import config
 
-
+import status_expiration_task
+import calendar_event_checker
 import schedule
 import datetime
 import http.server
@@ -22,7 +23,6 @@ import os
 import json
 import requests
 import threading
-import file_to_run 
 
 
 
@@ -100,10 +100,13 @@ if __name__ == '__main__':
     server_host = config.server['server_host']
     server_debug = config.server['server_debug']
     server_port = config.server['server_port']
+    status_expiration_task.status_thread_wrapper()
+    calendar_event_checker.event_thread_wrapper()
     app.run(host=server_host, debug=server_debug, port = server_port)
-    thread1 = threading.Thread(status_expiration)
-    thread2 = threading.Thread(event_checker_thread)
-    thread1.daemon = True
-    thread2.daemon = True
-    thread1.start()
-    thread2.start()
+    #thread1 = threading.Thread(status_expiration)
+    #thread2 = threading.Thread(event_checker_thread)
+    #thread1.daemon = True
+    #thread2.daemon = True
+    #thread1.start()
+    #thread2.start()
+    
