@@ -100,9 +100,11 @@ if __name__ == '__main__':
     server_host = config.server['server_host']
     server_debug = config.server['server_debug']
     server_port = config.server['server_port']
+    #status_expiration_task.status_thread_wrapper()
+    #calendar_event_checker.event_thread_wrapper()
+    app.run(host=server_host, debug=server_debug, port = server_port)
     status_expiration_task.status_thread_wrapper()
     calendar_event_checker.event_thread_wrapper()
-    app.run(host=server_host, debug=server_debug, port = server_port)
     #thread1 = threading.Thread(status_expiration)
     #thread2 = threading.Thread(event_checker_thread)
     #thread1.daemon = True

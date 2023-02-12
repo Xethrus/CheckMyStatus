@@ -36,9 +36,11 @@ def get_metadata_from_db():
             return metadata_return
 
 def validate_status(status):
+    print("attempting to validate status:", status)
     if status.strip() not in ["busy", "available"]:
         return "Invalid Status", 400
     else: 
+        print("validated status")
         return status
 
 def validate_duration(duration):
@@ -48,6 +50,7 @@ def validate_duration(duration):
         return duration
 
 def modulate_status(wanted_status, wanted_duration):
+    print("currently supplying status, duration:", wanted_status, wanted_duration)
     try:
         wanted_status = validate_status(wanted_status)
         wanted_duration = validate_duration(wanted_duration)
