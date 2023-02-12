@@ -3,6 +3,7 @@ from threading import Thread
 from icalendar import Calendar, Event
 
 from calendar_event_checker import event_checker_thread
+from calendar_event_checker import stop_event_checker_thread
 from status_expiration_task import status_expiration
 from database_interaction_functions import Metadata
 from database_interaction_functions import modulate_status

@@ -16,7 +16,8 @@ from database_interaction_functions import get_metadata_from_db
 
 
 def event_checker_thread():
-    print("running mf")
+    print("calendar thread running")
+    running = True
     try:
         #issue making multi configs
         config = config.create_config_object()
@@ -24,11 +25,20 @@ def event_checker_thread():
     except:
         print("failed to retrieve from config object a:")
         print("'calendar','calendar_at'")
-    try:
-        response_from_ical_request = requests.get(ics_download_link)
-        calendar = Calendar.from_ical(response_from_ical_request.text)
-    except requests.exceptions.RequestException as err:
-        print("Error fetching calendar:", err)
+    while running:
+        try:
+            response_from_ical_request = requests.get(ics_download_link)
+            calendar = Calendar.from_ical(response_from_ical_request.text)
+        except requests.exceptions.RequestException as err:
+            print("Error fetching calendar:", err)
+        finally:
+            if not running:
+                break
+            time.sleep(1)
+
+def stop_event_checker_thread():
+    global running
+    running = False
 
     def configure_timezone_to_UTC_if_naive(unknown_datetime): 
         if unknown_datetime.tzinfo is not pytz.UTC:
@@ -89,4 +99,4 @@ def event_checker_thread():
 
     while True:
         schedule.run_pending()
-        time.sleep(1)
+        time.sleep(1, True)
