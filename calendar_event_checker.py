@@ -74,6 +74,7 @@ def test_convert_string_to_datetime():
 
 def check_events(calendar, get_metadata_from_db, modulate_status):
     print("running check events")
+    event_found = False
     now = datetime.datetime.now()
     now = configure_timezone_to_UTC_if_naive(now)
     for component in calendar.walk():
@@ -102,9 +103,34 @@ def check_events(calendar, get_metadata_from_db, modulate_status):
             else:
                 pass
             time.sleep(60)
+        event_found = True
         break
     #do nothing because no status updates needed
-    print("No event at current time")
+    if not event_found:
+        print("no event at current time")
+    return event_found
+
+def test_event_checker():
+    test_calendar = Calendar()
+    test_calendar.add('prodid', 'test_calendar')
+    test_calendar.add('version', '2.0')
+
+    event = Event()
+
+    event.add('summary', 'test event')
+    event.add('dtstart', datetime.dateime.now(pytz.utc))
+    dt_end = datetime.datetime.now() + datetime.timedelta(minutes=1)
+    event.add('dtend', dt_end)
+    event.add('dtstamp', datetime.datetime.now(pytz.utc))
+    event['uid'] = 'test-uid-123'
+
+    test_calendar.add_component(event)
+
+    event_found = check_events(test_calendar, get_metadata_from_db, modulate_status)
+    if event_found:
+        print("event found, test found")
+    else:
+        print("event not found, test failed")
 
 
 def event_thread_wrapper():
