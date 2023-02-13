@@ -23,14 +23,16 @@ class Configuration:
 
 current_config = configparser.ConfigParser()
 current_config.read('config.ini')
-config = Configuration(
-    db_host = current_config.get('database', 'db_host'),
-    db_file_title = current_config.get('database', 'db_file_title'),
-    server_host = current_config.get('server', 'server_host'),
-    server_port = current_config.get('server', 'server_port'),
-    server_debug = current_config.get('server', 'server_debug'),
-    user_name = current_config.get('user', 'user_name'),
-    user_key = current_config.get('user', 'user_key'),
-    calendar_at = current_config.get('calendar', 'calendar_at'),
-)
+def create_config():
+    config = Configuration(
+        db_host = current_config.get('database', 'db_host'),
+        db_file_title = current_config.get('database', 'db_file_title'),
+        server_host = current_config.get('server', 'server_host'),
+        server_port = current_config.get('server', 'server_port'),
+        server_debug = current_config.get('server', 'server_debug'),
+        user_name = current_config.get('user', 'user_name'),
+        user_key = current_config.get('user', 'user_key'),
+        calendar_at = current_config.get('calendar', 'calendar_at'),
+    )
+    return config
 

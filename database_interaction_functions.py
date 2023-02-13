@@ -2,7 +2,9 @@ import datetime
 import sqlite3
 
 from dataclasses import dataclass
-from config import config
+from config import create_config
+
+config = create_config()
 
 @dataclass
 class Metadata:
@@ -11,6 +13,7 @@ class Metadata:
 
 def get_metadata_from_db():
     #connection works
+    
     try:
         current_db_file_title = config.database['db_file_title']
         connection = sqlite3.connect(current_db_file_title)

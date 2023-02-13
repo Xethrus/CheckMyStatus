@@ -8,7 +8,9 @@ from icalendar import Calendar, Event
 from database_interaction_functions import Metadata
 from database_interaction_functions import modulate_status
 from database_interaction_functions import get_metadata_from_db
-from config import config
+
+from config import create_config
+config = create_config()
 
 import status_expiration_task
 import calendar_event_checker
