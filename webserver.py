@@ -75,11 +75,8 @@ def set_status():
 
     ##make this make sure that the time is atleast 5 minutes or so
     req_duration = request.json.get('duration', 30)
-    try:
-        modulate_status(req_status, req_duration)
-        return
-    except:
-        return "failed to modulate status"
+    modulate_status(req_status, req_duration)
+    return "Status Updated", 200 
 
 
 
@@ -100,11 +97,13 @@ if __name__ == '__main__':
     server_host = config.server['server_host']
     server_debug = config.server['server_debug']
     server_port = config.server['server_port']
+    status_thread = threading.Thread(target=status_expiration_task.status_thread_wrapper)
+    event_thread = threading.Thread(target=calendar_event_checker.event_thread_wrapper)
+    status_thread.start()
+    event_thread.start()
+    app.run(host=server_host, debug=server_debug, port = server_port)
     #status_expiration_task.status_thread_wrapper()
     #calendar_event_checker.event_thread_wrapper()
-    app.run(host=server_host, debug=server_debug, port = server_port)
-    status_expiration_task.status_thread_wrapper()
-    calendar_event_checker.event_thread_wrapper()
     #thread1 = threading.Thread(status_expiration)
     #thread2 = threading.Thread(event_checker_thread)
     #thread1.daemon = True

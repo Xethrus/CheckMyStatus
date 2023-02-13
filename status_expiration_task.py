@@ -19,7 +19,7 @@ def status_thread_wrapper():
             except Exception as error:
                 print("couldnt convert expiration time, error:", error)
             if expiration_time <= datetime.datetime.now():
-                modulate_status(status, 1)
+                modulate_status("available", 1)
 
     while True:
         status_expiration()
