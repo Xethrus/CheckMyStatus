@@ -85,13 +85,12 @@ def event_thread_wrapper():
         except:
             print("failed to retrieve from config object a:")
             print("'calendar','calendar_at'")
-        while running:
-            try:
-                response_from_ical_request = requests.get(ics_download_link)
-                calendar = Calendar.from_ical(response_from_ical_request.text)
-            except requests.exceptions.RequestException as err:
-                print("Error fetching calendar:", err)
-
-        time.sleep(60)
-        event_checker_thread()
+        try:
+            response_from_ical_request = requests.get(ics_download_link)
+            calendar = Calendar.from_ical(response_from_ical_request.text)
+        except requests.exceptions.RequestException as err:
+            print("Error fetching calendar:", err)
+        finally:
+            time.sleep(60)
+            event_checker_thread()
     event_checker_thread()
