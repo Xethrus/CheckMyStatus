@@ -16,9 +16,9 @@ from database_interaction_functions import get_metadata_from_db
 
 
 def event_thread_wrapper():
-    print("calendar thread running")
+    print(" in wrap calendar thread running")
     def event_checker_thread():
-        print("calendar thread running")
+        print("in thread calendar thread running")
         running = True
         try:
             #issue making multi configs
@@ -92,6 +92,5 @@ def event_thread_wrapper():
                 #do nothing because no status updates needed
                 print("No event at current time")
 
-        while True:
-            event_checker_thread()
-            time.sleep(60, True)
+        event_checker_thread()
+        time.sleep(60)
