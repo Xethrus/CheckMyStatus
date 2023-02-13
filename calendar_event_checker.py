@@ -16,6 +16,7 @@ from database_interaction_functions import get_metadata_from_db
 
 
 def event_thread_wrapper():
+    print("calendar thread running")
     def event_checker_thread():
         print("calendar thread running")
         running = True
@@ -32,14 +33,10 @@ def event_thread_wrapper():
                 calendar = Calendar.from_ical(response_from_ical_request.text)
             except requests.exceptions.RequestException as err:
                 print("Error fetching calendar:", err)
-            finally:
-                if not running:
-                    break
-                time.sleep(1)
 
-    def stop_event_checker_thread():
-        global running
-        running = False
+#    def stop_event_checker_thread():
+#        global running
+#        running = False
 
         def configure_timezone_to_UTC_if_naive(unknown_datetime): 
             if unknown_datetime.tzinfo is not pytz.UTC:
