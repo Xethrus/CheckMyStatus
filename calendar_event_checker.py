@@ -76,7 +76,10 @@ def check_events(calendar, get_metadata_from_db, modulate_status):
     print("running check events")
     event_found = False
     now = datetime.datetime.now()
-    now = configure_timezone_to_UTC_if_naive(now)
+    try:
+        now = configure_timezone_to_UTC_if_naive(now)
+    except:
+        print("unable to configure the timezone of now")
     for component in calendar.walk():
         if component.name != "VEVENT":
             continue
@@ -85,8 +88,11 @@ def check_events(calendar, get_metadata_from_db, modulate_status):
         ##could make function for this for readability
         start = dtstart.dt
         end = dtend.dt
-        start = attempt_convert_to_datetime_if_not(start)
-        end = attempt_convert_to_datetime_if_not(end)
+        try:
+            start = attempt_convert_to_datetime_if_not(start)
+            end = attempt_convert_to_datetime_if_not(end)
+        except:
+            print("unable to convert to datetime")
         #all of these should now be UTC plspls
         if not isinstance(start, datetime.datetime) and isinstance(end, datetime.datetime):
             continue
@@ -96,10 +102,16 @@ def check_events(calendar, get_metadata_from_db, modulate_status):
         print("Duration:", duration)
         #need to think of smartest way to set busy status, I think i have access to global status and expiration so maybe just a direct mod
         while True:
-            retrieved_metadata = get_metadata_from_db()
+            try:
+                retrieved_metadata = get_metadata_from_db()
+            except:
+                print("unable to get metadata")
             if retrieved_metadata.status == "avaliable":
                 status = "busy"
-                modulate_status(status, duration)
+                try:
+                    modulate_status(status, duration)
+                except:
+                    print("unable to modulate status")
             else:
                 pass
             time.sleep(60)
@@ -108,6 +120,7 @@ def check_events(calendar, get_metadata_from_db, modulate_status):
     #do nothing because no status updates needed
     if not event_found:
         print("no event at current time")
+    print("event")
     return event_found
 
 def test_event_checker():
@@ -129,7 +142,9 @@ def test_event_checker():
 
     test_calendar.add_component(event)
 
+    print("running here lol")
     event_found = check_events(test_calendar, get_metadata_from_db, modulate_status)
+    print("running here too lol")
     if event_found:
         print("event found, test found")
     else:
