@@ -111,6 +111,9 @@ def check_events(calendar, get_metadata_from_db, modulate_status):
     return event_found
 
 def test_event_checker():
+
+    print("i am running the test")
+
     test_calendar = Calendar()
     test_calendar.add('prodid', 'test_calendar')
     test_calendar.add('version', '2.0')
@@ -152,10 +155,12 @@ def event_thread_wrapper():
             print("Error fetching calendar:", err)
         finally:
             time.sleep(60)
-            event_checker_thread(config)
+#            event_checker_thread(config)
 #
-    event_checker_thread(config)
+#    event_checker_thread(config)
 
-#test_event_checker()
+test_event_checker()
 
+if __name__ == "__test_event_checker__":
+    test_event_checker()
 

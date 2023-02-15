@@ -38,6 +38,7 @@ def get_metadata_from_db():
             connection.close()
             return metadata_return
 
+
 def validate_status(status):
     print("attempting to validate status:", status)
     if status.strip() not in ["busy", "available"]:

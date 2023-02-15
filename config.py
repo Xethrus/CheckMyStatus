@@ -36,3 +36,9 @@ def create_config():
     )
     return config
 
+def test_create_config():
+    config_test = create_config()
+    print(config_test.db_host['user'])
+
+test_create_config()
+
