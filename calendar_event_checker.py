@@ -118,7 +118,7 @@ def test_event_checker():
     event = Event()
 
     event.add('summary', 'test event')
-    event.add('dtstart', datetime.dateime.now(pytz.utc))
+    event.add('dtstart', datetime.datetime.now(pytz.utc))
     dt_end = datetime.datetime.now() + datetime.timedelta(minutes=1)
     event.add('dtend', dt_end)
     event.add('dtstamp', datetime.datetime.now(pytz.utc))
@@ -153,5 +153,9 @@ def event_thread_wrapper():
         finally:
             time.sleep(60)
             event_checker_thread(config)
+#
     event_checker_thread(config)
+
+#test_event_checker()
+
 
