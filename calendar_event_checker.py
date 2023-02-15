@@ -159,8 +159,7 @@ def event_thread_wrapper():
 #
 #    event_checker_thread(config)
 
-test_event_checker()
-
-if __name__ == "__test_event_checker__":
+def main():
     test_event_checker()
-
+if __name__ == "__main__":
+    main()

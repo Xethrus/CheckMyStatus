@@ -38,7 +38,7 @@ def create_config():
 
 def test_create_config():
     config_test = create_config()
-    print(config_test.db_host['user'])
+    print(config_test.database['db_host'])
 
-test_create_config()
+#test_create_config()
 
