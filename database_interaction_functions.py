@@ -2,28 +2,24 @@ import datetime
 import sqlite3
 
 from dataclasses import dataclass
-from config import create_config
+#from config import generate_database_connection
+from config import get_config
+#from config import create_config
 
-config = create_config()
+#config = create_config()
 
 @dataclass
 class Metadata:
     status: str
     expiration: str
 
-def get_metadata_from_db():
-    #connection works
-    
-    try:
-        current_db_file_title = config.database['db_file_title']
-        connection = sqlite3.connect(current_db_file_title)
-        current_user_from_config = config.user['user_name']
-    except: 
-        print("user was unable to retrieved from config object")
+
+def get_metadata_from_db(database_connection):
+    connection = database_connection
+    config = get_config()
+    current_user_from_config = config.user['user_name']
     try:
         cursor = connection.cursor()
-   #     print(type(current_user_from_config))
-   #     print(f"asdf'{current_user_from_config}'lalala")
         result = cursor.execute('''
             SELECT status, expiration FROM savedState
             WHERE user = (?)
@@ -53,7 +49,7 @@ def validate_duration(duration):
     else: 
         return duration
 
-def modulate_status(wanted_status, wanted_duration):
+def modulate_status(wanted_status, wanted_duration, database_connection):
     print("currently supplying status, duration:", wanted_status, wanted_duration)
     try:
         wanted_status = validate_status(wanted_status)
@@ -68,7 +64,7 @@ def modulate_status(wanted_status, wanted_duration):
         retrieved_metadata = get_metadata_from_db()
         current_status = retrieved_metadata.status
         current_expiration = retrieved_metadata.expiration
-        current_db_file_title = config.database['db_file_title']
+        current_db_file_title = get_config().database['db_file_title']
         status_difference = False
         expiration_difference = False
 
@@ -108,3 +104,4 @@ def modulate_status(wanted_status, wanted_duration):
         if(connection):
             connection.close()
     return "Status Updated", 200
+

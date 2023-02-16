@@ -10,11 +10,11 @@ import time
 import json
 
 
-from config import create_config
-config = create_config()
+#from config import create_config
+#config = create_config()
 
-from database_interaction_functions import modulate_status
-from database_interaction_functions import get_metadata_from_db
+#from database_interaction_functions import modulate_status
+#from database_interaction_functions import get_metadata_from_db
 
 def configure_timezone_to_UTC_if_naive(unknown_datetime): 
     print("running config timzone")
@@ -23,19 +23,6 @@ def configure_timezone_to_UTC_if_naive(unknown_datetime):
         unknown_datetime = unknown_datetime.astimezone(utc_timezone)
         return unknown_datetime
     return unknown_datetime
-
-def test_timezone_configurer():
-    naive_datetime = datetime.datetime(2023,2,13,10,30,0)
-    utc_datetime = datetime.datetime(2023,2,13,10,30,0, tzinfo=pytz.utc)
-    test_naive_to_utc = configure_timezone_to_UTC_if_naive(naive_datetime)
-    if naive_datetime != utc_datetime:
-        raise TypeError("same value, change not viable")
-    if test_naive_to_utc == utc_datetime:
-        print ("naive to utc test passed")
-    test_no_change = configure_timezone_to_UTC_if_naive(utc_datetime)
-    if test_no_change == utc_datetime:
-        print ("no change utc to utc test passed")
-    return
 
 def attempt_convert_to_datetime_if_not(dt_time):
     print("running convert datetime")
@@ -53,24 +40,6 @@ def attempt_convert_to_datetime_if_not(dt_time):
     else:
         print("unsupported dt_time format for VEVENT")
         return dt_time
-
-def test_convert_string_to_datetime():
-    datetime_string_utc = "2023-02-13 17:21:03.123456 UTC"
-    datetime_string_naive = "2023-02-13 17:21:03.123456" 
-    datetime_expected = datetime.datetime(2023,2,13,17,21,3,123456, tzinfo=pytz.utc)
-    datetime_utc_converted = configure_timezone_to_UTC_if_naive(datetime_string_utc)
-    datetime_naive_converted = configure_timezone_to_UTC_if_naive(datetime_string_naive)
-    
-    if datetime_utc_converted == datetime_expected:
-        print("utc datetime string to utc datetime test passed")
-    else:
-        print("utc datetime string to utc datetime test failed")
-
-    if datetime_naive_converted == datetime_expected:
-        print("naive datetime string to utc datetime test passed")
-    else:
-        print("naive datetime string to utc datetime test failed")
-
 
 def check_events(calendar, get_metadata_from_db, modulate_status):
     print("running check events")
@@ -104,7 +73,7 @@ def check_events(calendar, get_metadata_from_db, modulate_status):
         while True:
             try:
                 retrieved_metadata = get_metadata_from_db()
-            except:
+            except Exception as err:
                 print("unable to get metadata")
             if retrieved_metadata.status == "avaliable":
                 status = "busy"
@@ -114,13 +83,12 @@ def check_events(calendar, get_metadata_from_db, modulate_status):
                     print("unable to modulate status")
             else:
                 pass
-            time.sleep(60)
+            #time.sleep(60)
         event_found = True
         break
     #do nothing because no status updates needed
     if not event_found:
         print("no event at current time")
-    print("event")
     return event_found
 
 def test_event_checker():
@@ -174,7 +142,7 @@ def event_thread_wrapper():
 #
 #    event_checker_thread(config)
 
-def main():
-    test_event_checker()
-if __name__ == "__main__":
-    main()
+#def main():
+#    test_event_checker()
+#if __name__ == "__main__":
+#    main()
