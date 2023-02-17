@@ -8,9 +8,8 @@ from icalendar import Calendar, Event
 from database_interaction_functions import Metadata
 from database_interaction_functions import modulate_status
 from database_interaction_functions import get_metadata_from_db
+from config import Configuration
 
-from config import create_config
-config = create_config()
 
 import status_expiration_task
 import calendar_event_checker
@@ -84,7 +83,8 @@ def set_status():
 
 @app.route('/get_status', methods=['GET'])
 def get_status():
-    retrieved_metadata = get_metadata_from_db()
+    config
+    retrieved_metadata = get_metadata_from_db(generate_database_connection(), )
     #status validation
     print(retrieved_metadata.status)
     return jsonify({"status": retrieved_metadata.status, "expiration_time": retrieved_metadata.expiration})
@@ -96,27 +96,20 @@ def get_status():
 #    thread.start()
 
 if __name__ == '__main__':
+    #pass configuration object
+    config = Configuration.get_instance('/home/xethrus/paidProject/AvaliablilityProgram')
     server_host = config.server['server_host']
     server_debug = config.server['server_debug']
     server_port = config.server['server_port']
     try:
-        status_thread = threading.Thread(target=status_expiration_task.status_thread_wrapper)
+        status_thread = threading.Thread(target=status_expiration_task.status_thread_wrapper, args=(config,))
         status_thread.start()
     except Exception as error:
         print("Error starting status thread:", error)
-    
     try:
-        event_thread = threading.Thread(target=calendar_event_checker.event_thread_wrapper)
+        event_thread = threading.Thread(target=calendar_event_checker.event_thread_wrapper, args=(config,))
         event_thread.start()
     except Exception as error:
         print("Error starting event thread:", error)
     app.run(host=server_host, debug=server_debug, port = server_port)
-    #status_expiration_task.status_thread_wrapper()
-    #calendar_event_checker.event_thread_wrapper()
-    #thread1 = threading.Thread(status_expiration)
-    #thread2 = threading.Thread(event_checker_thread)
-    #thread1.daemon = True
-    #thread2.daemon = True
-    #thread1.start()
-    #thread2.start()
     

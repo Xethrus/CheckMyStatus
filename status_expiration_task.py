@@ -6,7 +6,7 @@ import schedule
 import time
 import datetime
 
-def status_thread_wrapper():
+def status_thread_wrapper(config):
     def status_expiration():
         print("status expiration process running")
         retrieved_metadata = get_metadata_from_db()

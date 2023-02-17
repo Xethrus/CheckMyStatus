@@ -1,5 +1,5 @@
 import sys
-#sys.path.append('/home/xethrus/paidProject/AvaliablilityProgram')
+sys.path.append('/home/xethrus/paidProject/AvaliablilityProgram')
 import unittest
 import sqlite3
 from database_interaction_functions import get_metadata_from_db, Metadata

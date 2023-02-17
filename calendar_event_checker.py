@@ -119,7 +119,7 @@ def test_event_checker():
         print("event not found, test failed")
 
 
-def event_thread_wrapper():
+def event_thread_wrapper(config):
     print(" in wrap calendar thread running")
     def event_checker_thread(config):
         print("in thread calendar thread running")

@@ -2,11 +2,7 @@ import datetime
 import sqlite3
 
 from dataclasses import dataclass
-#from config import generate_database_connection
-from config import get_config
-#from config import create_config
-
-#config = create_config()
+from config import Configuration 
 
 @dataclass
 class Metadata:
@@ -14,7 +10,7 @@ class Metadata:
     expiration: str
 
 
-def get_metadata_from_db(database_connection):
+def get_metadata_from_db(database_connection, config):
     connection = database_connection
     config = get_config()
     current_user_from_config = config.user['user_name']
