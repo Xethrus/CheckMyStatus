@@ -12,7 +12,6 @@ class Metadata:
 
 def get_metadata_from_db(database_connection, config):
     connection = database_connection
-    config = get_config()
     current_user_from_config = config.user['user_name']
     try:
         cursor = connection.cursor()
@@ -48,6 +47,10 @@ def validate_duration(duration):
 def modulate_status(wanted_status, wanted_duration, database_connection):
     print("currently supplying status, duration:", wanted_status, wanted_duration)
     try:
+        config = Configuration.get_instance('/home/xethrus/paidProject/AvaliablilityProgram')
+    except:
+        print("failed to retreive configuration from singleton")
+    try:
         wanted_status = validate_status(wanted_status)
         wanted_duration = validate_duration(wanted_duration)
     except:
@@ -55,12 +58,12 @@ def modulate_status(wanted_status, wanted_duration, database_connection):
         #how can i just make this all stop if the status and duration fail, or does it with the error code returns 400
 
     wanted_expiration_time = datetime.datetime.now() + datetime.timedelta(minutes=wanted_duration)
-    user_from_config = config.user['user_name']
+    user_from_config = config.user_name
     try:
-        retrieved_metadata = get_metadata_from_db()
+        retrieved_metadata = get_metadata_from_db(database_connection, config)
         current_status = retrieved_metadata.status
         current_expiration = retrieved_metadata.expiration
-        current_db_file_title = get_config().database['db_file_title']
+        current_db_file_title = config.db_file_title
         status_difference = False
         expiration_difference = False
 
@@ -70,7 +73,7 @@ def modulate_status(wanted_status, wanted_duration, database_connection):
         if wanted_expiration_time != current_expiration:
             expiration_difference = True
         
-        connection = sqlite3.connect(current_db_file_title)
+        connection = database_connection
         cursor = connection.cursor()
         if(status_difference and expiration_difference):
             result = cursor.execute('''

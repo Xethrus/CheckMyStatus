@@ -36,8 +36,7 @@ class Configuration:
             cls.instance = Configuration(config_file_path)
         return cls.instance
 
-def generate_database_connection(): 
-    config = Configuration.get_instance('/home/xethrus/paidProject/AvaliablilityProgram')
+def generate_database_connection(config): 
     database_connection = sqlite3.connect(config.db_file_title)
     return database_connection
 

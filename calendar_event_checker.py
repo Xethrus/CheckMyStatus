@@ -1,6 +1,8 @@
 from threading import Thread
 from icalendar import Calendar, Event, vDDDTypes
 from datetime import datetime
+from config import generate_database_connection
+from config import Configuration
 
 import schedule
 import pytz
@@ -72,13 +74,15 @@ def check_events(calendar, get_metadata_from_db, modulate_status):
         #need to think of smartest way to set busy status, I think i have access to global status and expiration so maybe just a direct mod
         while True:
             try:
-                retrieved_metadata = get_metadata_from_db()
+                config = Configuration.get_instance('/home/xethrus/paidProject/AvaliablilityProgram')
+                database_connection = generate_database_connection(config)
+                retrieved_metadata = get_metadata_from_db(database_connection, config)
             except Exception as err:
                 print("unable to get metadata")
             if retrieved_metadata.status == "avaliable":
                 status = "busy"
                 try:
-                    modulate_status(status, duration)
+                    modulate_status(status, duration, database_connection)
                 except:
                     print("unable to modulate status")
             else:
@@ -126,10 +130,10 @@ def event_thread_wrapper(config):
         running = True
         try:
             #issue making multi configs
-            ics_download_link = config.calendar['calendar_at']
+            ics_download_link = config.calendar_at
         except:
-            print("failed to retrieve from config object a:")
-            print("'calendar','calendar_at'")
+            print("failed to retrieve from config object data:")
+            print("'calendar_at'")
         try:
             response_from_ical_request = requests.get(ics_download_link)
             calendar = Calendar.from_ical(response_from_ical_request.text)
