@@ -1,15 +1,17 @@
 from database_interaction_functions import get_metadata_from_db
 from database_interaction_functions import modulate_status
 from datetime import datetime
+from config import generate_database_connection
 
 import schedule
 import time
 import datetime
 
 def status_thread_wrapper(config):
-    def status_expiration():
+    def status_expiration(config):
         print("status expiration process running")
-        retrieved_metadata = get_metadata_from_db()
+        connection = generate_database_connection(config)
+        retrieved_metadata = get_metadata_from_db(connection, config)
         status = retrieved_metadata.status
         if status == "busy":
             expiration_time = retrieved_metadata.expiration
@@ -22,6 +24,6 @@ def status_thread_wrapper(config):
                 modulate_status("available", 1)
 
     while True:
-        status_expiration()
+        status_expiration(config)
         time.sleep(60)
 
