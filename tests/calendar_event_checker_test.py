@@ -32,7 +32,9 @@ class TestEventChecker(unittest.TestCase):
         self.event.add('dtstamp', datetime.now(pytz.utc))
         self.event['uid'] = 'test-uid-123'
         self.test_calendar.add_component(self.event)
-        self.connection = sqlite3.connect('test_db.db')
+        
+
+        self.connection = sqlite3.connect(':memory:')
         self.cursor = self.connection.cursor()
         self.cursor.execute('''
             CREATE TABLE savedState (
@@ -43,24 +45,25 @@ class TestEventChecker(unittest.TestCase):
         ''')
         self.cursor.execute('''
             INSERT INTO savedState (user, status, expiration)
-            VALUES ('testuser', 'avaliable', '2025-02-22 22:22:22');
+            VALUES ('testuser', 'avaliable', '2022-02-22 22:22:22');
         ''')
+
+    def test_event_checker(self):
+        config_path = '/home/xethrus/paidProject/AvaliablilityProgram/tests/test_config.ini'
+        test_config = Configuration.get_instance(config_path)
+
+        event_found = check_events(self.test_calendar, get_metadata_from_db, modulate_status, config_path)
+        metadata = get_metadata_from_db(self.connection, test_config)
+        self.assertIsInstance(metadata, Metadata)
+        self.assertEqual(event_found, True)
+        self.assertEqual(metadata.status, 'busy')
 
     def tearDown(self):
         #remove all subcomponents from calendar by assigning empty list
-        self.test_calendar.subcomponents = []
-        self.test_calendar = None
-        self.cursor.close()
+        #self.test_calendar.subcomponents = []
+        #self.test_calendar = None
+        #self.cursor.close()
         self.connection.close()
-
-    def test_event_checker(self):
-        event_found = False
-        config_path = '/home/xethrus/paidProject/AvaliablilityProgram/tests/test_config.ini'
-        test_config = Configuration.get_instance(config_path)
-        event_found = check_events(self.test_calendar, get_metadata_from_db, modulate_status, config_path)
-        metadata = get_metadata_from_db(self.connection, test_config)
-        self.assertEqual(event_found, True)
-        self.assertEqual(metadata.status, 'busy')
 
 #def test_timezone_configurer():
 #    naive_datetime = datetime.datetime(2023,2,13,10,30,0)
