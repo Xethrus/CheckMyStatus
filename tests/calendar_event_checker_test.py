@@ -42,6 +42,7 @@ class TestEventChecker(unittest.TestCase):
     def tearDown(self):
         self.test_calendar.remove_component(self.event)
         self.test_calendar = None
+        self.cursor.close()
         self.connection.close()
 
     def test_event_checker(self):
@@ -50,7 +51,7 @@ class TestEventChecker(unittest.TestCase):
         test_config = Configuration.get_instance(config_path)
         event_found = check_events(self.test_calendar, get_metadata_from_db, modulate_status, config_path)
         metadata = get_metadata_from_db(self.connection, test_config)
-        self.assertEqual(self.event_found, True)
+        self.assertEqual(event_found, True)
         self.assertEqual(metadata.status, 'busy')
 
 def test_timezone_configurer():
