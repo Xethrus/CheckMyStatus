@@ -105,11 +105,11 @@ if __name__ == '__main__':
         status_thread = threading.Thread(target=status_expiration_task.status_thread_wrapper, args=(config,))
         status_thread.start()
     except Exception as error:
-        print("Error starting status thread:", error)
+        print("webserver.py- Error starting status thread:", error)
     try:
         event_thread = threading.Thread(target=calendar_event_checker.event_thread_wrapper, args=(config,))
         event_thread.start()
     except Exception as error:
-        print("Error starting event thread:", error)
+        print("webserver.py- Error starting event thread:", error)
     app.run(host=server_host, debug=server_debug, port = server_port)
     

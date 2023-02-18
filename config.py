@@ -38,6 +38,11 @@ class Configuration:
 
 def generate_database_connection(config): 
     database_connection = sqlite3.connect(config.db_file_title)
+    print("attempting to connect to", config.db_file_title)
+    if(database_connection):
+        print("works")
+    else:
+        print("connection did not work")
     return database_connection
 
 

@@ -20,7 +20,6 @@ import json
 #from database_interaction_functions import get_metadata_from_db
 
 def configure_timezone_to_UTC_if_naive(unknown_datetime): 
-    print("running config timzone")
     if unknown_datetime.tzinfo is not pytz.UTC:
         utc_timezone = pytz.timezone("UTC")
         unknown_datetime = unknown_datetime.astimezone(utc_timezone)
@@ -28,8 +27,6 @@ def configure_timezone_to_UTC_if_naive(unknown_datetime):
     return unknown_datetime
 
 def attempt_convert_to_datetime_if_not(dt_time):
-    print("running convert datetime")
-    print("dt_time:", dt_time)
     if isinstance(dt_time, datetime.datetime):
         return configure_timezone_to_UTC_if_naive(dt_time)
     elif isinstance(dt_time, str):
@@ -38,14 +35,13 @@ def attempt_convert_to_datetime_if_not(dt_time):
             datetime.strptime(dt_time, date_with_time)
             return configure_timezone_to_UTC_if_naive(datetime.strptime(dt_time, date_with_time))
         except ValueError:
-            print("string not matching \'%Y-%m-%d %H:%M:%S.%f %Z\' format")
+            print("calendar_event_checker.py- string not matching \'%Y-%m-%d %H:%M:%S.%f %Z\' format")
             return dt_time
     else:
-        print("unsupported dt_time format for VEVENT")
+        print("calendar_event_checker.py- unsupported dt_time format for VEVENT")
         return dt_time
 
 def check_events(calendar, get_metadata_from_db, modulate_status, config_path):
-    print("running check events")
     event_found = False
     now = datetime.datetime.now()
     try:
@@ -64,28 +60,31 @@ def check_events(calendar, get_metadata_from_db, modulate_status, config_path):
             start = attempt_convert_to_datetime_if_not(start)
             end = attempt_convert_to_datetime_if_not(end)
         except:
-            print("unable to convert to datetime")
+            print("calendar_event_checker.py- unable to convert to datetime")
         #all of these should now be UTC plspls
         if not isinstance(start, datetime.datetime) and isinstance(end, datetime.datetime):
             continue
         if not start <= now <= end:
             continue
         duration = end - start
-        print("Duration:", duration)
         #need to think of smartest way to set busy status, I think i have access to global status and expiration so maybe just a direct mod
         while True:
             try:
                 config = Configuration.get_instance(config_path)
+                print("calendar_event_checker.py- config went through")
                 database_connection = generate_database_connection(config)
-                retrieved_metadata = get_metadata_from_db(database_connection, config)
+                print("calendar_event_checker.py- database_connection working")
             except Exception as err:
-                print("unable to get metadata")
+                print("calendar_event_checker.py- unable to get metadata")
+
+            print("calendar_event_checker.py- attempting to retrieve meta data from", database_connection)
+            retrieved_metadata = get_metadata_from_db(database_connection, config)
             if retrieved_metadata.status == "avaliable":
                 status = "busy"
                 try:
                     modulate_status(status, duration, database_connection)
                 except:
-                    print("unable to modulate status")
+                    print("calendar_event_checker.py- unable to modulate status")
             else:
                 pass
             #time.sleep(60)
@@ -93,11 +92,10 @@ def check_events(calendar, get_metadata_from_db, modulate_status, config_path):
         break
     #do nothing because no status updates needed
     if not event_found:
-        print("no event at current time")
+        print("calendar_event_checker.py- no event at current time")
     return event_found
 
 def event_thread_wrapper(config):
-    print(" in wrap calendar thread running")
     def event_checker_thread(config):
         print("in thread calendar thread running")
         running = True
@@ -116,11 +114,3 @@ def event_thread_wrapper(config):
             print("Error fetching calendar:", err)
         finally:
             time.sleep(60)
-#            event_checker_thread(config)
-#
-#    event_checker_thread(config)
-
-#def main():
-#    test_event_checker()
-#if __name__ == "__main__":
-#    main()
