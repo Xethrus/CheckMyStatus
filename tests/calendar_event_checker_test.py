@@ -32,7 +32,7 @@ class TestEventChecker(unittest.TestCase):
         self.event.add('dtstamp', datetime.now(pytz.utc))
         self.event['uid'] = 'test-uid-123'
         self.test_calendar.add_component(self.event)
-        self.connection = sqlite3.connect(':memory:')
+        self.connection = sqlite3.connect('test_db.db')
         self.cursor = self.connection.cursor()
         self.cursor.execute('''
             CREATE TABLE savedState (
