@@ -1,9 +1,10 @@
 import sys
 sys.path.append('/home/xethrus/paidProject/AvaliablilityProgram')
-import icalendar
-import datetime
 import pytz
+import unittest
 
+from datetime import datetime
+from icalendar import Calendar, Event
 from calendar_event_checker import configure_timezone_to_UTC_if_naive
 from calendar_event_checker import attempt_convert_to_datetime_if_not
 from calendar_event_checker import check_events
@@ -16,8 +17,8 @@ class TestEventChecker(unittest.TestCase):
 
     def setUp(self):
         self.test_calendar = Calendar()
-        self.test_event_checker.add('prodid', 'test_calendar')
-        self.test_event_checker.add('version', '2.0')
+        self.test_calendar.add('prodid', 'test_calendar')
+        self.test_calendar.add('version', '2.0')
         self.event = Event()
         self.event.add('summary', 'test event')
         self.event.add('dtstart', datetime.datetime.now(pytz.utc))

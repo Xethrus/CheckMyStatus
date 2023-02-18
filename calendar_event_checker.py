@@ -44,7 +44,7 @@ def attempt_convert_to_datetime_if_not(dt_time):
         print("unsupported dt_time format for VEVENT")
         return dt_time
 
-def check_events(calendar, get_metadata_from_db, modulate_status):
+def check_events(calendar, get_metadata_from_db, modulate_status, config_path):
     print("running check events")
     event_found = False
     now = datetime.datetime.now()
@@ -75,7 +75,7 @@ def check_events(calendar, get_metadata_from_db, modulate_status):
         #need to think of smartest way to set busy status, I think i have access to global status and expiration so maybe just a direct mod
         while True:
             try:
-                config = Configuration.get_instance('/home/xethrus/paidProject/AvaliablilityProgram/config.ini')
+                config = Configuration.get_instance(config_path)
                 database_connection = generate_database_connection(config)
                 retrieved_metadata = get_metadata_from_db(database_connection, config)
             except Exception as err:
@@ -96,34 +96,6 @@ def check_events(calendar, get_metadata_from_db, modulate_status):
         print("no event at current time")
     return event_found
 
-def test_event_checker():
-
-    print("i am running the test")
-
-    test_calendar = Calendar()
-    test_calendar.add('prodid', 'test_calendar')
-    test_calendar.add('version', '2.0')
-
-    event = Event()
-
-    event.add('summary', 'test event')
-    event.add('dtstart', datetime.datetime.now(pytz.utc))
-    dt_end = datetime.datetime.now() + datetime.timedelta(minutes=1)
-    event.add('dtend', dt_end)
-    event.add('dtstamp', datetime.datetime.now(pytz.utc))
-    event['uid'] = 'test-uid-123'
-
-    test_calendar.add_component(event)
-
-    print("running here lol")
-    event_found = check_events(test_calendar, get_metadata_from_db, modulate_status)
-    print("running here too lol")
-    if event_found:
-        print("event found, test found")
-    else:
-        print("event not found, test failed")
-
-
 def event_thread_wrapper(config):
     print(" in wrap calendar thread running")
     def event_checker_thread(config):
@@ -138,7 +110,8 @@ def event_thread_wrapper(config):
         try:
             response_from_ical_request = requests.get(ics_download_link)
             calendar = Calendar.from_ical(response_from_ical_request.text)
-            check_events(calendar, get_metadata_from_db, modulate_status)
+            config_path = '/home/xethrus/paidProject/AvaliablilityProgram/config.ini'
+            check_events(calendar, get_metadata_from_db, modulate_status, config_path)
         except requests.exceptions.RequestException as err:
             print("Error fetching calendar:", err)
         finally:
