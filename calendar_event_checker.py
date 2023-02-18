@@ -3,6 +3,7 @@ from icalendar import Calendar, Event, vDDDTypes
 from datetime import datetime
 from config import generate_database_connection
 from config import Configuration
+from database_interaction_functions import modulate_status, get_metadata_from_db
 
 import schedule
 import pytz
@@ -74,7 +75,7 @@ def check_events(calendar, get_metadata_from_db, modulate_status):
         #need to think of smartest way to set busy status, I think i have access to global status and expiration so maybe just a direct mod
         while True:
             try:
-                config = Configuration.get_instance('/home/xethrus/paidProject/AvaliablilityProgram')
+                config = Configuration.get_instance('/home/xethrus/paidProject/AvaliablilityProgram/config.ini')
                 database_connection = generate_database_connection(config)
                 retrieved_metadata = get_metadata_from_db(database_connection, config)
             except Exception as err:

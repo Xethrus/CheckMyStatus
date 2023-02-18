@@ -12,7 +12,7 @@ class Metadata:
 
 def get_metadata_from_db(database_connection, config):
     connection = database_connection
-    current_user_from_config = config.user['user_name']
+    current_user_from_config = config.user_name
     try:
         cursor = connection.cursor()
         result = cursor.execute('''
@@ -47,7 +47,7 @@ def validate_duration(duration):
 def modulate_status(wanted_status, wanted_duration, database_connection):
     print("currently supplying status, duration:", wanted_status, wanted_duration)
     try:
-        config = Configuration.get_instance('/home/xethrus/paidProject/AvaliablilityProgram')
+        config = Configuration.get_instance('/home/xethrus/paidProject/AvaliablilityProgram/config.ini')
     except:
         print("failed to retreive configuration from singleton")
     try:

@@ -97,10 +97,10 @@ def get_status():
 
 if __name__ == '__main__':
     #pass configuration object
-    config = Configuration.get_instance('/home/xethrus/paidProject/AvaliablilityProgram')
-    server_host = config.server['server_host']
-    server_debug = config.server['server_debug']
-    server_port = config.server['server_port']
+    config = Configuration.get_instance('/home/xethrus/paidProject/AvaliablilityProgram/config.ini')
+    server_host = config.server_host
+    server_debug = config.server_debug
+    server_port = config.server_port
     try:
         status_thread = threading.Thread(target=status_expiration_task.status_thread_wrapper, args=(config,))
         status_thread.start()
