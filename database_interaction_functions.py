@@ -14,29 +14,29 @@ def test_tables_in_connection(database_connection):
     cursor.execute("SELECT name FROM sqlite_master WHERE type='table'")
     tables = cursor.fetchall()
     for table in tables:
-        print("TABLE NAME PLEASE:", table[0])
+        print("TABLE NAME PLEASkE:", table[0])
 def get_metadata_from_db(database_connection, config):
     print("get metadata called")
-    connection = database_connection
     current_user_from_config = config.user_name
-    print("db conneciton:",database_connection)
     try:
-        cursor = connection.cursor()
-        result = cursor.execute('''
+        cursor = database_connection.cursor()
+        cursor.execute('''
             SELECT status, expiration FROM savedState
             WHERE user = (?)
-                                ''', (current_user_from_config,))
-        print("sql select statement completed")
-        fetched_data = result.fetchone()
-        metadata_return = Metadata(status = fetched_data[0], expiration = fetched_data[1])
-        connection.commit()
-        print("connection commited")
+        ''', (current_user_from_config,))
+        fetched_data = cursor.fetchone()
+        if fetched_data:
+            status, expiration = fetched_data
+            metadata_return = Metadata(status=status, expiration=expiration)
+        else:
+            raise ValueError(f"No data found for user '{current_user_from_config}'")
     except sqlite3.Error as error:
-            print("failed to retrieve status", error)
+        print(f"Error retrieving metadata: {error}")
+        raise
     finally:
-        if(connection):
-            connection.close()
-            return metadata_return
+        if database_connection:
+            database_connection.close()
+    return metadata_return
 
 
 def validate_status(status):

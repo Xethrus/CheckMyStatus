@@ -41,7 +41,7 @@ def attempt_convert_to_datetime_if_not(dt_time):
         print("calendar_event_checker.py- unsupported dt_time format for VEVENT")
         return dt_time
 
-def check_events(calendar, get_metadata_from_db, modulate_status, config_path):
+def check_events(calendar, get_metadata_from_db, modulate_status, config_path, database_connection):
     event_found = False
     now = datetime.datetime.now()
     try:
@@ -72,7 +72,7 @@ def check_events(calendar, get_metadata_from_db, modulate_status, config_path):
             try:
                 config = Configuration.get_instance(config_path)
                 print("calendar_event_checker.py- config went through")
-                database_connection = generate_database_connection(config)
+                #database_connection = generate_database_connection(config)
                 print("calendar_event_checker.py- database_connection working")
             except Exception as err:
                 print("calendar_event_checker.py- unable to get metadata")

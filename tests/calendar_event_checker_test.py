@@ -8,8 +8,8 @@ import sqlite3
 from datetime import datetime
 from datetime import timedelta
 from icalendar import Calendar, Event 
-from calendar_event_checker import configure_timezone_to_UTC_if_naive
-from calendar_event_checker import attempt_convert_to_datetime_if_not
+#from calendar_event_checker import configure_timezone_to_UTC_if_naive
+#from calendar_event_checker import attempt_convert_to_datetime_if_not
 from calendar_event_checker import check_events
 from database_interaction_functions import get_metadata_from_db
 from database_interaction_functions import modulate_status
@@ -19,7 +19,6 @@ from config import Configuration, generate_database_connection
 
 
 class TestEventChecker(unittest.TestCase):
-
     def setUp(self):
         self.test_calendar = Calendar()
         self.test_calendar.add('prodid', 'test_calendar')
@@ -33,7 +32,6 @@ class TestEventChecker(unittest.TestCase):
         self.event['uid'] = 'test-uid-123'
         self.test_calendar.add_component(self.event)
         
-
         self.connection = sqlite3.connect(':memory:')
         self.cursor = self.connection.cursor()
         self.cursor.execute('''
@@ -50,10 +48,12 @@ class TestEventChecker(unittest.TestCase):
 
     def test_event_checker(self):
         config_path = '/home/xethrus/paidProject/AvaliablilityProgram/tests/test_config.ini'
-        test_config = Configuration.get_instance(config_path)
+#        test_config = Configuration.get_instance(config_path)
+        test_config = Configuration.get_instance('/home/xethrus/paidProject/AvaliablilityProgram/tests/test_config.ini')
 
-        event_found = check_events(self.test_calendar, get_metadata_from_db, modulate_status, config_path)
         metadata = get_metadata_from_db(self.connection, test_config)
+
+        event_found = check_events(self.test_calendar, get_metadata_from_db, modulate_status, config_path, self.connection)
         self.assertIsInstance(metadata, Metadata)
         self.assertEqual(event_found, True)
         self.assertEqual(metadata.status, 'busy')
