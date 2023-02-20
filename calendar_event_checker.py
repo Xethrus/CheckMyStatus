@@ -47,52 +47,44 @@ def check_events(calendar, get_metadata_from_db, modulate_status, config_path, d
     try:
         now = configure_timezone_to_UTC_if_naive(now)
     except:
-        print("unable to configure the timezone of now")
+        print(f"Error configuring timezone: {err}")
     for component in calendar.walk():
         if component.name != "VEVENT":
             continue
         dtstart = component.get("dtstart")
         dtend = component.get("dtend")
-        ##could make function for this for readability
-        start = dtstart.dt
-        end = dtend.dt
         try:
-            start = attempt_convert_to_datetime_if_not(start)
-            end = attempt_convert_to_datetime_if_not(end)
-        except:
-            print("calendar_event_checker.py- unable to convert to datetime")
-        #all of these should now be UTC plspls
-        if not isinstance(start, datetime.datetime) and isinstance(end, datetime.datetime):
+            start = attempt_convert_to_datetime_if_not(dtstart.dt)
+            end = attempt_convert_to_datetime_if_not(dtend.dt)
+        except Exception as err:
+            print(f"Error converting to datetime: {err}")
+            continue
+        if not isinstance(start, datetime.datetime) or not isinstance(end, datetime.datetime):
             continue
         if not start <= now <= end:
             continue
         duration = end - start
-        #need to think of smartest way to set busy status, I think i have access to global status and expiration so maybe just a direct mod
         while True:
             try:
                 config = Configuration.get_instance(config_path)
-                print("calendar_event_checker.py- config went through")
-                #database_connection = generate_database_connection(config)
-                print("calendar_event_checker.py- database_connection working")
             except Exception as err:
-                print("calendar_event_checker.py- unable to get metadata")
-
-            print("calendar_event_checker.py- attempting to retrieve meta data from", database_connection)
-            retrieved_metadata = get_metadata_from_db(database_connection, config)
+                print(f"Error getting configuration instance: {err}")
+            try:
+                retrieved_metadata = get_metadata_from_db(database_connection, config)
+            except Exception as err:
+                print(f"Error getting metadata: {err}")
             if retrieved_metadata.status == "avaliable":
                 status = "busy"
                 try:
                     modulate_status(status, duration, database_connection)
-                except:
-                    print("calendar_event_checker.py- unable to modulate status")
+                except Exception as err:
+                    print(f"Error modulating status: {err}")
             else:
-                pass
-            #time.sleep(60)
+                break
         event_found = True
         break
-    #do nothing because no status updates needed
     if not event_found:
-        print("calendar_event_checker.py- no event at current time")
+        print("No event found at current time")
     return event_found
 
 def event_thread_wrapper(config):

@@ -9,15 +9,9 @@ class Metadata:
     status: str
     expiration: str
 
-def test_tables_in_connection(database_connection):
-    cursor = database_connection.cursor()
-    cursor.execute("SELECT name FROM sqlite_master WHERE type='table'")
-    tables = cursor.fetchall()
-    for table in tables:
-        print("TABLE NAME PLEASkE:", table[0])
 def get_metadata_from_db(database_connection, config):
-    print("get metadata called")
     current_user_from_config = config.user_name
+    print("current_user_from_config:", config.user_name, "from database:", config.db_file_title, "from connection:", database_connection)
     try:
         cursor = database_connection.cursor()
         cursor.execute('''
@@ -34,6 +28,8 @@ def get_metadata_from_db(database_connection, config):
         print(f"Error retrieving metadata: {error}")
         raise
     finally:
+        if cursor:
+            cursor.close()
         if database_connection:
             database_connection.close()
     return metadata_return

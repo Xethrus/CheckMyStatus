@@ -97,6 +97,4 @@ class TestEventChecker(unittest.TestCase):
 #        print("naive datetime string to utc datetime test failed")
 #
 if __name__ == '__main__':
-    config = Configuration.get_instance('/home/xethrus/paidProject/AvaliablilityProgram/config.ini')
-    test_tables_in_connection(generate_database_connection(config))
     unittest.main()
