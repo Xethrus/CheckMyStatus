@@ -1,0 +1,10 @@
+{
+  "site_package_search_strategy": "pep561",
+  "source_directories": [
+    "."
+  ],
+  "strict": true,
+  "search_path": [
+    {"site-package": "icalendar"}
+  ]
+}

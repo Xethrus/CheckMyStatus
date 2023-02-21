@@ -3,7 +3,6 @@ from database_interaction_functions import modulate_status
 from datetime import datetime
 from config import generate_database_connection
 
-import schedule
 import time
 import datetime
 

@@ -13,7 +13,6 @@ from config import Configuration
 
 import status_expiration_task
 import calendar_event_checker
-import schedule
 import datetime
 import http.server
 import socketserver

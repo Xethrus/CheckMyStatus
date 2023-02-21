@@ -14,10 +14,10 @@ class Configuration:
     user_key: str
     calendar_at: str
 
-    instance: "Configuration"
+    instance: Optional[Configuration] = None
 
-    def __new__(cls) -> Optional["Configuration"]:
-        if getattr(cls, "instance", None) is None:
+    def __new__(cls, *args, **kwargs) -> Configuration:
+        if not cls.instance:
             cls.instance = super().__new__(cls)
         return cls.instance
 
@@ -34,12 +34,12 @@ class Configuration:
         self.calendar_at = current_config.get('calendar', 'calendar_at')
 
     @classmethod
-    def get_instance(cls, config_file_path: str) -> "Configuration":
-        if getattr(cls, "instance", None) is None:
+    def get_instance(cls, config_file_path: str) -> Configuration:
+        if not cls.instance:
             cls.instance = Configuration(config_file_path)
         return cls.instance
 
-def generate_database_connection(config: Configuration) -> sqlite3.Connection: 
+def generate_database_connection(config): 
     database_connection = sqlite3.connect(config.db_file_title)
     print("attempting to connect to", config.db_file_title)
     if(database_connection):

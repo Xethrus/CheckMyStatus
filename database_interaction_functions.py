@@ -1,111 +1,83 @@
 import datetime
 import sqlite3
 
+from math import ceil
 from dataclasses import dataclass
 from config import Configuration 
+from typing import Union
 
 @dataclass
 class Metadata:
     status: str
     expiration: str
 
-def get_metadata_from_db(database_connection, config):
+def get_metadata_from_db(database_connection: sqlite3.Connection, config: Configuration) -> Metadata:
     current_user_from_config = config.user_name
     print("current_user_from_config:", config.user_name, "from database:", config.db_file_title, "from connection:", database_connection)
-    try:
-        cursor = database_connection.cursor()
-        cursor.execute('''
-            SELECT status, expiration FROM savedState
-            WHERE user = (?)
-        ''', (current_user_from_config,))
-        fetched_data = cursor.fetchone()
-        if fetched_data:
-            status, expiration = fetched_data
-            metadata_return = Metadata(status=status, expiration=expiration)
-        else:
-            raise ValueError(f"No data found for user '{current_user_from_config}'")
-    except sqlite3.Error as error:
-        print(f"Error retrieving metadata: {error}")
-        raise
-    finally:
-        if cursor:
-            cursor.close()
-        if database_connection:
-            database_connection.close()
+    metadata_return = None
+    cursor = database_connection.cursor()
+    cursor.execute('''
+        SELECT status, expiration FROM savedState
+        WHERE user = (?)
+    ''', (current_user_from_config,))
+    fetched_data = cursor.fetchone()
+    if fetched_data:
+        status, expiration = fetched_data
+        metadata_return = Metadata(status=status, expiration=expiration)
+    else:
+        raise ValueError(f"No data found for user '{current_user_from_config}'")
+    if metadata_return is None:
+        raise ValueError(f"No metadata was found for user '{current_user_from_config}'")
     return metadata_return
 
 
-def validate_status(status):
+def validate_status(status: str) -> str:
     print("attempting to validate status:", status)
     if status.strip() not in ["busy", "available"]:
-        return "Invalid Status", 400
-    else: 
-        print("validated status")
-        return status
+        raise ValueError(f"invalid status, status supplied: {status}")
+    print("validated status")
+    return status
 
-def validate_duration(duration):
+def validate_duration(duration: Union[int, datetime.timedelta]) -> int:
+    if isinstance(duration, datetime.timedelta):
+        duration = ceil(duration.seconds/60)
     if duration <= 0:
-        return "Invalid duration", 400
-    else: 
-        return duration
+        raise ValueError(f"invalid duration, duration supplied: {duration}")
+    return duration
 
-def modulate_status(wanted_status, wanted_duration, database_connection):
-    print("currently supplying status, duration:", wanted_status, wanted_duration)
-    try:
-        config = Configuration.get_instance('/home/xethrus/paidProject/AvaliablilityProgram/config.ini')
-    except:
-        print("failed to retreive configuration from singleton")
-    try:
-        wanted_status = validate_status(wanted_status)
-        wanted_duration = validate_duration(wanted_duration)
-    except:
-        print("invalid status or duration, not set")
-        #how can i just make this all stop if the status and duration fail, or does it with the error code returns 400
-
-    wanted_expiration_time = datetime.datetime.now() + datetime.timedelta(minutes=wanted_duration)
+def modulate_status(wanted_status: str, wanted_duration: Union[int, datetime.timedelta], database_connection: sqlite3.Connection) -> None:
+    config = Configuration.get_instance('/home/xethrus/paidProject/AvaliablilityProgram/config.ini')
+    wanted_status = validate_status(wanted_status)
+    wanted_duration = validate_duration(wanted_duration)
+    if isinstance(wanted_duration, datetime.timedelta):
+        wanted_expiration_time = datetime.datetime.now() + wanted_duration
+    else:
+        wanted_expiration_time = datetime.datetime.now() + datetime.timedelta(minutes=wanted_duration)
     user_from_config = config.user_name
-    try:
-        retrieved_metadata = get_metadata_from_db(database_connection, config)
-        current_status = retrieved_metadata.status
-        current_expiration = retrieved_metadata.expiration
-        current_db_file_title = config.db_file_title
-        status_difference = False
-        expiration_difference = False
+    retrieved_metadata = get_metadata_from_db(database_connection, config)
+    current_status = retrieved_metadata.status
+    current_expiration = retrieved_metadata.expiration
+    current_db_file_title = config.db_file_title
+    status_difference = wanted_status != current_status
+    expiration_difference = wanted_expiration_time != current_expiration
+    connection = database_connection
+    cursor = connection.cursor()
+    if(status_difference and expiration_difference):
+        result = cursor.execute('''
+            UPDATE savedState SET status = (?), expiration = (?)
+            WHERE user = (?)
+        ''', (wanted_status, wanted_expiration_time, user_from_config))
 
-        if wanted_status != current_status:
-            status_difference = True
-        
-        if wanted_expiration_time != current_expiration:
-            expiration_difference = True
-        
-        connection = database_connection
-        cursor = connection.cursor()
-        if(status_difference and expiration_difference):
-            result = cursor.execute('''
-                UPDATE savedState SET status = (?), expiration = (?)
-                WHERE user = (?)
-            ''', (wanted_status, wanted_expiration_time, user_from_config))
+    elif(status_difference):
+        result = cursor.execute('''
+            UPDATE savedState SET status = (?)
+            WHERE user = (?)
+        ''', (wanted_status, user_from_config))
 
-        elif(status_difference):
-            result = cursor.execute('''
-                UPDATE savedState SET status = (?)
-                WHERE user = (?)
-            ''', (wanted_status, user_from_config))
-
-        elif(expiration_difference):
-            result = cursor.execute('''
-                UPDATE savedState SET expiration = (?)
-                WHERE user = (?)
-            ''', (wanted_expiration_time, user_from_config))
-        else:
-            print("no changes were requested")
-
-        connection.commit()
-    except sqlite3.Error as error:
-        print("failed to update savedState table", error)
-
-    finally:
-        if(connection):
-            connection.close()
-    return "Status Updated", 200
-
+    elif(expiration_difference):
+        result = cursor.execute('''
+            UPDATE savedState SET expiration = (?)
+            WHERE user = (?)
+        ''', (wanted_expiration_time, user_from_config))
+    else:
+        print("no changes were requested")

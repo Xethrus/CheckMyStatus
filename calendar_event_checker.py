@@ -1,16 +1,16 @@
 from threading import Thread
 from icalendar import Calendar, Event, vDDDTypes
-from datetime import datetime
 from config import generate_database_connection
 from config import Configuration
 from database_interaction_functions import modulate_status, get_metadata_from_db
+from typing import Union
 
-import schedule
 import pytz
 import datetime
 import requests
 import time
 import json
+import sqlite3
 
 
 #from config import create_config
@@ -19,35 +19,25 @@ import json
 #from database_interaction_functions import modulate_status
 #from database_interaction_functions import get_metadata_from_db
 
-def configure_timezone_to_UTC_if_naive(unknown_datetime): 
+def configure_timezone_to_UTC_if_naive(unknown_datetime: datetime.datetime) -> datetime.datetime: 
     if unknown_datetime.tzinfo is not pytz.UTC:
         utc_timezone = pytz.timezone("UTC")
         unknown_datetime = unknown_datetime.astimezone(utc_timezone)
-        return unknown_datetime
     return unknown_datetime
 
-def attempt_convert_to_datetime_if_not(dt_time):
+def attempt_convert_to_datetime_if_not(dt_time: Union[str, datetime.datetime]) -> datetime.datetime:
     if isinstance(dt_time, datetime.datetime):
         return configure_timezone_to_UTC_if_naive(dt_time)
     elif isinstance(dt_time, str):
-        try:
-            date_with_time = '%Y-%m-%d %H:%M:%S.%f %Z'
-            datetime.strptime(dt_time, date_with_time)
-            return configure_timezone_to_UTC_if_naive(datetime.strptime(dt_time, date_with_time))
-        except ValueError:
-            print("calendar_event_checker.py- string not matching \'%Y-%m-%d %H:%M:%S.%f %Z\' format")
-            return dt_time
+        date_with_time = '%Y-%m-%d %H:%M:%S.%f %Z'
+        return configure_timezone_to_UTC_if_naive(datetime.datetime.strptime(dt_time, date_with_time))
     else:
-        print("calendar_event_checker.py- unsupported dt_time format for VEVENT")
-        return dt_time
+        raise ValueError("calendar_event_checker.py- unsupported dt_time format for VEVENT")
 
-def check_events(calendar, get_metadata_from_db, modulate_status, config_path, database_connection):
+def check_events(calendar: Calendar, config_path: str, database_connection: sqlite3.Connection) -> bool:
     event_found = False
     now = datetime.datetime.now()
-    try:
-        now = configure_timezone_to_UTC_if_naive(now)
-    except:
-        print(f"Error configuring timezone: {err}")
+    now = configure_timezone_to_UTC_if_naive(now)
     for component in calendar.walk():
         if component.name != "VEVENT":
             continue
@@ -56,7 +46,7 @@ def check_events(calendar, get_metadata_from_db, modulate_status, config_path, d
         try:
             start = attempt_convert_to_datetime_if_not(dtstart.dt)
             end = attempt_convert_to_datetime_if_not(dtend.dt)
-        except Exception as err:
+        except ValueError as err:
             print(f"Error converting to datetime: {err}")
             continue
         if not isinstance(start, datetime.datetime) or not isinstance(end, datetime.datetime):
@@ -65,20 +55,11 @@ def check_events(calendar, get_metadata_from_db, modulate_status, config_path, d
             continue
         duration = end - start
         while True:
-            try:
-                config = Configuration.get_instance(config_path)
-            except Exception as err:
-                print(f"Error getting configuration instance: {err}")
-            try:
-                retrieved_metadata = get_metadata_from_db(database_connection, config)
-            except Exception as err:
-                print(f"Error getting metadata: {err}")
+            config = Configuration.get_instance(config_path)
+            retrieved_metadata = get_metadata_from_db(database_connection, config)
             if retrieved_metadata.status == "avaliable":
                 status = "busy"
-                try:
-                    modulate_status(status, duration, database_connection)
-                except Exception as err:
-                    print(f"Error modulating status: {err}")
+                modulate_status(status, duration, database_connection)
             else:
                 break
         event_found = True
@@ -87,22 +68,16 @@ def check_events(calendar, get_metadata_from_db, modulate_status, config_path, d
         print("No event found at current time")
     return event_found
 
-def event_thread_wrapper(config):
-    def event_checker_thread(config):
+def event_thread_wrapper(config: Configuration) -> None:
+    def event_checker_thread(config: Configuration) -> None:
         print("in thread calendar thread running")
         running = True
-        try:
-            #issue making multi configs
-            ics_download_link = config.calendar_at
-        except:
-            print("failed to retrieve from config object data:")
-            print("'calendar_at'")
-        try:
-            response_from_ical_request = requests.get(ics_download_link)
-            calendar = Calendar.from_ical(response_from_ical_request.text)
-            config_path = '/home/xethrus/paidProject/AvaliablilityProgram/config.ini'
-            check_events(calendar, get_metadata_from_db, modulate_status, config_path)
-        except requests.exceptions.RequestException as err:
-            print("Error fetching calendar:", err)
-        finally:
-            time.sleep(60)
+        ics_download_link = config.calendar_at
+        response_from_ical_request = requests.get(ics_download_link)
+        calendar = Calendar.from_ical(response_from_ical_request.text)
+        config_path = '/home/xethrus/paidProject/AvaliablilityProgram/config.ini'
+        connection = generate_database_connection(config)
+        check_events(calendar, config_path, connection) 
+        time.sleep(60)
+
+    # TODO(xethrus): lol

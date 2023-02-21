@@ -13,7 +13,6 @@ from icalendar import Calendar, Event
 from calendar_event_checker import check_events
 from database_interaction_functions import get_metadata_from_db
 from database_interaction_functions import modulate_status
-from database_interaction_functions import test_tables_in_connection
 from config import Configuration, generate_database_connection
 
 
