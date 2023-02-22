@@ -42,7 +42,7 @@ class TestEventChecker(unittest.TestCase):
         ''')
         self.cursor.execute('''
             INSERT INTO savedState (user, status, expiration)
-            VALUES ('testuser', 'avaliable', '2022-02-22 22:22:22');
+            VALUES ('testuser', 'busy', '2022-02-22 22:22:22');
         ''')
 
     def test_event_checker(self) -> None:
