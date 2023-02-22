@@ -45,8 +45,7 @@ def validate_duration(duration: Union[int, datetime.timedelta]) -> int:
         raise ValueError(f"invalid duration, duration supplied: {duration}")
     return duration
 
-def modulate_status(wanted_status: str, wanted_duration: Union[int, datetime.timedelta], database_connection: sqlite3.Connection) -> None:
-    config = Configuration.get_instance('/home/xethrus/paidProject/AvaliablilityProgram/config.ini')
+def modulate_status(wanted_status: str, wanted_duration: Union[int, datetime.timedelta], database_connection: sqlite3.Connection, config: Configuration) -> None:
     wanted_status = validate_status(wanted_status)
     wanted_duration = validate_duration(wanted_duration)
     if isinstance(wanted_duration, datetime.timedelta):

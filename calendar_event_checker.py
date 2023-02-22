@@ -34,7 +34,7 @@ def attempt_convert_to_datetime_if_not(dt_time: Union[str, datetime.datetime]) -
     else:
         raise ValueError("calendar_event_checker.py- unsupported dt_time format for VEVENT")
 
-def check_events(calendar: Calendar, config_path: str, database_connection: sqlite3.Connection) -> bool:
+def check_events(calendar: Calendar, config: Configuration, database_connection: sqlite3.Connection) -> bool:
     event_found = False
     now = datetime.datetime.now()
     now = configure_timezone_to_UTC_if_naive(now)
@@ -55,7 +55,6 @@ def check_events(calendar: Calendar, config_path: str, database_connection: sqli
             continue
         duration = end - start
         while True:
-            config = Configuration.get_instance(config_path)
             retrieved_metadata = get_metadata_from_db(database_connection, config)
             if retrieved_metadata.status == "avaliable":
                 status = "busy"
@@ -75,9 +74,8 @@ def event_thread_wrapper(config: Configuration) -> None:
         ics_download_link = config.calendar_at
         response_from_ical_request = requests.get(ics_download_link)
         calendar = Calendar.from_ical(response_from_ical_request.text)
-        config_path = '/home/xethrus/paidProject/AvaliablilityProgram/config.ini'
         connection = generate_database_connection(config)
-        check_events(calendar, config_path, connection) 
+        check_events(calendar, config, connection) 
         time.sleep(60)
 
     # TODO(xethrus): lol

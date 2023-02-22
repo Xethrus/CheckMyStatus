@@ -24,7 +24,7 @@ class TestGetMetadataFromDB(unittest.TestCase):
         self.connection.close()
 
     def test_get_metadata_from_db(self) -> None:
-        test_config = Configuration.get_instance('/home/xethrus/paidProject/AvaliablilityProgram/tests/test_config.ini')
+        test_config = Configuration.get_instance('test_config.ini')
         metadata = get_metadata_from_db(self.connection, test_config)
         self.assertIsInstance(metadata, Metadata)
         self.assertEqual(metadata.status, 'busy')

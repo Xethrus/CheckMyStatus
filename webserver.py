@@ -58,7 +58,7 @@ def set_status() -> ResponseReturnValue:
     req_status = request.json.get('status')
     req_duration = request.json.get('duration', 30)
     with generate_database_connection(config) as connection:
-        modulate_status(req_status, req_duration, connection)
+        modulate_status(req_status, req_duration, connection, config)
     return "Status Updated", 200 
 
 
@@ -81,7 +81,7 @@ if __name__ == '__main__':
     main()
     #pass configuration object
 def main() -> None:
-    config = Configuration.get_instance('/home/xethrus/paidProject/AvaliablilityProgram/config.ini')
+    config = Configuration.get_instance("config.ini")
     server_host = config.server_host
     server_debug = config.server_debug
 
