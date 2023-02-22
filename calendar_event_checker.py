@@ -58,7 +58,7 @@ def check_events(calendar: Calendar, config: Configuration, database_connection:
             retrieved_metadata = get_metadata_from_db(database_connection, config)
             if retrieved_metadata.status == "avaliable":
                 status = "busy"
-                modulate_status(status, duration, database_connection)
+                modulate_status(status, duration, database_connection, config)
             else:
                 break
         event_found = True

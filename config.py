@@ -14,24 +14,33 @@ class Configuration:
     user_name: str
     user_key: str
     calendar_at: str
-    config_path: str
-    config_file_name: str
+    config_path: Optional[str] = None
+    config_file_name: Optional[str] = None
 
-    instance: "Configuration"
+
+    instance: Optional["Configuration"] = None
 
     def __init__(self, config_file_name: str) -> None:
-        current_dir = os.path.dirname(os.path.abspath(__file__))
+        current_dir = os.getcwd()
+        print("the current directory is:", current_dir)
         config_path = os.path.join(current_dir, config_file_name)
+        #enables use on windows-typed file paths lol
+#        raw_config_path = "%r"%config_path
+#        config_path = raw_config_path
+        
+        print("the current path is:", config_path)
         
         current_config = configparser.ConfigParser()
         current_config.read(config_path)
+        print("the current path is:", config_path)
+        self.config_path = config_path
+        self.config_file_name = config_file_name
 
-        self.cofig_path = current_config.set('config', 'config_path', config_path)
-        self.config_file_name = current_config.set('config', 'config_path', config_file_name)
+        with open(config_path, 'w') as file:
+            current_config.write(file)
 
-        with open(config_file_name, 'w') as config_file:
-            config.write(config_file)
-
+        self.config_path = current_config.get('config', 'config_path')
+        self.config_file_name = current_config.get('config', 'config_file_name')
         self.db_host = current_config.get('database', 'db_host')
         self.db_file_title = current_config.get('database', 'db_file_title')
         self.server_host = current_config.get('server', 'server_host')

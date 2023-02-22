@@ -16,7 +16,7 @@ def status_thread_wrapper(config: Configuration) -> None:
                 datetime_format = '%Y-%m-%d %H:%M:%S.%f'
                 expiration_time = datetime.datetime.strptime(expiration_time, datetime_format)
                 if expiration_time <= datetime.datetime.now():
-                    modulate_status("available", 1, connection)
+                    modulate_status("available", 1, connection, config)
 
     while True:
         status_expiration(config)

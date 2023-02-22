@@ -46,13 +46,11 @@ class TestEventChecker(unittest.TestCase):
         ''')
 
     def test_event_checker(self) -> None:
-        config_path = '/home/xethrus/paidProject/AvaliablilityProgram/tests/test_config.ini'
-
         test_config = Configuration.get_instance('test_config.ini')
 
         metadata = get_metadata_from_db(self.connection, test_config)
 
-        event_found = check_events(self.test_calendar, config, self.connection)
+        event_found = check_events(self.test_calendar, test_config, self.connection)
         self.assertIsInstance(metadata, Metadata)
         self.assertEqual(event_found, True)
         self.assertEqual(metadata.status, 'busy')
