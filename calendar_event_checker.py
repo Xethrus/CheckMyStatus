@@ -77,5 +77,8 @@ def event_thread_wrapper(config: Configuration) -> None:
         connection = generate_database_connection(config)
         check_events(calendar, config, connection) 
         time.sleep(60)
+    while running == True:
+        event_checker_thread(config)
+        time.sleep(60)
 
     # TODO(xethrus): lol

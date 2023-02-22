@@ -77,9 +77,6 @@ def get_status() -> ResponseReturnValue:
 #    thread.daemon = True
 #    thread.start()
 
-if __name__ == '__main__':
-    main()
-    #pass configuration object
 def main() -> None:
     config = Configuration.get_instance("config.ini")
     server_host = config.server_host
@@ -98,3 +95,6 @@ def main() -> None:
         print("webserver.py- Error starting event thread:", error)
     app.run(host=server_host, debug=server_debug, port = server_port)
     
+if __name__ == '__main__':
+    main()
+    #pass configuration object
