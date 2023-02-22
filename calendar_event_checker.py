@@ -70,14 +70,12 @@ def check_events(calendar: Calendar, config: Configuration, database_connection:
 def event_thread_wrapper(config: Configuration) -> None:
     def event_checker_thread(config: Configuration) -> None:
         print("in thread calendar thread running")
-        running = True
         ics_download_link = config.calendar_at
         response_from_ical_request = requests.get(ics_download_link)
         calendar = Calendar.from_ical(response_from_ical_request.text)
         connection = generate_database_connection(config)
         check_events(calendar, config, connection) 
-        time.sleep(60)
-    while running == True:
+    while True:
         event_checker_thread(config)
         time.sleep(60)
 
