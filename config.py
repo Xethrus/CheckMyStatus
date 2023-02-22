@@ -8,8 +8,8 @@ class Configuration:
     db_host: str
     db_file_title: str
     server_host: str
-    server_port: str
-    server_debug: str
+    server_port: int 
+    server_debug: bool
     user_name: str
     user_key: str
     calendar_at: str
@@ -27,8 +27,8 @@ class Configuration:
         self.db_host = current_config.get('database', 'db_host')
         self.db_file_title = current_config.get('database', 'db_file_title')
         self.server_host = current_config.get('server', 'server_host')
-        self.server_port = current_config.get('server', 'server_port')
-        self.server_debug = current_config.get('server', 'server_debug')
+        self.server_port = current_config.getint('server', 'server_port')
+        self.server_debug = current_config.getboolean('server', 'server_debug')
         self.user_name = current_config.get('user', 'user_name')
         self.user_key = current_config.get('user', 'user_key')
         self.calendar_at = current_config.get('calendar', 'calendar_at')

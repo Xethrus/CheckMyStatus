@@ -5,11 +5,13 @@ from icalendar import Calendar, Event
 #from calendar_event_checker import event_checker_thread
 #from calendar_event_checker import stop_event_checker_thread
 #from status_expiration_task import status_expiration
-from database_interaction_functions import Metadata
+from config import generate_database_connection
+from database_interaction_functions import Metadata, validate_duration
 from database_interaction_functions import modulate_status
-from database_interaction_functions import get_metadata_from_db
+from database_interaction_functions import get_metadata_from_db, validate_status
 from config import Configuration
-
+from typing import Union
+from flask.typing import ResponseReturnValue
 
 import status_expiration_task
 import calendar_event_checker
@@ -28,62 +30,43 @@ import threading
 
 app = Flask(__name__)
 
-status = "available"
-expiration_time = datetime.datetime.now()
 
+class UnauthorizedTokenError(Exception):
+    pass
 
-#print(config.calendar['calendar_at'])
-#print(config.database['db_host'])
-#print(config.database['db_file_title'])
-#print(config.server['server_host'])
-#print(config.server['server_port'])
-#print(config.server['server_debug'])
-#print(config.user['user_name'])
-#print(config.user['user_key'])
-
-
-##key checker
-def key_validation(key, recieved_key):
+def key_validation(key: str, recieved_key: str) -> None:
     if key != recieved_key:
-        print("failed key")
-        return "Unauthorized Token", 401
-    else: 
-        print("key accepted")
-        pass
-
-def validate_status(status):
-    if status.strip() not in ["busy", "available"]:
-        return "Invalid Status", 400
-    else: 
-        return status
-def validate_duration(duration):
-    if duration <= 0:
-        return "Invalid duration", 400
-    else: 
-        return duration
+        raise UnauthorizedTokenError("Unauthorized token")
 
 @app.route('/set_status', methods=['POST'])
-def set_status():
+def set_status() -> ResponseReturnValue:
     #phase this out soon
     #global status, expiration_time
     
-    #checking if correct token is recieved in req
-    current_user_key = config.user['user_key']
-    key_validation(current_user_key, request.headers.get('token'))
+    config = Configuration.get_instance("config.ini")
+    current_user_key = config.user_name
+    token = request.headers.get('token')
+
+    if token:
+        try:
+            key_validation(current_user_key, token)
+        except UnauthorizedTokenError:
+            return "Unauthorized token", 401
+    else:
+        return "missing token", 401
 
     req_status = request.json.get('status')
-
-    ##make this make sure that the time is atleast 5 minutes or so
     req_duration = request.json.get('duration', 30)
-    modulate_status(req_status, req_duration)
+    with generate_database_connection(config) as connection:
+        modulate_status(req_status, req_duration, connection)
     return "Status Updated", 200 
 
 
 
 @app.route('/get_status', methods=['GET'])
-def get_status():
-    config
-    retrieved_metadata = get_metadata_from_db(generate_database_connection(), )
+def get_status() -> ResponseReturnValue:
+    config = Configuration.get_instance("config.ini")
+    retrieved_metadata = get_metadata_from_db(generate_database_connection(config), config)
     #status validation
     print(retrieved_metadata.status)
     return jsonify({"status": retrieved_metadata.status, "expiration_time": retrieved_metadata.expiration})
@@ -95,10 +78,13 @@ def get_status():
 #    thread.start()
 
 if __name__ == '__main__':
+    main()
     #pass configuration object
+def main() -> None:
     config = Configuration.get_instance('/home/xethrus/paidProject/AvaliablilityProgram/config.ini')
     server_host = config.server_host
     server_debug = config.server_debug
+
     server_port = config.server_port
     try:
         status_thread = threading.Thread(target=status_expiration_task.status_thread_wrapper, args=(config,))

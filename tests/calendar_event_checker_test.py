@@ -12,13 +12,13 @@ from icalendar import Calendar, Event
 #from calendar_event_checker import attempt_convert_to_datetime_if_not
 from calendar_event_checker import check_events
 from database_interaction_functions import get_metadata_from_db
-from database_interaction_functions import modulate_status
+from database_interaction_functions import modulate_status, Metadata
 from config import Configuration, generate_database_connection
 
 
 
 class TestEventChecker(unittest.TestCase):
-    def setUp(self):
+    def setUp(self) -> None:
         self.test_calendar = Calendar()
         self.test_calendar.add('prodid', 'test_calendar')
         self.test_calendar.add('version', '2.0')
@@ -45,23 +45,19 @@ class TestEventChecker(unittest.TestCase):
             VALUES ('testuser', 'avaliable', '2022-02-22 22:22:22');
         ''')
 
-    def test_event_checker(self):
+    def test_event_checker(self) -> None:
         config_path = '/home/xethrus/paidProject/AvaliablilityProgram/tests/test_config.ini'
-#        test_config = Configuration.get_instance(config_path)
+
         test_config = Configuration.get_instance('/home/xethrus/paidProject/AvaliablilityProgram/tests/test_config.ini')
 
         metadata = get_metadata_from_db(self.connection, test_config)
 
-        event_found = check_events(self.test_calendar, get_metadata_from_db, modulate_status, config_path, self.connection)
+        event_found = check_events(self.test_calendar, config_path, self.connection)
         self.assertIsInstance(metadata, Metadata)
         self.assertEqual(event_found, True)
         self.assertEqual(metadata.status, 'busy')
 
-    def tearDown(self):
-        #remove all subcomponents from calendar by assigning empty list
-        #self.test_calendar.subcomponents = []
-        #self.test_calendar = None
-        #self.cursor.close()
+    def tearDown(self) -> None:
         self.connection.close()
 
 #def test_timezone_configurer():

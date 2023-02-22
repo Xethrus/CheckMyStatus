@@ -6,7 +6,7 @@ from database_interaction_functions import get_metadata_from_db, Metadata
 from config import Configuration
 
 class TestGetMetadataFromDB(unittest.TestCase):
-    def setUp(self):
+    def setUp(self) -> None:
         self.connection = sqlite3.connect(':memory:')
         self.cursor = self.connection.cursor()
         self.cursor.execute('''
@@ -20,10 +20,10 @@ class TestGetMetadataFromDB(unittest.TestCase):
             INSERT INTO savedState (user, status, expiration)
             VALUES ('testuser', 'busy', '2022-02-22 22:22:22');
         ''')
-    def tearDown(self):
+    def tearDown(self) -> None:
         self.connection.close()
 
-    def test_get_metadata_from_db(self):
+    def test_get_metadata_from_db(self) -> None:
         test_config = Configuration.get_instance('/home/xethrus/paidProject/AvaliablilityProgram/tests/test_config.ini')
         metadata = get_metadata_from_db(self.connection, test_config)
         self.assertIsInstance(metadata, Metadata)
