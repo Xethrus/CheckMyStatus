@@ -32,28 +32,21 @@ def attempt_convert_to_datetime_if_not(dt_time: Union[str, datetime.datetime]) -
         date_with_time = '%Y-%m-%d %H:%M:%S.%f %Z'
         return configure_timezone_to_UTC_if_naive(datetime.datetime.strptime(dt_time, date_with_time))
     else:
-        raise ValueError("calendar_event_checker.py- unsupported dt_time format for VEVENT")
+        print("unaccepted dt_time given:", dt_time)
+        #raise ValueError("unsupported dt_time format for VEVENT")
 
 def check_events(calendar: Calendar, config: Configuration, database_connection: sqlite3.Connection) -> bool:
     event_found = False
     now = datetime.datetime.now()
     now = configure_timezone_to_UTC_if_naive(now)
-    for component in calendar.walk():
-        if component.name != "VEVENT":
+    for event in calendar.walk('VEVENT'):
+        end_time = event['DTEND'].dt
+        start_time = event['DTSTART'].dt
+        if not isinstance(start_time, datetime.datetime) or not isinstance(end_time, datetime.datetime):
             continue
-        dtstart = component.get("dtstart")
-        dtend = component.get("dtend")
-        try:
-            start = attempt_convert_to_datetime_if_not(dtstart.dt)
-            end = attempt_convert_to_datetime_if_not(dtend.dt)
-        except ValueError as err:
-            print(f"Error converting to datetime: {err}")
+        if not start_time <= now <= end_time:
             continue
-        if not isinstance(start, datetime.datetime) or not isinstance(end, datetime.datetime):
-            continue
-        if not start <= now <= end:
-            continue
-        duration = end - start
+        duration = end_time - start_time
         while True:
             retrieved_metadata = get_metadata_from_db(database_connection, config)
             if retrieved_metadata.status == "avaliable":
