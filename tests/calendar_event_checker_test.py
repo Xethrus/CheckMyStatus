@@ -1,5 +1,9 @@
+import os
 import sys
-sys.path.append('/home/xethrus/paidProject/AvaliablilityProgram')
+import typing 
+
+parent_dir: str = os.path.abspath(os.path.join(os.getcwd(), os.pardir))
+sys.path.append(parent_dir)
 import pytz
 import unittest
 import sqlite3

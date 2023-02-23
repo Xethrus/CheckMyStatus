@@ -2,7 +2,7 @@ import configparser
 import os
 import sqlite3
 from dataclasses import dataclass
-from typing import Optional
+from typing import Optional, Union
 
 @dataclass
 class Configuration:
@@ -51,7 +51,9 @@ class Configuration:
     def get_instance(cls, config_name: str) -> "Configuration":
         if getattr(cls, "instance", None) is None:
             cls.instance = Configuration(config_name)
-        return cls.instance
+        config_instance = cls.instance
+        assert config_instance is not None
+        return config_instance
 
 def generate_database_connection(config: Configuration) -> sqlite3.Connection: 
     database_connection = sqlite3.connect(config.db_file_title)
