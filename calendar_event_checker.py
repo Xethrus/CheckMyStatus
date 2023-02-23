@@ -57,19 +57,18 @@ def check_events(calendar: Calendar, config: Configuration, database_connection:
         event_found = True
         break
     if not event_found:
-        print("No event found at current time")
+    else:
+        print("event found at current time")
     return event_found
 
 def event_thread_wrapper(config: Configuration) -> None:
     def event_checker_thread(config: Configuration) -> None:
-        print("in thread calendar thread running")
         ics_download_link = config.calendar_at
         response_from_ical_request = requests.get(ics_download_link)
         calendar = Calendar.from_ical(response_from_ical_request.text)
         connection = generate_database_connection(config)
         check_events(calendar, config, connection) 
     while True:
-        event_checker_thread(config)
         time.sleep(60)
+        event_checker_thread(config)
 
-    # TODO(xethrus): lol

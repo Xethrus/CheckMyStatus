@@ -2,9 +2,6 @@ from flask import Flask, request, jsonify
 from threading import Thread
 from icalendar import Calendar, Event
 
-#from calendar_event_checker import event_checker_thread
-#from calendar_event_checker import stop_event_checker_thread
-#from status_expiration_task import status_expiration
 from config import generate_database_connection
 from database_interaction_functions import Metadata, validate_duration
 from database_interaction_functions import modulate_status

@@ -17,7 +17,7 @@ class Configuration:
     config_path: Optional[str] = None
     config_file_name: Optional[str] = None
 
-
+    ##type issue for expectation of return from configuration
     instance: Optional["Configuration"] = None
 
     def __init__(self, config_file_name: str) -> None:
@@ -35,9 +35,6 @@ class Configuration:
         print("the current path is:", config_path)
         self.config_path = config_path
         self.config_file_name = config_file_name
-
-        with open(config_path, 'w') as file:
-            current_config.write(file)
 
         self.config_path = current_config.get('config', 'config_path')
         self.config_file_name = current_config.get('config', 'config_file_name')
@@ -58,11 +55,11 @@ class Configuration:
 
 def generate_database_connection(config: Configuration) -> sqlite3.Connection: 
     database_connection = sqlite3.connect(config.db_file_title)
-    print("attempting to connect to", config.db_file_title)
     if(database_connection):
-        print("works")
+        print("connection established with", config.db_file_title)
     else:
-        print("connection did not work")
+        print("connection could not be established with", config.db_file_title)
+
     return database_connection
 
 

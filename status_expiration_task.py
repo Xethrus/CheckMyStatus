@@ -19,6 +19,6 @@ def status_thread_wrapper(config: Configuration) -> None:
                     modulate_status("available", 1, connection, config)
 
     while True:
-        status_expiration(config)
         time.sleep(60)
+        status_expiration(config)
 
