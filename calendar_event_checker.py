@@ -56,8 +56,7 @@ def check_events(calendar: Calendar, config: Configuration, database_connection:
                 break
         event_found = True
         break
-    if not event_found:
-    else:
+    if event_found:
         print("event found at current time")
     return event_found
 
