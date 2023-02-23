@@ -1,29 +1,20 @@
 # AvaliablilityProgram
-This code is a Flask web server that provides an API for setting and getting the status of a user. The status can be either "busy" or "available", and the status expiration time is managed by the server. Additionally, the server runs a background task that checks for events in a calendar and sets the status to "busy" if there is an event happening at the current time.
+webserver.py
+This is the main Flask server that runs the web application. It provides endpoints for updating and retrieving user status. Additionally, it starts two threads: one that checks for events in the user's calendar and another that checks for status expiration.
 
-Key components
-config.py: contains configuration information for the server, database, user, and calendar.
-database_interaction_functions.py: contains functions for interacting with the database to get and set the status and status expiration time.
-calendar_event_checker.py: contains the code for the background task that checks for events in the calendar and sets the status to "busy" if necessary.
-status_expiration_task.py: contains the code for the background task that checks the expiration time of the status and sets the status to "available" if the time has passed.
-main.py: the main file that runs the Flask web server and starts the background tasks.
-API Endpoints
-The server provides two API endpoints:
+config.py
+This file contains the configuration class that represents the configuration file that the web server reads from. The generate_database_connection function establishes a connection to the SQLite database.
 
-/set_status: a POST endpoint that sets the status and status expiration time. The request body should contain a JSON object with the following keys:
-status: the status to set, either "busy" or "available".
-duration: the duration in minutes to set the status for (optional, defaults to 30 minutes).
-/get_status: a GET endpoint that returns the current status and status expiration time.
-Setting up the server
-To run the server, you'll need to install the required packages listed in requirements.txt. You can do this by running the following command:
+database_interaction_functions.py
+This file contains various functions related to database interaction, such as get_metadata_from_db and modulate_status, which retrieves and modifies the status of a user from the database.
 
-Copy code
-pip install -r requirements.txt
-Next, you'll need to set up the configuration information in config.py. This includes information for the server, database, user, and calendar.
+config.ini
+This is the configuration file that contains various settings for the web server, such as server host, port, and debug settings.
 
-Finally, you can run the server by running the following command:
+calendar_event_checker.py
+This file contains the check_events function that checks for events in the user's calendar.
 
-css
-Copy code
-python main.py
-Note that the server is set up to run on localhost by default, so you'll need to access the API endpoints using http://localhost:5000/.
+status_expiration_task.py
+This file contains the status_expiration function that checks if a user's status has expired and updates it accordingly.
+
+The code uses icalendar library to work with calendar data and flask library to run a web server. It also uses sqlite3 library to connect to a database and requests library to make HTTP requests.
