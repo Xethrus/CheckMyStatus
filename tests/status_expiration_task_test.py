@@ -29,14 +29,14 @@ class TestStatusThread(unittest.TestCase):
         ''')
         self.cursor.execute('''
             INSERT INTO savedState (user, status, expiration)
-            VALUES ('testuser', 'busy', '2022-02-22 22:22:22');
+            VALUES ('testuser', 'busy', '2022-02-22 22:22:22.22');
         ''')
     def test_status_expiration_thread(self) -> None:
         test_config = Configuration.get_instance('test_config.ini')
-        status_expiration(test_config)
+        status_expiration(test_config, self.connection)
         retrieved_metadata = get_metadata_from_db(self.connection, test_config)
         self.assertIsInstance(retrieved_metadata, Metadata)
-        self.assertEqual(retrieved_metadata.status, 'avaliable')
+        self.assertEqual(retrieved_metadata.status, 'available')
     def tearDown(self) -> None:
         self.connection.close()
         
