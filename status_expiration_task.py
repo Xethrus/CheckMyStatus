@@ -1,24 +1,30 @@
 from database_interaction_functions import get_metadata_from_db
 from database_interaction_functions import modulate_status
 from config import generate_database_connection, Configuration
+from dateutil.parser import parse
 
 import time
 import datetime
+import sqlite3
 
-def status_expiration(config: Configuration) -> None:
+def status_expiration(config: Configuration, connection: sqlite3.Connection) -> None:
     print("status expiration process running")
-    with generate_database_connection(config) as connection:
+    with connection as connection:
         retrieved_metadata = get_metadata_from_db(connection, config)
         status = retrieved_metadata.status
         if status == "busy":
             expiration_time = retrieved_metadata.expiration
-            datetime_format = '%Y-%m-%d %H:%M:%S.%f'
-            expiration_time = datetime.datetime.strptime(expiration_time, datetime_format)
-            if expiration_time <= datetime.datetime.now():
+#            if not isinstance(expiration_time, datetime.dateime):
+#                raise ValueError("expiration time was not a datetime")
+            datetime_format = "%Y-%m-%d %H:%M:%S.%f"
+
+            expiration_time_dt = parse(expiration_time)
+
+            if expiration_time_dt <= datetime.datetime.now():
                 modulate_status("available", 1, connection, config)
 
-def status_thread_wrapper(config: Configuration) -> None:
+def status_thread_wrapper(config: Configuration, connection: sqlite3.Connection) -> None:
     while True:
         time.sleep(60)
-        status_expiration(config)
+        status_expiration(config, connection)
 

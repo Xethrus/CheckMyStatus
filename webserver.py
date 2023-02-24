@@ -6,9 +6,11 @@ from config import generate_database_connection
 from database_interaction_functions import Metadata, validate_duration
 from database_interaction_functions import modulate_status
 from database_interaction_functions import get_metadata_from_db, validate_status
-from config import Configuration
+from config import Configuration, generate_database_connection
 from typing import Union
 from flask.typing import ResponseReturnValue
+from influxdb import InfluxDBClient
+
 
 import status_expiration_task
 import calendar_event_checker
@@ -78,10 +80,25 @@ def main() -> None:
     config = Configuration.get_instance("config.ini")
     server_host = config.server_host
     server_debug = config.server_debug
-
     server_port = config.server_port
+
+#    client = InfluxDBClient(host=server_host, port=server_port,database=config.db_file_title)
+#    data = [
+#        {
+#            "measurement": "savedState",
+#            "tags": {
+#                "user": config.user_name
+#            },
+#            "time": datetime.datetime.now(),
+#            "fields": {
+#                "status": get_metadata_from_db().status,
+#                "expiration": get_metadata_from_db().expiration
+#            }
+#        }
+#    ]
+
     try:
-        status_thread = threading.Thread(target=status_expiration_task.status_thread_wrapper, args=(config,))
+        status_thread = threading.Thread(target=status_expiration_task.status_thread_wrapper, args=(config,generate_database_connection(config),))
         status_thread.start()
     except Exception as error:
         print("webserver.py- Error starting status thread:", error)
