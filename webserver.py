@@ -32,7 +32,19 @@ app = Flask(__name__)
 
 class UnauthorizedTokenError(Exception):
     pass
-
+#def record_runtime(client: InfluxDBClient, database_name: str) -> None:
+#    timestamp = int(time.time() * 1000000000)
+#    uptime = int(open('/proc/uptime').read().split()[0])
+#    data = [
+#        {
+#            'measurement' : 'server_runtime',
+#            'time': timestamp,
+#            'fields': {
+#                'uptime': uptime
+#            }
+#        }
+#    ]
+#    client.write_points(data, database=database_name)
 def key_validation(key: str, recieved_key: str) -> None:
     if key != recieved_key:
         raise UnauthorizedTokenError("Unauthorized token")
@@ -81,21 +93,21 @@ def main() -> None:
     server_host = config.server_host
     server_debug = config.server_debug
     server_port = config.server_port
-
-#    client = InfluxDBClient(host=server_host, port=server_port,database=config.db_file_title)
-#    data = [
-#        {
-#            "measurement": "savedState",
-#            "tags": {
-#                "user": config.user_name
-#            },
-#            "time": datetime.datetime.now(),
-#            "fields": {
-#                "status": get_metadata_from_db().status,
-#                "expiration": get_metadata_from_db().expiration
-#            }
-#        }
-#    ]
+    database_name = config.db_file_title
+#    influx_db_url = "https://us-east-1-1.aws.cloud2.influxdata.com"
+#    token = "onboarding-pythonWizard-token-1677212867129"
+#    org = "Availability"
+#
+#    client = InfluxDBClient(
+#        url=influx_db_url,
+#        token=token,
+#        org=org
+#    )
+#    client.create_database('server_metrics')
+#    record_runtime(client, 'server_metrics')
+#    write_api = client.write_api(write_options=SYNCHRONOUS)
+#    data_point = influxdb_client.Point("run_time").tag("time", "time_in_minute").field("minutes", up_time_minutes)
+#    write_api.write(bucket=bucket, org=org, record=data_point)
 
     try:
         status_thread = threading.Thread(target=status_expiration_task.status_thread_wrapper, args=(config,generate_database_connection(config),))
