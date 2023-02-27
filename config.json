@@ -1,1 +1,0 @@
-{"database": {"db_host": "REDACTED", "db_file_title": "stored_state.db"}, "server": {"server_host": "0.0.0.0", "server_port": "8000", "server_debug": "True"}, "user": {"user_name": "user name", "user_key": "password"}, "calendar": {"calendar_at": "REDACTED"}}

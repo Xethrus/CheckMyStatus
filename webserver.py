@@ -9,7 +9,7 @@ from database_interaction_functions import get_metadata_from_db, validate_status
 from config import Configuration, generate_database_connection
 from typing import Union
 from flask.typing import ResponseReturnValue
-from influxdb import InfluxDBClient
+#from influxdb import InfluxDBClient
 
 
 import status_expiration_task
