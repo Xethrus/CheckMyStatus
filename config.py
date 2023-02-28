@@ -22,8 +22,9 @@ class Configuration:
     def __init__(self, config_file_name: str) -> None:
         current_dir = os.getcwd()
         print("the current directory is:", current_dir)
-        config_dir_path = os.path.join(current_dir, 'config')
-        config_path = os.path.join(config_dir_path, config_file_name)
+#        config_dir_path = os.path.join(current_dir, 'config')
+#        config_path = os.path.join(config_dir_path, config_file_name)
+        config_path = os.path.join(os.path.dirname(os.path.abspath(__file__)), 'config.ini')
         
         #enables use on windows-typed file paths lol
 #        raw_config_path = "%r"%config_path

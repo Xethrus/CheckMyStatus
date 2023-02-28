@@ -6,4 +6,4 @@ services:
     ports:
       - "8000:8000"
     volumes:
-      - ${PWD}/config/config.ini:/app/config/config.ini
+      - "${PWD}/config/config.ini:/app/config.ini"
