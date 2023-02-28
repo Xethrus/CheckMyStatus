@@ -19,7 +19,6 @@ class Configuration:
 
     ##type issue for expectation of return from configuration
     instance: Optional["Configuration"] = None
-`k
     def __init__(self, config_file_name: str) -> None:
         current_dir = os.getcwd()
         print("the current directory is:", current_dir)
