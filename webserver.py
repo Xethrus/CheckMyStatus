@@ -9,6 +9,7 @@ from database_interaction_functions import get_metadata_from_db, validate_status
 from config import Configuration, generate_database_connection
 from typing import Union
 from flask.typing import ResponseReturnValue
+from queue import Queue
 #from influxdb import InfluxDBClient
 
 
@@ -45,6 +46,8 @@ class UnauthorizedTokenError(Exception):
 #        }
 #    ]
 #    client.write_points(data, database=database_name)
+
+
 def key_validation(key: str, recieved_key: str) -> None:
     if key != recieved_key:
         raise UnauthorizedTokenError("Unauthorized token")
@@ -90,10 +93,23 @@ def get_status() -> ResponseReturnValue:
 
 def main() -> None:
     config = Configuration.get_instance("config.ini")
+
+    print("testing name of config file:", config.config_file_name)
+
     server_host = config.server_host
     server_debug = config.server_debug
     server_port = config.server_port
     database_name = config.db_file_title
+
+#    max_connections: int = 2
+#    connection_pool= Queue(maxsize=max_connections)
+#    for _ in range(max_connections):
+#        connection_pool.put(sqlite3.connect(config.config_file_name))
+#    def get_connection_from_pool():
+#        return connection_pool.get()
+#    def release_connection_to_pool(connection):
+#        connection_pool.put(connection)
+    
 #    influx_db_url = "https://us-east-1-1.aws.cloud2.influxdata.com"
 #    token = "onboarding-pythonWizard-token-1677212867129"
 #    org = "Availability"
@@ -110,7 +126,7 @@ def main() -> None:
 #    write_api.write(bucket=bucket, org=org, record=data_point)
 
     try:
-        status_thread = threading.Thread(target=status_expiration_task.status_thread_wrapper, args=(config,generate_database_connection(config),))
+        status_thread = threading.Thread(target=status_expiration_task.status_thread_wrapper, args=(config,))
         status_thread.start()
     except Exception as error:
         print("webserver.py- Error starting status thread:", error)

@@ -7,7 +7,8 @@ import time
 import datetime
 import sqlite3
 
-def status_expiration(config: Configuration, connection: sqlite3.Connection) -> None:
+def status_expiration(config: Configuration) -> None:
+    connection = generate_database_connection(config)
     print("status expiration process running")
     with connection as connection:
         retrieved_metadata = get_metadata_from_db(connection, config)
@@ -23,8 +24,8 @@ def status_expiration(config: Configuration, connection: sqlite3.Connection) -> 
             if expiration_time_dt <= datetime.datetime.now():
                 modulate_status("available", 1, connection, config)
 
-def status_thread_wrapper(config: Configuration, connection: sqlite3.Connection) -> None:
+def status_thread_wrapper(config: Configuration) -> None:
     while True:
         time.sleep(60)
-        status_expiration(config, connection)
+        status_expiration(config)
 
