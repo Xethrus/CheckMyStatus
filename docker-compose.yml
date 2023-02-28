@@ -1,0 +1,6 @@
+version: '3'
+services:
+  myservice:
+    image: webserver
+    volumes:
+      - ${PWD}/config/config.ini:/app/config/config.ini
