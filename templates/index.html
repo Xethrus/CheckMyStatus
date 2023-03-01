@@ -4,23 +4,52 @@
   <title>Availability Check</title>
   <style>
     #rectangle {
+      border: 2px solid black;
+      padding: 20px;
+      font-family: Arial, sans-serif;
+      font-size: 18px;
+      line-height: 1.5;
       width: 200px;
       height: 200px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      text-align: center;
+    }
+
+    #rectangle span {
+      color: black;
+    }
+
+    #rectangle.available {
+      background-color: green;
+    }
+
+    #rectangle.busy {
       background-color: red;
+    }
+
+    #rectangle.available span::after {
+      content: "Available";
+    }
+
+    #rectangle.busy span::after {
+      content: "Busy";
     }
   </style>
 </head>
 <body>
   <h1>Availability Check</h1>
-  <div id="rectangle"></div>
+  <div id="rectangle" class=""><span></span></div>
   <script>
-    var rectangle = document.getElementById("rectangle");
     var isAvailable = true;
-    
+    var rectangle = document.getElementById("rectangle");
     if (isAvailable) {
-      rectangle.style.backgroundColor = "green";
+      rectangle.classList.add("available");
+    } else {
+      rectangle.classList.add("busy");
     }
   </script>
 </body>
 </html>
-  
+
