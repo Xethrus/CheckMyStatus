@@ -46,9 +46,9 @@ class UnauthorizedTokenError(Exception):
 #        }
 #    ]
 #    client.write_points(data, database=database_name)
-#@app.route('/')
-#def index():
-#    return render_template('index.html')
+@app.route('/')
+def index():
+    return render_template('templates/index.html')
 
 def key_validation(key: str, recieved_key: str) -> None:
     if key != recieved_key:
