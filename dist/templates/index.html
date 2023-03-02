@@ -46,10 +46,10 @@
 
   <script>
     var rectangle = document.getElementById("rectangle");
-    var isAvailable = true;
     function maintain_color() {
-      console.log("maintain_color() function called");
+      var isAvailable;
       isAvailable = check_availability();
+      console.log("maintain_color() function called");
       if (isAvailable) {
         rectangle.style.backgroundColor = "green";
         rectangle.classList.add("available");
