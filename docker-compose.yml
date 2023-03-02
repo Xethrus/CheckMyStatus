@@ -7,3 +7,5 @@ services:
       - "80:8000"
     volumes:
       - "${PWD}/config/config.ini:/app/config.ini"
+      - "${PWD}/templates:/app/templates"
+      - "${PWD}/dist"

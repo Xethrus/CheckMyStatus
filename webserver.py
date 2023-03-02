@@ -1,4 +1,4 @@
-from flask import Flask, request, jsonify, render_template
+from flask import Flask, request, jsonify, render_template, send_from_directory
 from threading import Thread
 from icalendar import Calendar, Event
 
@@ -46,9 +46,14 @@ class UnauthorizedTokenError(Exception):
 #        }
 #    ]
 #    client.write_points(data, database=database_name)
+
 @app.route('/')
 def index():
-    return render_template('templates/index.html')
+    return render_template('index.html')
+
+@app.route("/dist/js/<path:path>")
+def send_js(path):
+    return send_from_directory('dist/js', path)
 
 def key_validation(key: str, recieved_key: str) -> None:
     if key != recieved_key:
