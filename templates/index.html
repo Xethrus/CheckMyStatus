@@ -41,14 +41,22 @@
 <body>
   <h1>Availability Check</h1>
   <div id="rectangle" class=""><span></span></div>
+  <script src="status_rectangle.js"></script>
   <script>
-    var isAvailable = true;
     var rectangle = document.getElementById("rectangle");
-    if (isAvailable) {
-      rectangle.classList.add("available");
-    } else {
-      rectangle.classList.add("busy");
+    var isAvailable = true;
+    function maintain_color() {
+      console.log("maintain_color() function called");
+      isAvailable = check_availability();
+      if (isAvailable) {
+        rectangle.style.backgroundColor = "green";
+        rectangle.classList.add("available");
+      } else {
+        rectangle.classList.add("busy");
+      }
     }
+    setInterval(maintain_color, 10000);
+
   </script>
 </body>
 </html>
