@@ -1,4 +1,5 @@
-from flask import Flask, request, jsonify, render_template, send_from_directory
+from flask import Flask, request, jsonify, render_template, send_from_directory, redirect, url_for, request
+from flask_login import LoginManager, login_user, logout_user, login_required, UserMixin
 from threading import Thread
 from icalendar import Calendar, Event
 
@@ -47,6 +48,61 @@ class UnauthorizedTokenError(Exception):
 #    ]
 #    client.write_points(data, database=database_name)
 
+login_manager = LoginManager()
+login_manager.init_app(app)
+#user model
+class User(UserMixin):
+    def __init__(self, id, username, email, password):
+        self.id = id
+        self.username = username
+        self.email = email
+        self.password = password
+
+    def __repr__(self):
+        return f'<User {self.username}>'
+users = [
+        User(id=1, username='john', email='john@example.com', password='password'),
+        User(id=2, username='jane', email='jane@example.com', password='password')
+        
+]
+
+def get_user_by_id(user_id):
+    for user in users:
+        if user.id == user_id:
+            return user
+
+@login_manager.user_loader
+def load_user(user_id):
+    return get_user_by_id(user_id)
+
+@app.route('/login', methods=['GET', 'POST'])
+def login():
+    if request.method == 'POST':
+        username = request.form['username']
+        password = request.form['password']
+
+        user = None
+        for u in users:
+            if u.username == username and u.password == password:
+                user = u
+                break
+        if user is not None:
+            login_user(user)
+            return redirect(url_for('home'))
+    return render_template('login.html')
+
+@app.route('/logout')
+@login_required
+def logout():
+    logout_user()
+    return redirect(url_for('login'))
+
+@app.route('/home')
+@login_required
+def home():
+    return render_template('home.html')
+
+
 @app.route('/')
 def index():
     return render_template('index.html')
@@ -56,18 +112,15 @@ def send_js(path):
     return send_from_directory('dist/js', path)
 
 def key_validation(key: str, recieved_key: str) -> None:
+    print(key, "different from:", recieved_key)
     if key != recieved_key:
         raise UnauthorizedTokenError("Unauthorized token")
 
 @app.route('/set_status', methods=['POST'])
 def set_status() -> ResponseReturnValue:
-    #phase this out soon
-    #global status, expiration_time
-    
     config = Configuration.get_instance("config.ini")
-    current_user_key = config.user_name
+    current_user_key = config.user_key
     token = request.headers.get('token')
-
     if token:
         try:
             key_validation(current_user_key, token)

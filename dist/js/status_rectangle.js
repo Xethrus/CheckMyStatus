@@ -1,5 +1,6 @@
 
 async function get_status(link) {
+  console.log(link);
   let response = await fetch(link);
   if (response.ok) {
     let data = await response.json();
@@ -10,12 +11,14 @@ async function get_status(link) {
 }
 
 async function check_availability() {
-  link = "http://REDACTED:80/get_status";
-  var status = get_status(link);
+  link = "http://REDACTED:8000/get_status";
+  var status = await get_status(link);
   var isAvailable;
   if(status == "busy") {
+    console.log("STATUS BUSY")
     isAvailable = false;
   } else {
+    console.log("STATUS AVAILABLE")
     isAvailable = true;
   }
   return isAvailable;

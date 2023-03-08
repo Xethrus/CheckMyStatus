@@ -56,8 +56,9 @@
       } else {
         rectangle.classList.add("busy");
       }
+      setInterval(maintain_color, 10000);
     }
-    setInterval(maintain_color, 10000);
+    maintain_color();
 
   </script>
 </body>

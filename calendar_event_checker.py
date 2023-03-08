@@ -13,12 +13,6 @@ import json
 import sqlite3
 
 
-#from config import create_config
-#config = create_config()
-
-#from database_interaction_functions import modulate_status
-#from database_interaction_functions import get_metadata_from_db
-
 def configure_timezone_to_UTC_if_naive(unknown_datetime: datetime.datetime) -> datetime.datetime: 
     if unknown_datetime.tzinfo is not pytz.UTC:
         utc_timezone = pytz.timezone("UTC")
@@ -33,7 +27,6 @@ def attempt_convert_to_datetime_if_not(dt_time: Union[str, datetime.datetime]) -
         return configure_timezone_to_UTC_if_naive(datetime.datetime.strptime(dt_time, date_with_time))
     else:
         print("unaccepted dt_time given:", dt_time)
-        #raise ValueError("unsupported dt_time format for VEVENT")
 
 def check_events(calendar: Calendar, config: Configuration, database_connection: sqlite3.Connection) -> bool:
     event_found = False

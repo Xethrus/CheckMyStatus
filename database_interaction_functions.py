@@ -39,6 +39,8 @@ def validate_status(status: str) -> str:
     return status
 
 def validate_duration(duration: Union[int, datetime.timedelta]) -> int:
+    if isinstance(duration, str):
+        duration = int(duration)
     if isinstance(duration, datetime.timedelta):
         duration = ceil(duration.seconds/60)
     if duration <= 0:
