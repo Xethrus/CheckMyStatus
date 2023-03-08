@@ -3,11 +3,11 @@
   <head>
     <title> Admin View </title>
     <style>
-body {
-  background-color: #f9f9f9;
-  background: linear-gradient(to bottom, eee, #f9f9f9);
-  background-repeat: no-repeat;
-}
+    body {
+      background-color: #f9f9f9;
+      background: linear-gradient(to bottom, eee, #f9f9f9);
+      background-repeat: no-repeat;
+    }
     h1 {
       text-align: center;
       font-size: 24px;
@@ -43,10 +43,12 @@ body {
       transform: translateY(-130px);
     }
     #small-top-box-rectangle-status.available {
-      background-color: #99cc99;
+     /* background-color: #99cc99; */
+      background-color: green;
+      
     }
     #small-top-box-rectangle-status.busy{
-      background-color: #ff9999;
+      background-color: red;
     }
     #small-top-box-rectangle-status.available span::after{
       content: "Available";
@@ -95,14 +97,18 @@ body {
             let isGreen = await check_availability();
             if(isGreen) {
               console.log("SETTING RED");
-              small-top-box-rectangle-status.style.backgroundColor = "#ff9999";
-              small-top-box-rectangle-status.classList.add("small-top-box-rectangle-status.busy");
+              //small-top-box-rectangle-status.style.backgroundColor = "#ff9999";
+              statusRectangle.style.backgroundColor = "red";
+              statusRectangle.classList.add("busy");
+              set_status("busy",30,"password");
             } else {
               console.log("SETTING GREEN");
-              small-top-box-rectangle-status.style.backgroundColor = "#99cc99";
-              small-top-box-rectangle-status.classList.add("small-top-box-rectangle-status.available");
+              //small-top-box-rectangle-status.style.backgroundColor = "#99cc99";
+              statusRectangle.style.backgroundColor = "green";
+              statusRectangle.classList.add("available");
+              set_status("available",30,"password");
             }
-            set_status();
           }
         });
+    </script>
   </body>
