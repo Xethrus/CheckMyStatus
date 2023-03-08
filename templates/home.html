@@ -85,7 +85,7 @@ body {
       <div id="small-top-box-rectangle-button"><button id="change-status-button">Change Status</button> </div>
       <script src="/dist/js/admin_status_change.js"></script>
       <script src="/dist/js/status_rectangle.js"></script>
-      <script>
+       <script>
         var change_status_button = document.getElementById("change-status-button");
         change_status_button.addEventListener("click", function() {
           var statusRectangle = document.getElementById("small-top-box-rectangle-status");
@@ -96,14 +96,13 @@ body {
             if(isGreen) {
               console.log("SETTING RED");
               small-top-box-rectangle-status.style.backgroundColor = "#ff9999";
-              small-top-box-rectangle-status.classList.add("small-top-box-rectangle-status.busy"
+              small-top-box-rectangle-status.classList.add("small-top-box-rectangle-status.busy");
             } else {
               console.log("SETTING GREEN");
               small-top-box-rectangle-status.style.backgroundColor = "#99cc99";
-              small-top-box-rectangle-status.classList.add("small-top-box-rectangle-status.available";
+              small-top-box-rectangle-status.classList.add("small-top-box-rectangle-status.available");
             }
             set_status();
-          });
-        }
-          </div>
-          </body>
+          }
+        });
+  </body>
