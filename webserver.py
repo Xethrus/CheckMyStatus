@@ -30,6 +30,7 @@ import threading
 
 
 app = Flask(__name__)
+app.secret_key = 'set_secret_key';
 
 
 class UnauthorizedTokenError(Exception):
@@ -88,8 +89,8 @@ def login():
                 break
         if user is not None:
             login_user(user)
-            return redirect(url_for('home'))
-    return render_template('login.html')
+            return redirect(url_for('/home'))
+    return render_template('home.html')
 
 @app.route('/logout')
 @login_required

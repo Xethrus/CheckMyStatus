@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title> Admin View </title>
+    <style>
+body {
+  background-color: #f9f9f9;
+  background: linear-gradient(to bottom, eee, #f9f9f9);
+  background-repeat: no-repeat;
+}
+    h1 {
+      text-align: center;
+      font-size: 24px;
+      font_weight: bold;
+    font-family: Arial, sans-serif;
+    }
+    #large-box-rectangle {
+      border: 4px solid black;
+      margin: 0 auto;
+      padding: 20px;
+      font-family: Arial, sans-serif;
+      font-size: 18px;
+      line-height: 1.5;
+      width: 400px;
+      height: 600px;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      text-align: center;
+      border-radius: 20px;
+    }
+    #small-top-box-rectangle-status {
+      border: 3px solid black;
+      margin: 0 auto;
+      padding: 40px;
+      width: 300px;
+      height: 100px;
+      display: flex;
+      justify-content: center;
+      text-align: center;
+      border-radius: 15px;
+      transform: translateY(-130px);
+    }
+    #small-top-box-rectangle-status.available {
+      background-color: #99cc99;
+    }
+    #small-top-box-rectangle-status.busy{
+      background-color: #ff9999;
+    }
+    #small-top-box-rectangle-status.available span::after{
+      content: "Available";
+    }
+    #small-top-box-rectangle-status.busy{
+      content: "Busy";
+    }
+    #small-top-box-rectangle-button{
+      border: 3px solid black;
+      margin: 0 auto;
+      padding: 40px;
+      width: 250px;
+      height: 50px;
+      display: flex;
+      justify-content: center;
+      text-align: center;
+      border-radius: 15px;
+      transform: translateY(-110px);
+      line-height: 50px;
+      cursor: pointer;
+    }
+
+    #rectangle span {
+      color: black;
+      font-size: 24px;
+      font-weight: bold;
+      line-height: 1.2;
+    }
+    </style>
+  </head>
+  <body>
+    <h1 style="font-size: 24px; font-weight:bold;">Admin Console</h1>
+    <br>
+    <div id="large-box-rectangle"> 
+      <div id="small-top-box-rectangle-status" class=""><span></span></div>
+      <div id="small-top-box-rectangle-button"><button id="change-status-button">Change Status</button> </div>
+      <script src="/dist/js/admin_status_change.js"></script>
+      <script src="/dist/js/status_rectangle.js"></script>
+      <script>
+        var change_status_button = document.getElementById("change-status-button");
+        change_status_button.addEventListener("click", function() {
+          var statusRectangle = document.getElementById("small-top-box-rectangle-status");
+          var isGreen = true;
+          async function change_color() {
+            console.log("admin changed color");
+            let isGreen = await check_availability();
+            if(isGreen) {
+              console.log("SETTING RED");
+              small-top-box-rectangle-status.style.backgroundColor = "#ff9999";
+              small-top-box-rectangle-status.classList.add("small-top-box-rectangle-status.busy"
+            } else {
+              console.log("SETTING GREEN");
+              small-top-box-rectangle-status.style.backgroundColor = "#99cc99";
+              small-top-box-rectangle-status.classList.add("small-top-box-rectangle-status.available";
+            }
+            set_status();
+          });
+        }
+          </div>
+          </body>
