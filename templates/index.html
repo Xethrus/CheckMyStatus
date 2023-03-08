@@ -3,8 +3,28 @@
 <head>
   <title>Availability Check</title>
   <style>
+    #container {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+    }
+    body {
+      background-color: #f9f9f9;
+      background-color: #f2f2f2;
+      background: linear-gradient(to bottom, #f2f2f2, #f9f9f9);
+      background-repeat: no-repeat;
+    }
+    h1 {
+      text-align: center;
+      font-size: 24px;
+      font-weight: bold;
+      font-family: Arial, sans-serif;
+    }
     #rectangle {
       border: 2px solid black;
+      margin: 0 auto;
       padding: 20px;
       font-family: Arial, sans-serif;
       font-size: 18px;
@@ -15,17 +35,21 @@
       justify-content: center;
       align-items: center;
       text-align: center;
+      border-radius: 20px;
     }
 
     #rectangle span {
       color: black;
+      font-size: 24px;
+      font-weight: bold;
+      line-height: 1.2;
     }
 
-    #rectangle.available {
+    #rectangle.available-rectangle {
       background-color: green;
     }
 
-    #rectangle.busy {
+    #rectangle.busy-rectangle {
       background-color: red;
     }
 
@@ -39,27 +63,29 @@
   </style>
 </head>
 <body>
-  <h1>Availability Check</h1>
+  <h1 style="font-size: 24px; font-weight: bold;">Availability Check</h1>
+  <br>
   <div id="rectangle" class=""><span></span></div>
   <script src="/dist/js/status_rectangle.js"></script>
   <script>
-    var rectangle = document.getElementById("rectangle");
+    var availabilityRectangle = document.getElementById("rectangle");
     var isAvailable = true;
-    function maintain_color() {
+    async function maintain_color() {
       console.log("maintain_color() function called");
-      isAvailable = check_availability();
+      let isAvailable = await check_availability();
+      console.log("AVAIL IS :", isAvailable)
       if (isAvailable) {
-        rectangle.style.backgroundColor = "green";
-        rectangle.classList.add("available");
-        rectangle.querySelector("span").textContent = "Available";
+        console.log("SETTING GREEN")
+        availabilityRectangle.style.backgroundColor = "green";
+        availabilityRectangle.classList.add("available-rectangle");
+        availabilityRectangle.querySelector("span").textContent = "Available";
       } else {
+        console.log("SETTING RED")
         rectangle.style.backgroundColor = "red";
         rectangle.classList.add("busy");
-        rectangle.querySelector("span").textContent = "Busy";
       }
     }
     setInterval(maintain_color, 10000);
-
   </script>
 </body>
 </html>
