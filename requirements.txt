@@ -3,7 +3,6 @@ arrow==1.2.3
 attrs==22.2.0
 autocommand==2.2.2
 bcrypt==4.0.0
-black==23.1.0
 CacheControl==0.12.11
 certifi==2022.12.7
 cffi==1.15.1
@@ -53,7 +52,6 @@ pathspec==0.11.0
 pep517==0.13.0
 pipenv==2023.2.18
 pipreqs==0.4.11
-platformdirs==3.0.0
 ply==3.11
 progress==1.6
 psutil==5.9.4
@@ -76,11 +74,9 @@ six==1.16.0
 sortedcontainers==2.4.0
 tabulate==0.9.0
 TatSu==5.8.3
-team==1.0
 texttable==1.6.4
 toml==0.10.2
 tomli==2.0.1
-trove-classifiers==2023.3.1
 typing-inspect==0.8.0
 typing_extensions==4.5.0
 urllib3==1.26.12
