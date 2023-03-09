@@ -1,4 +1,4 @@
-from flask import Flask, request, jsonify, render_template, send_from_directory, redirect, url_for, request
+from flask import Flask, jsonify, render_template, send_from_directory, redirect, url_for, request
 from flask_login import LoginManager, login_user, logout_user, login_required, UserMixin
 from threading import Thread
 from icalendar import Calendar, Event
@@ -35,19 +35,6 @@ app.secret_key = 'set_secret_key';
 
 class UnauthorizedTokenError(Exception):
     pass
-#def record_runtime(client: InfluxDBClient, database_name: str) -> None:
-#    timestamp = int(time.time() * 1000000000)
-#    uptime = int(open('/proc/uptime').read().split()[0])
-#    data = [
-#        {
-#            'measurement' : 'server_runtime',
-#            'time': timestamp,
-#            'fields': {
-#                'uptime': uptime
-#            }
-#        }
-#    ]
-#    client.write_points(data, database=database_name)
 
 login_manager = LoginManager()
 login_manager.init_app(app)
@@ -89,10 +76,10 @@ def login():
                 break
         if user is not None:
             login_user(user)
-            return redirect(url_for('/home'))
+            return redirect(url_for('home'))
     return render_template('home.html')
 
-@app.route('/logout')
+@app.route('/logout', methods=['GET', 'POST'])
 @login_required
 def logout():
     logout_user()
