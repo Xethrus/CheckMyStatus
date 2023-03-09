@@ -1,9 +1,10 @@
 function set_status(status, duration, token) {
+  console.log("making set status request");
   fetch('/set_status', {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
-      'token': token
+      'token': token;
     },
     body: JSON.stringify({'status': status, 'duration': duration})
   })
