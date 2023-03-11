@@ -1,5 +1,6 @@
-from flask import Flask, jsonify, render_template, send_from_directory, redirect, url_for, request
+from flask import Flask, jsonify, render_template, send_from_directory, redirect, url_for, request, session
 from flask_login import LoginManager, login_user, logout_user, login_required, UserMixin
+from flask_sqlalchemy import SQLAlchemy 
 from threading import Thread
 from icalendar import Calendar, Event
 
@@ -30,70 +31,72 @@ import threading
 
 
 app = Flask(__name__)
-app.secret_key = 'set_secret_key';
 
+##FLASK-LOGIN
+
+from flask_login import LoginManager
+login_manager = LoginManager()
+login_manager.init_app(app)
+app.secret_key = 'secret_key'
+
+class User:
+    def __init_(self, username, email, id):
+        self.username = username
+        self.email = email
+        self.authenticated = False
+        self.active = False
+        self.anonymous = False
+        self.id = id
+    def get_id():
+        return self.id;
+
+
+@login_manager.user_loader
+def load_user(user_id):
+    return User.get(user_id)
 
 class UnauthorizedTokenError(Exception):
     pass
 
-login_manager = LoginManager()
-login_manager.init_app(app)
-#user model
-class User(UserMixin):
-    def __init__(self, id, username, email, password):
-        self.id = id
-        self.username = username
-        self.email = email
-        self.password = password
 
-    def __repr__(self):
-        return f'<User {self.username}>'
-users = [
-        User(id=1, username='john', email='john@example.com', password='password'),
-        User(id=2, username='jane', email='jane@example.com', password='password')
-        
-]
 
-def get_user_by_id(user_id):
-    for user in users:
-        if user.id == user_id:
-            return user
-
-@login_manager.user_loader
-def load_user(user_id):
-    return get_user_by_id(user_id)
-
-@app.route('/login', methods=['GET', 'POST'])
-def login():
-    if request.method == 'POST':
-        username = request.form['username']
-        password = request.form['password']
-
-        user = None
-        for u in users:
-            if u.username == username and u.password == password:
-                user = u
-                break
-        if user is not None:
-            login_user(user)
-            return redirect(url_for('home'))
-    return render_template('home.html')
-
-@app.route('/logout', methods=['GET', 'POST'])
-@login_required
-def logout():
-    logout_user()
-    return redirect(url_for('login'))
-
-@app.route('/home')
-@login_required
-def home():
-    return render_template('home.html')
 
 
 @app.route('/')
 def index():
+    if 'username' in session:
+        return f'Logged in as  {session["username"]}'
+    else:
+        print 'You are not logged in'
     return render_template('index.html')
+
+@app.route('/login', methods=['GET', 'POST'])
+def login():
+    form = LoginForm()
+    if form.validate_on_submit():
+        login_user(user)
+        flask.flash('logged in successfully')
+        next = request.args.get('next')
+        if not is_safe_url(next):
+            return flask.abort(400)
+        return redirect(next or url_for('home'))
+    return render_template('login.html'), form=form)
+#    if request.method == 'POST':
+#        session['username'] = request.form['username']
+#        return redirect(url_for('home')
+#    return render_template('login.html')
+@app.route('/logout')
+def logout():
+    logout_user()
+    #session.pop('username', None)
+    return redirect(url_for('index'))
+
+
+@app.route('/home')
+@login_required
+def home():
+    print('LOGGED IN AS: ' + flask_login.current_user.id)
+    return render_template('home.html')
 
 @app.route("/dist/js/<path:path>")
 def send_js(path):
