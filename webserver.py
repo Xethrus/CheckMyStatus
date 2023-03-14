@@ -27,6 +27,7 @@ import os
 import json
 import requests
 import threading
+import csv
 
 
 
@@ -69,6 +70,9 @@ def index():
     else:
         print 'You are not logged in'
     return render_template('index.html')
+
+def get_by_user(username):
+    with open('user.csv')
 
 @app.route('/login', methods=['GET', 'POST'])
 def login():
@@ -137,10 +141,6 @@ def get_status() -> ResponseReturnValue:
     return jsonify({"status": retrieved_metadata.status, "expiration_time": retrieved_metadata.expiration})
 
 
-#def thread_runner(thread_function):
-#    thread = threading.Thread(target=thread_function)
-#    thread.daemon = True
-#    thread.start()
 
 def main() -> None:
     config = Configuration.get_instance("config.ini")
@@ -151,31 +151,6 @@ def main() -> None:
     server_debug = config.server_debug
     server_port = config.server_port
     database_name = config.db_file_title
-
-#    max_connections: int = 2
-#    connection_pool= Queue(maxsize=max_connections)
-#    for _ in range(max_connections):
-#        connection_pool.put(sqlite3.connect(config.config_file_name))
-#    def get_connection_from_pool():
-#        return connection_pool.get()
-#    def release_connection_to_pool(connection):
-#        connection_pool.put(connection)
-    
-#    influx_db_url = "https://us-east-1-1.aws.cloud2.influxdata.com"
-#    token = "onboarding-pythonWizard-token-1677212867129"
-#    org = "Availability"
-#
-#    client = InfluxDBClient(
-#        url=influx_db_url,
-#        token=token,
-#        org=org
-#    )
-#    client.create_database('server_metrics')
-#    record_runtime(client, 'server_metrics')
-#    write_api = client.write_api(write_options=SYNCHRONOUS)
-#    data_point = influxdb_client.Point("run_time").tag("time", "time_in_minute").field("minutes", up_time_minutes)
-#    write_api.write(bucket=bucket, org=org, record=data_point)
-
     try:
         status_thread = threading.Thread(target=status_expiration_task.status_thread_wrapper, args=(config,))
         status_thread.start()

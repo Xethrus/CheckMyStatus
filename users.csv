@@ -1,0 +1,3 @@
+username,email,authenticated,active,anonymous,id
+johndoe,johndoe@email.com, 1, 1, 0, 11111
+janedoe,janedoe@email.com, 1, 1, 0, 11112
