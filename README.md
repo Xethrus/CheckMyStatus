@@ -1,4 +1,4 @@
-# AvaliablilityProgram
+# AvaliablilityProgram (ONGOING)
 webserver.py
 This is the main Flask server that runs the web application. It provides endpoints for updating and retrieving user status. Additionally, it starts two threads: one that checks for events in the user's calendar and another that checks for status expiration.
 
