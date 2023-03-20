@@ -6,22 +6,34 @@ from typing import Union
 from flask.typing import ResponseReturnValue
 from queue import Queue
 
+
+#works?????
+from config.config import Configuration, generate_database_connection
+
+from tools.database_interaction_functions import modulate_status, get_metadata_from_db, Metadata
+
+from threads.status_expiration_task import status_thread_wrapper
+from threads.calendar_event_checker import event_thread_wrapper
+
+
+
+
 #imports from my files
-import AvaliablilityProgram.templates.index
-import AvaliablilityProgram.templates.login
-import AvaliablilityProgram.templates.home
-
-import AvaliablilityProgram.config.config.Configuration
-import AvaliablilityProgram.config.config.Configuration
-import AvaliablilityProgram.config.config.generate_database_connection
-
-import AvaliablilityProgram.tools.database_interaction_functions.modulate_status
-import AvaliablilityProgram.tools.database_interaction_functions.get_metadata_from_db
-import AvaliablilityProgram.tools.database_interaction_functions.Metadata
-
-import AvaliablilityProgram.threads.status_expiration_task.status_thread_wrapper
-import AvaliablilityProgram.threads.calendar_event_checker.event_thread_wrapper
-
+#import AvaliablilityProgram.templates.index
+#import AvaliablilityProgram.templates.login
+#import AvaliablilityProgram.templates.home
+#
+#import AvaliablilityProgram.config.config.Configuration
+#import AvaliablilityProgram.config.config.Configuration
+#import AvaliablilityProgram.config.config.generate_database_connection
+#
+#import AvaliablilityProgram.tools.database_interaction_functions.modulate_status
+#import AvaliablilityProgram.tools.database_interaction_functions.get_metadata_from_db
+#import AvaliablilityProgram.tools.database_interaction_functions.Metadata
+#
+#import AvaliablilityProgram.threads.status_expiration_task.status_thread_wrapper
+#import AvaliablilityProgram.threads.calendar_event_checker.event_thread_wrapper
+#
 
 
 import datetime
