@@ -1,19 +1,27 @@
 from flask import Flask, jsonify, render_template, send_from_directory, redirect, url_for, request, session
 from flask_login import LoginManager, login_user, logout_user, login_required, UserMixin
-from flask_sqlalchemy import SQLAlchemy 
 from threading import Thread
 from icalendar import Calendar, Event
-
-import sys
-import os
-from threads import *
-from tools.database_interaction_functions import *
-from templates import *
-from tests import *
-
 from typing import Union
 from flask.typing import ResponseReturnValue
 from queue import Queue
+
+#imports from my files
+import AvaliablilityProgram.templates.index
+import AvaliablilityProgram.templates.login
+import AvaliablilityProgram.templates.home
+
+import AvaliablilityProgram.config.config.Configuration
+import AvaliablilityProgram.config.config.Configuration
+import AvaliablilityProgram.config.config.generate_database_connection
+
+import AvaliablilityProgram.tools.database_interaction_functions.modulate_status
+import AvaliablilityProgram.tools.database_interaction_functions.get_metadata_from_db
+import AvaliablilityProgram.tools.database_interaction_functions.Metadata
+
+import AvaliablilityProgram.threads.status_expiration_task.status_thread_wrapper
+import AvaliablilityProgram.threads.calendar_event_checker.event_thread_wrapper
+
 
 
 import datetime
@@ -96,7 +104,7 @@ def logout():
     return redirect(url_for('index'))
 
 
-@login_manger.unauthorized_handler
+@login_manager.unauthorized_handler
 def unauthorized():
     return redirect(url_for('login'))
 

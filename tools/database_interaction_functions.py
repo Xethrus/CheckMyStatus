@@ -1,9 +1,15 @@
 import datetime
 import sqlite3
 
+import sys
+sys.path.append("..")
+import config
+from config.config import Configuration, generate_database_connection
+import data
+
+
 from math import ceil
 from dataclasses import dataclass
-from ..config import Configuration, generate_database_connection
 from typing import Union
 
 @dataclass
