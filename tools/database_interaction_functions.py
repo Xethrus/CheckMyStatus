@@ -3,7 +3,7 @@ import sqlite3
 
 from math import ceil
 from dataclasses import dataclass
-from config import Configuration, generate_database_connection
+from ..config import Configuration, generate_database_connection
 from typing import Union
 
 @dataclass

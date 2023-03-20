@@ -4,22 +4,20 @@ from flask_sqlalchemy import SQLAlchemy
 from threading import Thread
 from icalendar import Calendar, Event
 
-from config import generate_database_connection
-from database_interaction_functions import Metadata, validate_duration
-from database_interaction_functions import modulate_status
-from database_interaction_functions import get_metadata_from_db, validate_status
-from config import Configuration, generate_database_connection
+import sys
+import os
+from threads import *
+from tools.database_interaction_functions import *
+from templates import *
+from tests import *
+
 from typing import Union
 from flask.typing import ResponseReturnValue
 from queue import Queue
-#from influxdb import InfluxDBClient
 
 
-import status_expiration_task
-import calendar_event_checker
 import datetime
 import http.server
-import socketserver
 import time
 import atexit
 import subprocess
@@ -36,64 +34,72 @@ app = Flask(__name__)
 ##FLASK-LOGIN
 
 from flask_login import LoginManager
+
 login_manager = LoginManager()
 login_manager.init_app(app)
+
 app.secret_key = 'secret_key'
 
 class User:
-    def __init_(self, username, email, id):
+    def __init__(self, username, email, password, id):
         self.username = username
         self.email = email
+        self.password = password
         self.authenticated = False
         self.active = False
         self.anonymous = False
         self.id = id
-    def get_id():
-        return self.id;
 
+def find_user(csv_file, username):
+    with open(csv_file, 'r') as file:
+        reader = csv.reader(file)
+        for row in reader:
+            if row[0] == username:
+                return row
+    return None
 
-@login_manager.user_loader
-def load_user(user_id):
-    return User.get(user_id)
 
 class UnauthorizedTokenError(Exception):
     pass
-
-
-
-
 
 @app.route('/')
 def index():
     if 'username' in session:
         return f'Logged in as  {session["username"]}'
     else:
-        print 'You are not logged in'
+        print("You are not logged in")
     return render_template('index.html')
-
-def get_by_user(username):
-    with open('user.csv')
 
 @app.route('/login', methods=['GET', 'POST'])
 def login():
-    form = LoginForm()
-    if form.validate_on_submit():
-        login_user(user)
-        flask.flash('logged in successfully')
-        next = request.args.get('next')
-        if not is_safe_url(next):
-            return flask.abort(400)
-        return redirect(next or url_for('home'))
-    return render_template('login.html'), form=form)
-#    if request.method == 'POST':
-#        session['username'] = request.form['username']
-#        return redirect(url_for('home')
-#    return render_template('login.html')
+    if request.method == 'POST':
+        username = request.form['username']
+        password = request.form['password']
+        #password is item 3 so row[0] and row[2]
+        user_row = find_user("users.csv", username)
+        #expects a user
+        validating_user = User(row[0],row[1],row[2]);
+
+        if validating_user.password == password and validating_user.username == username:
+            login_user(user)
+            return redirect(url_for('home'))
+        else:
+            return render_template('login.html', error='Invalid username or password')
+    else:
+        return render_template('login.html')
+
 @app.route('/logout')
+@login_required
 def logout():
     logout_user()
     #session.pop('username', None)
     return redirect(url_for('index'))
+
+
+@login_manger.unauthorized_handler
+def unauthorized():
+    return redirect(url_for('login'))
+
 
 
 @app.route('/home')
