@@ -52,7 +52,6 @@ class TestEventChecker(unittest.TestCase):
         test_config = Configuration.get_instance('test_config.ini')
 
         metadata = get_metadata_from_db(self.connection, test_config)
-
         event_found = check_events(self.test_calendar, test_config, self.connection)
         self.assertIsInstance(metadata, Metadata)
         self.assertEqual(event_found, True)

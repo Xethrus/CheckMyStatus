@@ -37,6 +37,8 @@ def check_events(calendar: Calendar, config: Configuration, database_connection:
         start_time = event['DTSTART'].dt
         if not isinstance(start_time, datetime.datetime) or not isinstance(end_time, datetime.datetime):
             continue
+        start_time = configure_timezone_to_UTC_if_naive(start_time)
+        end_time = configure_timezone_to_UTC_if_naive(end_time)
         if not start_time <= now <= end_time:
             continue
         duration = end_time - start_time
