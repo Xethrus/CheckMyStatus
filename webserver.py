@@ -67,43 +67,9 @@ class UnauthorizedTokenError(Exception):
 def index():
     return render_template('index.html')
 
-#@app.route('/login', methods=['GET', 'POST'])
-#def login():
-#    if request.method == 'POST':
-#        username = request.form['username']
-#        password = request.form['password']
-#        #password is item 3 so row[0] and row[2]
-#        user_row = find_user("users.csv", username)
-#        #expects a user
-#        validating_user = User(row[0],row[1],row[2]);
-#
-#        if validating_user.password == password and validating_user.username == username:
-#            login_user(user)
-#            return redirect(url_for('home'))
-#        else:
-#            return render_template('login.html', error='Invalid username or password')
-#    else:
-#        return render_template('login.html')
-
-#@app.route('/logout')
-#@login_required
-#def logout():
-#    logout_user()
-#    #session.pop('username', None)
-#    return redirect(url_for('index'))
-
-
-#@login_manager.unauthorized_handler
-#def unauthorized():
-#    return redirect(url_for('login'))
-#
-#
-#
-#@app.route('/home')
-#@login_required
-#def home():
-#    print('LOGGED IN AS: ' + flask_login.current_user.id)
-#    return render_template('home.html')
+@app.route('/home')
+def home():
+    return render_template('home.html')
 
 @app.route("/dist/js/<path:path>")
 def send_js(path):
