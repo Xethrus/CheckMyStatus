@@ -11,7 +11,7 @@ async function get_status(link) {
 }
 
 async function check_availability() {
-  link = "http://REDACTED:80/get_status";
+  link = "http://107.131.124.5:8000/get_status";
   var status = await get_status(link);
   var isAvailable;
   if(status == "busy") {
