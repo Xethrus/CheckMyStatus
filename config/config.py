@@ -1,8 +1,11 @@
 import configparser
 import os
+import sys
 import sqlite3
 from dataclasses import dataclass
 from typing import Optional, Union
+
+sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
 
 @dataclass
 class Configuration:
@@ -58,6 +61,7 @@ class Configuration:
         return config_instance
 
 def generate_database_connection(config: Configuration) -> sqlite3.Connection: 
+    print("file path recieved is", config.db_file_path)
     database_connection = sqlite3.connect(config.db_file_path)
     if(database_connection):
         print("connection established with", config.db_file_path)

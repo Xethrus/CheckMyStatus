@@ -31,8 +31,8 @@ class TestStatusThread(unittest.TestCase):
         ''')
     def test_status_expiration_thread(self) -> None:
         test_config = Configuration.get_instance('test_config.ini')
-        status_expiration(test_config)
-        self.connection = generate_database_connection(test_config)
+        status_expiration(test_config, self.connection)
+        #self.connection = generate_database_connection(test_config)
         retrieved_metadata = get_metadata_from_db(self.connection, test_config)
         self.assertIsInstance(retrieved_metadata, Metadata)
         self.assertEqual(retrieved_metadata.status, 'available')

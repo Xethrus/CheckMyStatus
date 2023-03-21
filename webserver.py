@@ -26,6 +26,7 @@ import json
 import requests
 import threading
 import csv
+import sqlite3
 
 
 
@@ -156,9 +157,21 @@ def main() -> None:
     server_host = config.server_host
     server_debug = config.server_debug
     server_port = config.server_port
-    database_name = config.db_file_path
+    database_path = config.db_file_path
+    ##db connction checking
+    file_path = 'data/stored_state.db'
+    if os.path.exists(file_path):
+        permissions = os.stat(file_path).st_mode
+        permissions_str = bin(permissions)
+        print(f"file permissions for {file_path}: {permissions_str}")
+    else:
+        print(f"file not found at {file_path}")
+        
+    connection = generate_database_connection(config)
+    
+    ##
     try:
-        status_thread = threading.Thread(target=status_expiration_task.status_thread_wrapper, args=(config,))
+        status_thread = threading.Thread(target=status_expiration_task.status_thread_wrapper, args=(config,connection,))
         status_thread.start()
     except Exception as error:
         print("webserver.py- Error starting status thread:", error)
