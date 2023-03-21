@@ -3,6 +3,7 @@ from dateutil.parser import parse
 from tools.database_interaction_functions import get_metadata_from_db, modulate_status, Metadata
 from config.config import generate_database_connection, Configuration
 
+import sys
 import time
 import datetime
 import sqlite3
@@ -23,8 +24,9 @@ def status_expiration(config: Configuration, connection: sqlite3.Connection) -> 
             if expiration_time_dt <= datetime.datetime.now():
                 modulate_status("available", 1, connection, config)
 
-def status_thread_wrapper(config: Configuration, connection: sqlite3.Connection) -> None:
+def status_thread_wrapper(config: Configuration) -> None:
     while True:
         time.sleep(60)
+        connection = sqlite3.connect(config.db_file_path)
         status_expiration(config, connection)
 

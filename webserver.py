@@ -166,12 +166,8 @@ def main() -> None:
         print(f"file permissions for {file_path}: {permissions_str}")
     else:
         print(f"file not found at {file_path}")
-        
-    connection = generate_database_connection(config)
-    
-    ##
     try:
-        status_thread = threading.Thread(target=status_expiration_task.status_thread_wrapper, args=(config,connection,))
+        status_thread = threading.Thread(target=status_expiration_task.status_thread_wrapper, args=(config,))
         status_thread.start()
     except Exception as error:
         print("webserver.py- Error starting status thread:", error)
