@@ -2,8 +2,6 @@ import os
 import sys
 import typing 
 
-parent_dir: str = os.path.abspath(os.path.join(os.getcwd(), os.pardir))
-sys.path.append(parent_dir)
 import pytz
 import unittest
 import sqlite3
@@ -12,12 +10,10 @@ import sqlite3
 from datetime import datetime
 from datetime import timedelta
 from icalendar import Calendar, Event 
-#from calendar_event_checker import configure_timezone_to_UTC_if_naive
-#from calendar_event_checker import attempt_convert_to_datetime_if_not
-from calendar_event_checker import check_events
-from database_interaction_functions import get_metadata_from_db
-from database_interaction_functions import modulate_status, Metadata
-from config import Configuration, generate_database_connection
+sys.path.append("AvailabilityProgram")
+from threads.calendar_event_checker import check_events
+from tools.database_interaction_functions import get_metadata_from_db, modulate_status, Metadata
+from config.config import Configuration, generate_database_connection
 
 
 

@@ -10,7 +10,7 @@ Configuration Sections
 [database]: Contains the database configuration settings.
 
 db_host: The database host address (in this case, it's redacted).
-db_file_title: The name of the SQLite database file (e.g., stored_state.db).
+db_file_path: The path of the SQLite database file (e.g., ../stored_state.db).
 [server]: Contains the web server configuration settings.
 
 server_host: The server's host address (e.g., 0.0.0.0).

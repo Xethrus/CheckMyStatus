@@ -156,7 +156,7 @@ def main() -> None:
     server_host = config.server_host
     server_debug = config.server_debug
     server_port = config.server_port
-    database_name = config.db_file_title
+    database_name = config.db_file_path
     try:
         status_thread = threading.Thread(target=status_expiration_task.status_thread_wrapper, args=(config,))
         status_thread.start()

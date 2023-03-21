@@ -1,16 +1,20 @@
 [database]
-db_host = local_host
-db_file_title = database.db
+db_host = REDACTED
+db_file_path = ../data/stored_state.db
 
 [server]
 server_host = 0.0.0.0
 server_port = 8000
 server_debug = True
 
-[user] 
-user_name = John Doe
-user_key = something_clever
+[user]
+user_name = username
+user_key = password
 
 [calendar]
-#currently innaccurate
-calendar_at = JohnDoe@gmail.com.ics 
+calendar_at = REDACTED
+
+[config]
+config_file_name = config.ini
+config_path = path/to/config
+

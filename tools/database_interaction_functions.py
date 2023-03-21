@@ -16,7 +16,7 @@ class Metadata:
 
 def get_metadata_from_db(database_connection: sqlite3.Connection, config: Configuration) -> Metadata:
     current_user_from_config = config.user_name
-    print("current_user_from_config:", config.user_name, "from database:", config.db_file_title, "from connection:", database_connection)
+    print("current_user_from_config:", config.user_name, "from database:", config.db_file_path, "from connection:", database_connection)
     metadata_return = None
     cursor = database_connection.cursor()
     cursor.execute('''
@@ -61,7 +61,7 @@ def modulate_status(wanted_status: str, wanted_duration: Union[int, datetime.tim
     retrieved_metadata = get_metadata_from_db(database_connection, config)
     current_status = retrieved_metadata.status
     current_expiration = retrieved_metadata.expiration
-    current_db_file_title = config.db_file_title
+    current_db_file_path = config.db_file_path
     status_difference = wanted_status != current_status
     expiration_difference = wanted_expiration_time != current_expiration
     connection = database_connection
