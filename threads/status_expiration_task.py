@@ -1,7 +1,7 @@
-from database_interaction_functions import get_metadata_from_db
-from database_interaction_functions import modulate_status
-from config import generate_database_connection, Configuration
 from dateutil.parser import parse
+
+from tools.database_interaction_functions import get_metadata_from_db, modulate_status, Metadata
+from config.config import generate_database_connection, Configuration
 
 import time
 import datetime

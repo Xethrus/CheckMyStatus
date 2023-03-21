@@ -7,33 +7,13 @@ from flask.typing import ResponseReturnValue
 from queue import Queue
 
 
-#works?????
+#works
 from config.config import Configuration, generate_database_connection
 
 from tools.database_interaction_functions import modulate_status, get_metadata_from_db, Metadata
 
-from threads.status_expiration_task import status_thread_wrapper
-from threads.calendar_event_checker import event_thread_wrapper
-
-
-
-
-#imports from my files
-#import AvaliablilityProgram.templates.index
-#import AvaliablilityProgram.templates.login
-#import AvaliablilityProgram.templates.home
-#
-#import AvaliablilityProgram.config.config.Configuration
-#import AvaliablilityProgram.config.config.Configuration
-#import AvaliablilityProgram.config.config.generate_database_connection
-#
-#import AvaliablilityProgram.tools.database_interaction_functions.modulate_status
-#import AvaliablilityProgram.tools.database_interaction_functions.get_metadata_from_db
-#import AvaliablilityProgram.tools.database_interaction_functions.Metadata
-#
-#import AvaliablilityProgram.threads.status_expiration_task.status_thread_wrapper
-#import AvaliablilityProgram.threads.calendar_event_checker.event_thread_wrapper
-#
+from threads import status_expiration_task
+from threads import calendar_event_checker
 
 
 import datetime
@@ -53,30 +33,30 @@ app = Flask(__name__)
 
 ##FLASK-LOGIN
 
-from flask_login import LoginManager
-
-login_manager = LoginManager()
-login_manager.init_app(app)
-
-app.secret_key = 'secret_key'
-
-class User:
-    def __init__(self, username, email, password, id):
-        self.username = username
-        self.email = email
-        self.password = password
-        self.authenticated = False
-        self.active = False
-        self.anonymous = False
-        self.id = id
-
-def find_user(csv_file, username):
-    with open(csv_file, 'r') as file:
-        reader = csv.reader(file)
-        for row in reader:
-            if row[0] == username:
-                return row
-    return None
+#from flask_login import LoginManager
+#
+#login_manager = LoginManager()
+#login_manager.init_app(app)
+#
+#app.secret_key = 'secret_key'
+#
+#class User:
+#    def __init__(self, username, email, password, id):
+#        self.username = username
+#        self.email = email
+#        self.password = password
+#        self.authenticated = False
+#        self.active = False
+#        self.anonymous = False
+#        self.id = id
+#
+#def find_user(csv_file, username):
+#    with open(csv_file, 'r') as file:
+#        reader = csv.reader(file)
+#        for row in reader:
+#            if row[0] == username:
+#                return row
+#    return None
 
 
 class UnauthorizedTokenError(Exception):
@@ -84,49 +64,45 @@ class UnauthorizedTokenError(Exception):
 
 @app.route('/')
 def index():
-    if 'username' in session:
-        return f'Logged in as  {session["username"]}'
-    else:
-        print("You are not logged in")
     return render_template('index.html')
 
-@app.route('/login', methods=['GET', 'POST'])
-def login():
-    if request.method == 'POST':
-        username = request.form['username']
-        password = request.form['password']
-        #password is item 3 so row[0] and row[2]
-        user_row = find_user("users.csv", username)
-        #expects a user
-        validating_user = User(row[0],row[1],row[2]);
+#@app.route('/login', methods=['GET', 'POST'])
+#def login():
+#    if request.method == 'POST':
+#        username = request.form['username']
+#        password = request.form['password']
+#        #password is item 3 so row[0] and row[2]
+#        user_row = find_user("users.csv", username)
+#        #expects a user
+#        validating_user = User(row[0],row[1],row[2]);
+#
+#        if validating_user.password == password and validating_user.username == username:
+#            login_user(user)
+#            return redirect(url_for('home'))
+#        else:
+#            return render_template('login.html', error='Invalid username or password')
+#    else:
+#        return render_template('login.html')
 
-        if validating_user.password == password and validating_user.username == username:
-            login_user(user)
-            return redirect(url_for('home'))
-        else:
-            return render_template('login.html', error='Invalid username or password')
-    else:
-        return render_template('login.html')
-
-@app.route('/logout')
-@login_required
-def logout():
-    logout_user()
-    #session.pop('username', None)
-    return redirect(url_for('index'))
-
-
-@login_manager.unauthorized_handler
-def unauthorized():
-    return redirect(url_for('login'))
+#@app.route('/logout')
+#@login_required
+#def logout():
+#    logout_user()
+#    #session.pop('username', None)
+#    return redirect(url_for('index'))
 
 
-
-@app.route('/home')
-@login_required
-def home():
-    print('LOGGED IN AS: ' + flask_login.current_user.id)
-    return render_template('home.html')
+#@login_manager.unauthorized_handler
+#def unauthorized():
+#    return redirect(url_for('login'))
+#
+#
+#
+#@app.route('/home')
+#@login_required
+#def home():
+#    print('LOGGED IN AS: ' + flask_login.current_user.id)
+#    return render_template('home.html')
 
 @app.route("/dist/js/<path:path>")
 def send_js(path):
@@ -160,11 +136,15 @@ def set_status() -> ResponseReturnValue:
 
 @app.route('/get_status', methods=['GET'])
 def get_status() -> ResponseReturnValue:
+    print('getting a config object')
     config = Configuration.get_instance("config.ini")
+
+    print('running get_meta')
     retrieved_metadata = get_metadata_from_db(generate_database_connection(config), config)
     #status validation
     print(retrieved_metadata.status)
     return jsonify({"status": retrieved_metadata.status, "expiration_time": retrieved_metadata.expiration})
+
 
 
 

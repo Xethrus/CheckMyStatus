@@ -1,9 +1,9 @@
 from threading import Thread
 from icalendar import Calendar, Event, vDDDTypes
-from config import generate_database_connection
-from config import Configuration
-from database_interaction_functions import modulate_status, get_metadata_from_db
 from typing import Union
+
+from config.config import generate_database_connection, Configuration
+from tools.database_interaction_functions import modulate_status, get_metadata_from_db
 
 import pytz
 import datetime
