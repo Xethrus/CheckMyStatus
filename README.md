@@ -1,7 +1,7 @@
-# AvaliablilityProgram (ONGOING)
-Avaliablility Program
+# AvailabilityProgram (ONGOING)
+Availability Program
 Overview
-The AvaliablilityProgram is a web application that helps users manage their availability status and calendar events. The application features a web server, calendar event checking, and database interaction functionalities.
+The AvailabilityProgram is a web application that helps users manage their availability status and calendar events. The application features a web server, calendar event checking, and database interaction functionalities.
 
 **Configuration**
 The application uses a configuration file config.ini to store various settings such as database connection information, server settings, user credentials, and calendar details. The configuration file is organized into sections, and each section contains key-value pairs.

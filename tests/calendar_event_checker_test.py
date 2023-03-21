@@ -10,7 +10,10 @@ import sqlite3
 from datetime import datetime
 from datetime import timedelta
 from icalendar import Calendar, Event 
-sys.path.append("AvailabilityProgram")
+#sys.path.append("AvailabilityProgram/threads/calendar_event_checker")
+#sys.path.append("AvailabilityProgram/tools/database_interaction_functions")
+#sys.path.append("AvailabilityProgram/config/config")
+sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
 from threads.calendar_event_checker import check_events
 from tools.database_interaction_functions import get_metadata_from_db, modulate_status, Metadata
 from config.config import Configuration, generate_database_connection
