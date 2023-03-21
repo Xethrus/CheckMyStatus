@@ -2,10 +2,12 @@ version: '3'
 services:
   myservice:
     container_name: webserver_container
+    build: ./docker
     image: webserver:latest
     ports:
       - "80:8000"
     volumes:
-      - "${PWD}/config/config.ini:/app/config.ini"
-      - "${PWD}/templates:/app/templates"
-      - "${PWD}/dist"
+      - ../config/config.ini:/app/config.ini
+      - ../templates:/app/templates
+      - ../dist:/app/dist
+
