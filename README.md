@@ -2,7 +2,76 @@
 Availability Program
 Overview
 The AvailabilityProgram is a web application that helps users manage their availability status and calendar events. The application features a web server, calendar event checking, and database interaction functionalities.
-
+```
+  .
+├── config
+│   ├── config.ini
+│   ├── config.py
+│   ├── example_config
+│   ├── __init__.py
+│   └── __pycache__
+│       ├── config.cpython-310.pyc
+│       └── __init__.cpython-310.pyc
+├── data
+│   ├── establishing_table.py
+│   ├── __init__.py
+│   ├── __pycache__
+│   │   └── __init__.cpython-310.pyc
+│   └── stored_state.db
+├── dist
+│   ├── __init__.py
+│   └── js
+│       ├── admin_status_change.js
+│       ├── __init__.py
+│       └── status_rectangle.js
+├── import_docs.md
+├── __init__.py
+├── LICENSE
+├── __pycache__
+│   ├── calendar_event_checker.cpython-310.pyc
+│   ├── config.cpython-310.pyc
+│   ├── database_interaction_functions.cpython-310.pyc
+│   ├── request.cpython-310.pyc
+│   ├── status_expiration_task.cpython-310.pyc
+│   └── webserver.cpython-310.pyc
+├── README.md
+├── templates
+│   ├── base.html
+│   ├── home.html
+│   ├── index.html
+│   ├── __init__.py
+│   ├── login.html
+│   └── __pycache__
+│       └── __init__.cpython-310.pyc
+├── tests
+│   ├── calendar_event_checker_test.py
+│   ├── config
+│   │   └── test_config.ini
+│   ├── database_interaction_function_test.py
+│   ├── __init__.py
+│   ├── __pycache__
+│   │   └── database_interaction_function_test.cpython-310.pyc
+│   ├── status_expiration_task_test.py
+│   └── stored_state.db
+├── threads
+│   ├── calendar_event_checker.py
+│   ├── __init__.py
+│   ├── __pycache__
+│   │   ├── calendar_event_checker.cpython-310.pyc
+│   │   ├── __init__.cpython-310.pyc
+│   │   └── status_expiration_task.cpython-310.pyc
+│   └── status_expiration_task.py
+├── tools
+│   ├── database_interaction_functions.py
+│   ├── docker-compose.yml
+│   ├── Dockerfile
+│   ├── __init__.py
+│   ├── __pycache__
+│   │   ├── database_interaction_functions.cpython-310.pyc
+│   │   └── __init__.cpython-310.pyc
+│   ├── pyre-check.sh
+│   └── requirements.txt
+```
 **Configuration**
 The application uses a configuration file config.ini to store various settings such as database connection information, server settings, user credentials, and calendar details. The configuration file is organized into sections, and each section contains key-value pairs.
 
