@@ -1,14 +1,13 @@
 import os
 import sys
 import typing 
-
-parent_dir: str = os.path.abspath(os.path.join(os.getcwd(), os.pardir))
-sys.path.append(parent_dir)
-
 import unittest
 import sqlite3
-from database_interaction_functions import get_metadata_from_db, Metadata
-from config import Configuration
+
+sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
+
+from tools.database_interaction_functions import get_metadata_from_db, Metadata
+from config.config import Configuration
 
 class TestGetMetadataFromDB(unittest.TestCase):
     def setUp(self) -> None:

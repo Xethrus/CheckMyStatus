@@ -1,19 +1,17 @@
 import os
 import sys
 import typing
-
-parent_dir: str = os.path.abspath(os.path.join(os.getcwd(), os.pardir))
-sys.path.append(parent_dir)
-
 import unittest
 import sqlite3
 
 from unittest.mock import patch
 from datetime import datetime, timedelta
 
-from status_expiration_task import status_expiration
-from database_interaction_functions import modulate_status, get_metadata_from_db, Metadata
-from config import Configuration, generate_database_connection
+sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
+
+from threads.status_expiration_task import status_expiration
+from tools.database_interaction_functions import modulate_status, get_metadata_from_db, Metadata
+from config.config import Configuration, generate_database_connection
 
 class TestStatusThread(unittest.TestCase):
     def setUp(self) -> None:
